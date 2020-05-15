@@ -1,0 +1,205 @@
+\section{Programování}
+%---------------------------------------------------------------------------------------------
+\subsection{Rekurze – ukázky rekurzívních algoritmů, složitost, metody odstranění rekurze}
+Rekurzí rozumíme techniku, kdy dochází k opakovanému použití programové konstrukce při řešení téže úlohy. 
+Tato definice je podobná cyklu, rozdíl je, že použití téže konstrukce je zahrnuto v této konstrukci. Využití, když je vhodné úloho rozdělit na pod-úlohy a postupně je řešit. V programování je rekurze představována funkcí nebo procedurou, která uvnitř těla funkce nebo procedury obsahuje volání téže funkce nebo procedury.  Říkáme, že funkce nebo procedura volá samu sebe.
+
+Rekurze se dělí na přímou, to jest takovou metodu, která přímo volá sebe sama, nebo nepřímou, metoda obsahující volání jiné metody, která opět volá naši rekurzivní metodu. 
+
+Rekurze se dá využít pro výpočet faktoriálu, fibonnacciho čísla, traverzování grafu, prohledávání stromu, fraktály.
+
+Rekurze je realizována paměťovým zásobníkem, řešená úloha je na posledním místě a postupně se postupuje až ke dnu. V tomto paměťovém zásobníku jsou uchovávány všechny aktuální hodnoty proměnných a parametrů v okamžiku volání rekurentních funkcí či procedur, a k jejich uvolňování dochází při ukončení každé z nich v opačném pořadí.
+
+Každým rekurzivním voláním funkce či procedury vzniká nová množina všech parametrů a lokálních proměnných, toto je uloženo na zásobníku.Při návratu z rekurzivního volání požadujeme, aby se výpočet dokončil s těmi hodnotami, které odpovídají patřičné úrovni. Návraty z rekurentních volání probíhají v opačném pořadí a tím je zajištěno, že funkce dostane hodnoty svého potomka. 
+
+Rekurzi je třeba ovládat a v určitém okamžiku ukončit, jinak dojde k přetečení zásobníku. Algoritmy mají většinou exponenciální složitost, problém o velikosti $n$, rozdělíme na problém s velikostí $n-1$. Většina rekurzivních algoritmů jdou řešit pomocí cyklu. Pokud řešíme úloho, rozdělením na menší pod-úlohy tak se tomuto říká \textit{Divide-and-conquer}.
+
+Rekurze se dá většinou interpretovat iterativním řešením pomocí cyklu, vyhneme se tím o přetečení zásobníku.
+
+
+%---------------------------------------------------------------------------------------------
+\subsection[Stromové datové struktury]{Stromové datové struktury – binární strom, B-strom, popis algoritmů, objasnění složitosti vybraných algoritmů}
+\subsubsection{Binární strom}
+Binární strom je pojem z teorie grafů a zároveň datová struktura, používaná k ukládání a vyhledávání dat v počítačích. Binární strom je strom ve smyslu používaném v teorii grafů. Jedná se o orientovaný graf s jedním vrcholem (kořenem), z něhož existuje cesta do všech vrcholů grafu. Každý vrchol binárního stromu může mít maximálně dva orientované syny a s výjimkou kořene právě jednoho předka. Kořen předka nemá. Každému uzlu je přiřazen klíč. Levý podstrom uzlu obsahuje klíče menší. Pravý podstrom uzlu obsahuje pouze klíče větší. V praktickém programování je obvykle binární strom reprezentován dvěma způsoby:
+\begin{enumerate}
+\item Pomocí dynamické struktury, kde jsou hrany reprezentovány ukazateli.
+\item Pomocí pole
+\end{enumerate}
+
+\textbf{Vyhledávání uzlu} -- $\Theta(\log(n))$ Většinou rekurzivní, začíná se v kořeni, v každém kroku se kontroluje hodnota, pokud je rovna, nalezli jsme uzel, pokud je naše hodnota menší jdeme do levého podstromu. Pokud je hodnota větší jdeme do pravého podstromu.
+
+
+\textbf{Přidání uzlu} -- $\Theta(\log(n))$ Nejprve se najde jeho pozice. Pokud už strom obsahuje tuto hodnotu nepřidává se znova (pokud není dovolena redundance). Jinak je klíč vložen
+
+
+\textbf{Odstranění uzlu} -- $\Theta(\log(n))$ Pokud je uzel list, odstraníme jej. Pokud má jednoho potomka, nahradíme uzel potomkem. Má-li uzel 2 potomky bude jeho hodnota nahrazena nejbližší nižší nebo vyšší hodnotou.
+
+\subsubsection{Červeno-černý strom - Red–Black}
+Tento strom zajišťuje, že žádná cesta z kořene do libovolného listu stromu nebude dvakrát delší než kterákoli jiná, to znamená, že strom je přibližně vyvážený. Každá cesta z libovolného uzlu do listu obsahuje stejný počet černých uzlů. Červeno--černý strom musí splňovat následující pravidla:
+\begin{enumerate}
+\item Každý vrchol je buď červený, nebo černý.
+\item Kořen stromu je obarven černě.
+\item Listy (nil) jsou pokládány za černé vrcholy.
+\item Každý červený vrchol má dva černé syny.
+\item Na kterékoliv cestě z kořene do listu leží stejný počet černých uzlů
+\end{enumerate}
+
+\textbf{Vyhledávání uzlu} -- stejné jako u binárního stromu.
+
+
+\textbf{Přidání uzlu} -- Uzel je vložen jako u binárního stromu a je obarven červeně. Dále musíme zkontrolovat, zda platí všechny dříve popsané vlastnosti. Pokud neplatí je třeba strom \textbf{přebarvit} nebo \textbf{rotovat} (následováno přebarvením).
+\begin{enumerate}
+\item Zkontrolujeme jestli je strom prázdný.
+\item Pokud je prázdný, vlož uzel jako kořen a obarvi jej černě.
+\item Pokud není prázdný vlož uzel jako list a obarvi jej červeně.
+\item Pokud rodič nově přidaného uzlu je černý, ukonči operaci vkládání.
+\item Pokud rodič nově přidaného uzlu je červený, zkontroluj barvu sourozence rodiče.
+\item Pokud je barva černá nebo nemá sourozence, rotuj a přebarvi uzly.
+\item Pokud je barva červená, přebarvi, zkontroluj vlastnosti stromu. Pokud neplatí pokračuj v úpravě stromu.
+\end{enumerate}
+
+
+\textbf{Odstranění uzlu} -- Podobné jako u binárního stromu, ale po odstranění uzlu je třeba zkontrolovat vlastnosti, popřípadě upravit strom.
+
+\subsubsection{AVL strom}
+Je datová struktura pro uchovávání údajů a jejich vyhledávání. Pracuje v logaritmicky omezeném čase. Jedná se o samo vyvažující se binární vyhledávací strom. A platí:
+\begin{enumerate}
+\item Vrchol má maximálně dva následníky (je to binární strom).
+\item V levém podstromu vrcholu jsou pouze vrcholy s menší hodnotou klíče (je to binární vyhledávací strom).
+\item V pravém podstromu vrcholu jsou pouze vrcholy s větší hodnotou klíče (je to binární vyhledávací strom).
+\item Délka nejdelší větve levého a pravého podstromu se liší nejvýše o 1 (koeficient vyváženosti, vyvážení AVL stromu).
+\end{enumerate}
+
+Koeficient vyváženosti = výška levého podstromu  - výška pravého podstromu.
+
+Rotace je operace přesunování uzlů na levou či pravou stranu, za účelem vyváženosti stromu:
+\begin{enumerate}
+\item \textbf{RR} -- Pravá rotace, každý uzel je posunut o jednu pozici vpravo.
+\item \textbf{LL} -- Levá rotace, každý uzel je posunut o jednu pozici vlevo.
+\item \textbf{RL} -- Pravá rotace pak levá rotace.
+\item \textbf{LR} -- Levá rotace pak pravá rotace.
+\end{enumerate}
+
+\image{RR.png}{Pravá rotace}{0.5}
+\image{LL.png}{Levá rotace}{0.5}
+\image{RL.png}{Pravá--Levá rotace}{0.5}
+\image{LR.png}{Levá--Pravá rotace}{0.5}
+
+\textbf{Vyhledávání uzlu} -- stejné jako u binárního stromu.
+
+
+\textbf{Přidání uzlu} -- Při vkládání je třeba udržet vyváženost stromu. Vložíme uzel a určíme koeficient vyváženosti. Dále zkontrolujeme všechny uzly až ke kořeni a pokud není některý vyvážen musíme strom vyvážit, pomocí rotací.
+
+
+\textbf{Odstranění uzlu} -- se vykonává stejně jako u binárního vyhledávacího stromu s tím, že pokud dojde k porušení vyváženosti, provede se znovu vyvážení pomocí příslušných jednoduchých či dvojitých rotací.
+
+
+
+
+\subsubsection{B-Strom}
+Je specifický tím, že má řád $n$ a limity na maximální ($n-1$), i minimální počet ($\frac{n}{2}-1$) potomků (klíčů) vrcholu. B-strom je díky této vlastnosti vyvážený, operace přidání, vyjmutí i vyhledávání tedy probíhají v logaritmickém čase. Tato struktura je často používána v aplikacích, kdy není celá struktura uložena v paměti RAM, ale v nějaké sekundární paměti, jako je pevný disk (například databáze). 
+
+B-strom řádu $n$ musí splňovat:
+\begin{enumerate}
+\item Všechny listy jsou na stejné úrovni (ve stejné hloubce).
+\item Všechny uzly kromě kořene mají maximálně $n-1$ a minimálně $\frac{n}{2}-1$ klíčů.
+\item Všechny uzly kromě kořene mají minimálně $\frac{n}{2}$ potomků.
+\item Pokud kořen není list musí mít alespoň 2 potomky.
+\item Nelistový uzel s $n-1$ klíči musí mít $n$ potomků.
+\item Klíče jsou v uzlu seřazeny vzestupně.
+\end{enumerate}
+
+Pokud chceme vložit nebo smazat data (klíče) z uzlu, změní se tím počet potomků tohoto uzlu. Aby se dodržel rozsah daný řádem stromu, vnitřní uzly se v případě potřeby rozdělují či slučují. Protože počet potomků každého uzlu je omezený, není potřeba vyvažovat tento strom tak často jako jiné typy automaticky vyvažovaných stromů. Jelikož strom je málokdy zcela zaplněný, musíme počítat s tím, že může docházet k nevyužití veškeré obsazené paměti.
+Strom je vyvažován požadavkem aby byly všechny listy na stejné úrovni. Tato hloubka pozvolna roste s tím, jak do stromu přidáváme další data, nebo klesá spolu s vymazáváním dat ze stromu.
+
+\textbf{Vyhledávání uzlu} -- $\Theta(\log(n))$\\
+\begin{enumerate}
+\item Porovnáme hledaný prvek s prvním prvkem. Pokud se rovnají našli jsme jej.
+\item Pokud je hledaný prvek menší, pokračujeme levým podstromem. Pokud je hledaný prvek větší, porovnáme s další hodnotou v uzlu. A opakujeme předchozí operace.
+\item Pokud se dostaneme do listového uzlu a nenašli jsme prvek, tak se nenachází v tomto stromě.
+\end{enumerate}
+
+\textbf{Přidání uzlu} -- $\Theta(\log(n))$ Nový prvek je vždy přidáván do listu.\\
+\begin{enumerate}
+\item Pokud je strom prázdný vlož prvek jako kořen. Jinak je třeba najít list, do kterého patří prvek.
+\item Pokud tento list má méně jak $n-2$ klíčů, vložíme nový prvek na jeho pozici a končíme. Pokud má více je třeba tento uzel rozdělit.
+\item \textbf{Rozdělení} -- prostřední prvek je poslán do předchozího uzlu a z prvko nalevo a napravo jsou vytvořeny nové uzly.
+\end{enumerate}
+
+
+\textbf{Odstranění uzlu} -- $\Theta(\log(n))$ \\
+\begin{enumerate}
+\item Prvek je v listu a list bude po odstranění prvku dostatečně zaplněn, tak jen odstraníme prvek.
+\item Pokud je prvek v nelistovém uzlu:
+	\begin{enumerate}
+	\item Pokud levý podstrom klíče má alespoň $\frac{n}{2}$ klíčů, najdeme předchůdce mazané hodnoty, smažeme naší hodnotu a nahradíme ji předchůdcem.
+	\item Pokud pravý podstrom klíče má alespoň $\frac{n}{2}$ klíčů,  najdeme následníka mazané hodnoty, smažeme naší hodnotu a nahradíme ji následníkem.
+	\item Pokud oba následníci nemají dostatek klíčů, musíme je sloučit
+	\end{enumerate}
+\item Pokud je klíč v listu s málo prvky.
+	\begin{enumerate}
+	\item Pokud po odstranění nesplňuje uzel minimum, ale má sourozence s alespoň $\frac{n}{2}$ klíčí, přesuneme jej.
+	\item Pokud po odstranění nesplňuje uzel minimum, ani jeho sourozenci nemůžou dát prvek. Musí se sloučit. atd.
+	\end{enumerate}
+\end{enumerate}
+
+
+
+%---------------------------------------------------------------------------------------------
+\subsection{Implementace OOP v programovacích jazycích – popis, srovnání}
+\subsubsection{C++}
+Podpora OOP byla přidána až později. Neobsahuje podporu rozhraní, dovoluje více-násobnou dědičnost. Objekty je třeba ručně dealokovat, pokud nepoužijeme \textit{std::unique\_ptr,std::shared\_ptr}.
+\subsubsection{JAVA}
+Objektově orientovaný jazyk, vše je ve třídě. Podpora interface, abstraktní tříd. Všechny metody jsou virtuální. GC. Podpora kontroly typů.
+\subsubsection{C\#}
+Objektově orientovaný jazyk, vše je ve třídě. Podpora interface, abstraktní tříd. Metody nejsou implicitně virtuální. GC. Objekty na haldě, hodnotové typy na Stacku, hodnotový typ jde boxnout i unboxnout na referenční.  Podpora kontroly typů. Správná generika, ne jak u JAVY. Reflexe.
+\subsubsection{Python}
+Všechno je objekt.(tedy i čísla, metody apod). Typová kontrola je prováděna až v čase běhu -> nelze odhalit některé chyby v době psaní kódu, ale až v době spuštění aplikace. Dynamicky typovaný jazyk. Umí za běhu přidávat nové třídní atributy do daného objektu.
+%---------------------------------------------------------------------------------------------
+\subsection{Java technologie, .NET technologie}
+\subsubsection{JAVA}
+Technologie Java se skládá z programovacího jazyku Java a platformy Java. (Původně vyvinutá Sun Microsystems, nyní pod záštitou firmy Oracle)
+
+Platforma je hardwarové nebo softwarové vybavení, ve kterém běží program. Některé z oblíbených platforem jsou - Microsoft Windows, Linux, Solaris OS a Mac OS. Většina platforem může být popsána jako kombinace operačního systému a jím spravovaného hardwaru. 
+
+Java platforma je pouze softwarová vrstvu (Java Virtuální stroj) ležící nad hardwarově orientovanou platformou. Tato platforma poskytuje prostředí pro vývoj, nasazení a používáni aplikací napsaných v Java. JVM běžet od malých monolitických počítačích až na super počítačích. 
+
+Java compiler(\textit{javac}) převádí zdrojový kód Javy do bytecode Javy (přechodný jazyk pro Java Virtual Machine (JVM)) a je součástí Java Development Kit (JDK). Java Runtime Environment (JRE) doplňuje JVM o just-in-time (JIT) compiler, který za běhu převádí bytecode do nativního kódu procesoru. JRE také obsahuje předkompilované knihovny (Class libraries), v nichž je obsaženo několik dalších komponent, avšak některé jsou dostupné pouze v určitých edicích.
+
+\image{java.png}{Životní cyklus java kódu}{0.6}
+
+JVM spouští a vykonává bytecode. Bytecode je stejný pro všechny OS i hardware. JIT kompilátor překládá za běhu Java bytecode do nativního jazyka procesoru a během spuštění tento kód uchovává v mezi paměti. Použitím bytecode jako přechodného jazyka dovoluje spouštět Java programy na jakékoli platformě, která má k dispozici virtuální stroj. Správa paměti je řešena pomocí integrovaného Garbage collectoru. Ačkoli Java programy jsou nezávislé na platformě, kód Java Virtual Machine (JVM), který provádí tyto programy, nikoli. Každý podporovaný operační systém má svůj vlastní JVM. JVM spolu s class libraries (nabizející různé API) tvoři JRE.
+
+\subsubsection{.NET}
+Softwarová platforma pro Deskopové (s GUI, konzolové, Windows service, \ldots), mobilní a webové aplikace. Vše běží v CLI, common language interface.
+Možnost využít C\#, VB, F\#, C++, Fortran. Základem je .Net Framework, který nabízí prostředí pro běh těchto aplikací tak i potřebné knihovny. Dnes existuje .Net Code, Mono, Xamarin.
+
+Cíl .NETu je přiblížit vývoj Desktopových a webových aplikací, nezávisle na programovacím jazyce. Je využíváná společná knihovna tříd. Jazyky .NET frameworku jsou binárně kompatibilní. Perfektní generické typy, reflexe, webové služby, GC, SOAP. C\# je silně typovaný jazyk s kontrolou CIL kódu. Možnost správy verzí.
+
+Všechny jazyky jsou překládány do CIL (\textit{Common Intermediate Language}) kódu, pro exekuci pak stačí mít na systému pouze překladač CIL. CLI tedy definuje základní platformu pro architekturu .NET Frameworku (ECMA standard). CLR – runtime pro .NET Framework. CIL – společný jazyk pro .NET Framework.
+Assembly  - specifická jednotka pro nasazení. JIT – kompilace tehdy, kdy je kód potřeba (Just In Time)
+
+
+%---------------------------------------------------------------------------------------------
+\subsection{Skriptovací jazyky}
+Skriptovací jazyk je interpretovaný programovací jazyk, který je navržen s ohledem na snadné ovládnutí jazyka a rychlý a pohodlný vývoj programů. K typickým zástupcům skriptovacích jazyků se počítají například Python, PHP, JavaScript, Perl, Ruby. Skriptovací jazyky se často využívají v prostředí webových aplikací.
+
+Program zapsaný ve skriptovacím jazyce se označuje jako skript. Typicky skript těží z výhody, že se nemusí překládat, a často tvoří rozšiřitelnou část nějakého softwarového projektu, která se může měnit, aniž by bylo potřeba pokaždé rekompilovat hlavní spustitelný soubor. Skripty najdeme u her, složitějších softwarových řešení nebo jako hlavní součást dynamických internetových stránek a podobně. Některé programovací jazyky mají možnost kompilace do strojového kódu i interpretace; jiné umožňují i mezistupeň, předkompilování do vnitřního jazyka, jehož vykonávání je rychlejší než klasická interpretace.
+
+Kompilované jazyky jako C/C++ obsahují následující vývojový cyklus: (editace, kompilace, linkování, spuštění). U skriptovacích jazyků odpadá fáze kompilace a linkování. Obsahuje tedy pouze editaci a spuštění, což značně zrychluje testování. Během runtime se provádí typová kontrola a přetypovávání a rozšiřování programu či objektů. Skriptovací jazyky jsou většinou také jazyky dynamické (např. lze vytvářet nové datové typy až v průběhu runtime, proměnné nemají statický datový typ apod.).
+
+Charakteristické vlastnosti:
+\begin{enumerate}
+\item Dynamická typová kontrola.
+\item Automatické nastavení hodnot u nedefinovaných proměnných a konstant.
+\item Zotavení z chyb, které neústí v ukončení skriptu.
+\item Pokročilé datové typy, například asociativní pole.
+\item Zabudovaná podpora pro zpracování regulárních výrazů.
+\end{enumerate}
+
+\textbf{Výhody:}\\
+Odpadá nutnost kompilátoru a kompilace. Snadnější údržba, vývoj a správa kódu.
+\textbf{Nevýhody:}\\
+Nižší rychlost. Interpretace stojí určitý strojový čas a nikdy nebude tak rychlá jako spouštění přeloženého (a optimalizovaného) programu.
+Vyšší paměťová náročnost. Interpret musí být spuštěn, a tedy zabírá určitou operační paměť. Větší omezení ovládání OS.
+Snadné zavlečení některých chyb a jejich obtížné odhalování, kvůli dynamickému typování.

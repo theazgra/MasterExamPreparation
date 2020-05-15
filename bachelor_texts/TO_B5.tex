@@ -1,0 +1,578 @@
+\section{Úvod do databázových systémů, Databázové a informační systémy, Vývoj informačních systémů}
+%---------------------------------------------------------------------------------------------
+\subsection[Modelování DBS, konceptuální, analýza]{Modelování databázových systémů, konceptuální modelování, datová analýza, funkční analýza; nástroje a modely}
+Základní pojmy v databázích:
+\begin{itemize}
+\item Entita – objekt reálného světa, jehož vlastnosti chceme evidovat, instance entitního typu
+\item Typ entity – množina objektů stejného typu charakterizována názvem typu a seznamem atributů
+\item Atribut – vlastnost entity, hodnota z domény atributu, zadán identifikátorem a datovým typem
+\item Klíč – podmnožina množiny atributů, podle kterých je entita odlišitelná od ostatních entit stejného typu
+\item Integritní omezení – omezující podmínky na příslušnost k entitám, hodnoty atributů, definování vazeb
+\item Doména atributu – obor hodnot atributu, neprázdná množina hodnot
+\item Vazba – vztah mezi entitními typy, má atributy:
+	\begin{itemize}
+	\item Povinnost – povinná, nepovinná
+	\item Násobnost – 1:1, 1:N, M:N
+	\item Přenositelnost (transferability) – transferable, non-transferable
+	\end{itemize}
+\item Model - abstraktní obraz budoucí reality, pro pochopení struktury a funkcí systému
+\end{itemize}
+
+\textbf{Datová analýza} (konceptuální schéma, návrh struktury databáze 3NF) - zpracovává datový model na konceptuální úrovni. Ze zadání se vyberou potřebné evidence objektů a jejich atributů, určí se funkční závislosti mezi atributy, pomocí již známých metod se navrhne struktura databáze v alespoň 3 NF (vznikne seznam entit a jejich atributů, entity se pojmenují).
+
+
+\textbf{Funkční analýza} (operace=funkce=algoritmy vykonávané nad databází). Hrubý vnější pohled (graficky pomocí DFD). Vnitřní pohled podrobně rozpracovává jednotlivé akce (algoritmy, mini-specifikace).
+
+\textbf{Dynamická analýza} (časová následnost operací, stavy databáze a IS)
+
+\textbf{Konceptuální modelování} – proces vývoje sémantického popisu systému, uplatněn při analýze databázové aplikace, jsou identifikovány jednotlivé entitní typy a vazby.
+
+\textbf{Konceptuální model} je nezávislý na SŘBD, umožňuje identifikovat entitní typy a vazby mezi nimi.
+
+\textbf{UML} je kolekce modelovacích technik aplikovaných na různé aspekty vývoje softwaru, pro konceptuální model Class Diagram.
+
+\textbf{Datový model} – ukazuje způsob, jak jsou data modelována a dotazována, již závislý na SŘBD.
+
+\image{er.png}{ER model - Učitel může mít více kurzů, kurz musí mít jednoho učitele.}{0.6}
+
+\textbf{Diagram datových toků (DFD)} je grafický nástroj pro modelování vztahů funkcí (algoritmů). Popisuje algoritmy systému, transformace dat z jedné formy do druhé. Modeluje funkce systému pomocí grafu, používá:
+\begin{itemize}
+\item Procesy  - část systémů měnící vstupy na výstupy (kruh/ovál)
+\item Datové paměti – místo uchovávání dat pro pozdější využití
+\item Aktéry (terminátory) – externí zdroj nebo cíl dat, objekt vně systému (čtverec/obdélník)
+\item Datové toky – přesun dat/informací (šipky)
+\end{itemize}
+
+\image{dfd.jpg}{Diagram datových toků}{0.6}
+
+\textbf{Minispecifikace} -- algoritmy elementárních (nedělitelných) funkcí (pro nejnižší úroveň DFD). Jedna pro každou elementární funkci. Popisuje algoritmus, jak jsou vstupní datové toky transformovány na výstupní. Nezavádí redundantní popisy.
+
+\textbf{Datový slovník} – soubor tabulek a pohledů, popisuje logické a úložné struktury databáze.
+%---------------------------------------------------------------------------------------------
+\subsection{Relační datový model; funkční závislosti, dekompozice a normální formy}
+Základní pojmy:
+\begin{itemize}
+\item Relace je libovolná podmnožina kartézského součinu domén jednotlivých atributů (=tabulka).
+\item Relační schéma je zápis $R(A_1, \ldots, A_n, D_1, \ldots, D_n)$, kde $R$ je jméno schématu, $A_x$jména atributů a $D_x$ domény jednotlivých atributů. Relace je typu $R$ (je instancí relačního schématu $R$).
+\item Schéma relační databáze – konečná množina schémat
+\item Relační databáze – množina relací ke schématu relační databáze.
+\item Cizí klíč – atribut relačního schématu obsahující klíč jiného schématu.
+\end{itemize}
+
+Vazba 1:M je implementována jako vložení primárního klíče schématu s násobností 1 jako cizího klíče schématu s násobností M.
+
+Vazba M:N je implementována pomocí relačních schémat, které obsahují cizí klíče – primární klíče tříd v asociaci.
+
+Atributy $B_1,\ldots ,B_n$ jsou funkčně závislé na atributech $A_1,\ldots ,A_n$, pokud pro libovolné dvě n-tice platí: \\
+jestliže jsou hodnoty atributů $A_1,\ldots ,A_n$ totožné, pak jsou totožné i hodnoty atributů $B_1,\ldots ,B_n$, tj. $A_1,\ldots ,A_n \rightarrow B_1,\ldots ,B_n$
+
+Funkční závislost je \textbf{triviální}, pokud je množina $\{B_1,\ldots ,B_n\}$ podmnožinou $\{A_1,\ldots ,A_n\}$.
+
+\textbf{Uzávěr} $(R+, \{\}+)$ množiny atributů $\{A_1,\ldots ,A_n\}$ vzhledem k funkčním závislostem $S$ je množina atributů $\{B_1,\ldots ,B_n\}$, pro které platí, že každá relace, která splňuje všechny funkční závislosti $S$ také splňuje $A_1,\ldots ,A_n \rightarrow B_1,\ldots ,B_n$.
+
+\textbf{Armstrongovy axiomy} jsou úplná (dovolují odvodit z dané množiny $F$ všechny závislosti patřící do $F+$) a bezesporná (dovolují z $F$ odvodit pouze závislosti patřící do $F+$) pravidla pro získání uzávěrů:
+\begin{itemize}
+\item Je-li $X \rightarrow Y$ a $Y \rightarrow Z$, pak $X \rightarrow Z$ (tranzitivita)
+\item Je-li $X \rightarrow Y$ a $X \rightarrow Z$, $X \rightarrow YZ$ (sjednocení)
+\item Je-li $X \rightarrow Y$ a $WY \rightarrow Z$, pak $XW \rightarrow Z$ (pseudo-tranzitivita)
+\item Je-li $X \rightarrow YZ$, pak $X \rightarrow Y$ a $X \rightarrow Z$ (dekompozice) 
+\end{itemize}
+
+\textbf{Elementární závislost} je taková závislost, které má na pravé straně pouze jeden atribut.
+
+\textbf{Neredundantní pokrytí} je takové pokrytí, které neobsahuje redundantní závislosti. Závisí na pořadí odebírání neredundantních závislostí. Pokud vycházíme z $F+$, nemusí být podmnožinou $F$.
+
+\textbf{Minimální pokrytí} je pokrytí, v jehož závislostech neexistují žádné redundantní atributy. Pro získání minimálního pokrytí je nutné odstranit nejprve redundantní atributy a poté závislosti.
+
+\textbf{1NF} -- všechny atributy jsou atomické.
+
+\textbf{2NF} -- 1NF a všechny neklíčové atributy jsou závislé na celém klíči.
+
+\textbf{3NF} -- 2NF a žádná množina neklíčových atributů není závislá na jiné množině neklíčových atributů, dosažení pomocí algoritmu syntézy (nová relace pro každou funkční závislost, následné spojování do větších celků).
+
+\textbf{BCNF} – levá část každé funkční závislosti musí obsahovat klíč (a všechny jsou tedy nad-klíčem), získání pomocí algoritmu dekompozice.
+%---------------------------------------------------------------------------------------------
+\subsection{Dotazovací jazyky, SQL; JMD, JDD}
+\textbf{Systémový katalog} – tabulky obsahující informace o vlastní databázi. (tabulkách a sloupcích, pohledech, uživatelích a právech)
+
+Relační algebra je jazyk vysoké úrovně, který nepracuje s jednotlivými n-ticemi, ale s celými relacemi. Operátory relační algebry jsou aplikovány na relace a výsledkem jsou opět relace. Jelikož relace jsou množiny, lze využít množinové operátory a navíc operace specifické pro dotazování nad relacemi:
+\begin{itemize}
+\item Sjednocení $\cup$
+\item Průnik $\cap$
+\item Rozdíl $-$
+\item Kartézský součin $\times$
+\item Selekce (restrikce) – výběr n-tic z původní relace na základě logické podmínky -- $\delta_\textit{podminka} (\textit{Relace})$
+\item Projekce – výběr sloupců (duplicitní záznamy jsou odstraněny) -- $\pi_\textit{sezanm atributů} (\textit{Relace})$
+\item Přirozené spojení $\bowtie$ -- z $R\times S$ se se vyberou pouze řádky se stejnými hodnotami u stejnojmenných atributů u obou relací
+\item Theta spojení-- $R \bowtie_\Theta S$, z $R\times S$ se se vyberou pouze řádky odpovídající podmínce $\Theta$
+\end{itemize}
+
+SQL (Structured Query Language) je neprocedurální jazyk obsahující:
+\begin{itemize}
+\item JDD - Jazyk pro definici dat (\textit{CREATE/ALTER/DROP TABLE, SCHEMA, INDEX})
+\item JMD - Jazyk pro manipulaci s daty (\textit{SELECT,FROM,GROUP BY, ORDER BY, HAVING, WHERE, INSERT, DELETE, UPDATE, CREATE VIEW})
+\item Možnost definice přístupových práv (\textit{GRANT, REVOKE})
+\item Možnost definice integritních omezení (\textit{ALTER TABLE ADD CONSTRAINT})
+\item Řízení transakcí (\textit{BEGIN TRANSACTION, COMMIT, ROLLBACK, SAVEPOINT})
+\end{itemize}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Transakce, zotavení, log, ACID, operace COMMIT a ROLLBACK}
+\textbf{Korektní stav databáze} -- výsledek operací je platný v reálném světě.
+
+\textbf{Konzistentní stav databáze} -- v databázi neexistují výjimky z daných integritních omezení.
+
+\textbf{Transakce} -- logická (nedělitelná) jednotka práce s databází, začíná operací \textit{BEGIN TRANSACTION} a končí provedením operace \textit{COMMIT} nebo \textit{ROLLBACK}. Jejím úkolem je převést databázi z korektního stavu do jiného korektního stavu. Musí splňovat vlastnost ACID:
+\begin{itemize}
+\item A - Atomičnost – transakce musí být atomická (provede se všechno nebo nic)
+\item C - Korektnost – DB je převedena z jednoho do druhého korektního stavu, v průběhu v korektním stavu být nemusí
+\item I - Izolovanost – změny provedené jednou transakcí jsou pro ostatní transakce viditelné až po potvrzení
+\item D – Trvalost – změny se po potvrzení stanou trvalými i po pádu systému
+\end{itemize}
+
+\textbf{COMMIT} -- Úspěšné ukončení transakce, všechny změny jsou trvale uloženy.
+
+\textbf{ROLLBACK} -- Neúspěšné provedení transakce, databáze může být v nekorektním stavu, a všechny změny v rámci transakce musí být zrušeny (po poslední commit point).
+
+\textbf{Commit Point} Všechny změny provedené v rámci transakce jsou trvale uloženy. Všechny adresace (např. nastavené pomocí kurzorů) a zámky jsou uvolněny.
+
+\textbf{Zotavení} -- obnovení databáze do stavu před vznikem chyby, výsledkem musí být korektní stav databáze.
+
+\textbf{UNDO} -- přesný stav transakce přerušené chybou není znám, musí být zrušena (ztráta obsahu paměti).
+
+\textbf{REDO} -- transakce byla provedena, ale změny nebyly z vyrovnávací paměti přeneseny, musí být přepracována.
+
+\image{dberror.png}{Chyba v databázi}{0.6}
+
+\textbf{Algoritmus zotavení}\\
+\begin{enumerate}
+\item Vytvoří se 2 seznamy transakcí UNDO a REDO
+\item Do UNDO vloží všechny transakce, které nebyly úspěšně dokončeny před posledním k. bodem. REDO je prázdné.
+\item Začnou se procházet záznamy v logu od záznamu posledního k. bodu -- Pokud je pro transakci T nalezen v logu COMMIT, přesune se T z UNDO do REDO seznamu.
+\item Systém prochází log zpětně a ruší aktualizace transakcí z UNDO seznamu
+\item Systém prochází logem dopředu a přepracovává transakce z REDO seznamu
+\end{enumerate}
+
+\textbf{Zotavení po chybě média} -- Začíná obnovením ze záložní kopie (dump souborů). Procházen log, všechny transakce dokončené po času vytvoření zálohy jsou přepracovány.
+
+\textbf{Záchranné body} Rozdělují transakci na menší části, není ekvivalentem COMMIT. Jde použít rollback k danému bodu, po ukončení transakce, jsou automaticky všechny body zrušeny.
+
+\subsubsection{Techniky zotavení}
+
+\textbf{Odložená aktualizace (NO-UNDO/REDO)}\\
+Neprovádí aktualizace logu a databáze až do potvrzení transakce, všechny aktualizace jsou v paměti. Po potvrzení je aktualizace zaznamenána v logu a následně do DB. Pokud transakce selže, není nutné provést UNDO. REDO se provede, pokud je záznam v logu, ale změna není v DB.
+Do logu jsou zapsány nové hodnoty, což umožní provést REDO V praxi se používá, když systém provádí krátké transakce a transakce mění pouze málo položek (limit velikost paměti)
+
+\textbf{Okamžitá aktualizace (UNDO/NO-REDO)}\\
+Aktualizace logu a databáze po každé aktualizaci transakce (nejprve log, poté databáze). Selhání před dosažením potvrzovacího bodu znamená UNDO.
+Do logu se ukládají původní hodnoty, což umožní po zotavení provést UNDO. Velký počet zápisů do DB, ale nedojde k přetečení vyrovnávací paměti.
+
+\textbf{Kombinovaná technika (UNDO/REDO)}\\
+Aktualizace jsou zapsány do logu po potvrzení. Změny zapsány do DB v určitých časových intervalech – kontrolní body. Kontrolní body jsou vytvářeny např. po určitém počtu záznamů  (Zápis obsahu vyrovnávací paměti do DB nebo Zápis záznamu o kontrolním bodu do logu.)
+Záznam o kontrolním bodu obsahuje všechny transakce vykonané v době vytvoření k. bodu a transakce ukončené před k. bodem, které ale nebyly zapsány do DB v rámci předchozího k. bodu. V praxi nejpoužívanější technika
+
+%---------------------------------------------------------------------------------------------
+\subsection[Procedurální rozšíření SQL]{Procedurální rozšíření SQL, PL/SQL, T-SQL; triggery, funkce, procedury, kurzory, hromadné operace}
+Procedurální rozšíření kombinují procedurální logiku a SQL, což minimalizuje množství přenášených dat. Kódu může být sdílen mezi aplikacemi. Nezávislost na OS platformě (ne mezi DBS) .
+
+\textbf{Mutating table error} -- trigger pracuje s právě modifikovanou tabulkou.
+
+\textbf{Vázané proměnné} -- umožňuji cacheování proměnných při vykonávání příkazu mnohokrát
+
+\subsubsection{PL/SQL}
+Statické PL/SQL je přímo volatelné (\textit{SELECT, INSERT, UPDATE, DELETE, MERGE, LOCK TABLE, COMMIT, ROLLBACK, SAVEPOINT, SET TRANSACTION}).
+Dynamické SQL umožňuje sestavit a volat jakýkoliv SQL příkaz na jaký má uživatel za běhu právo. Představuje nebezpečí pro SQL injection. Volání pomocí EXECUTE IMMEDIATE (Vytváření tabulek, JDD operace).
+
+Typické rysy:
+\begin{itemize}
+\item Operátor \%type a \%rowtype
+\item Deklarace proměnných v declare bloku nebo as/is bloku v procedurách
+\item Create or replace – pro vytvoření nebo update procedury/funkce/triggeru/view
+\item Explicitní kurzor – cursor name is select \ldots, open, fetch, close
+\item Implicitní kurzor v cyklu for , for … in (select . …)
+\item Anonymní procedura (blok) - DECLARE \ldots BEGIN \ldots EXCEPTION \ldots END
+\item Pojmenovaná procedura - CREATE OR REPLACE PROCEDURE <name> (<params>) AS <variables> BEGIN <commands> END
+\item Funkce - CREATE OR REPLACE FUNCTION <name> (<params>) RETURN <rettype> AS <variables> BEGIN <commands> END
+\item Trigger - blok spouštěn v závislosti na DML příkazu (INSERT, UPDATE, DELETE) \\
+CREATE TRIGGER <name> [BEFORE|AFTER|INSTEAD OF] [INSERT|UPDATE|DELETE] OF <col> ON <table> [FOR EACH ROW [WHEN ()]] BEGIN <commands> END
+\item Kurzor - pomocná proměnná pro procházení výsledků příkazů (foreach)\\
+DECLARE CURSOR cu IS SELECT x FROM a; BEGIN FOR c IN cu LOOP ... END LOOP; END;
+\item Hromadné operace – Operace nad velkým množstvím dat (\textit{BULK COLLECT (se SELECT INTO), FORALL (iterace dat)})
+\end{itemize}
+
+\subsubsection{T-SQL}
+Typické rysy:
+\begin{itemize}
+\item Nemá Operátor \%type a \%rowtype
+\item Proměnné deklarované pomocí klíčového slova DECLARE, a @ před názvem, hodnota se nastaví buď v SELECT nebo pomocí SET
+\item Jediný cyklus WHILE
+\item Změna procedury pomocí ALTER
+\item Funkce v T-SQL mají omezení (Nelze použít TRY, CATCH syntaxe,Nelze měnit data [Řešením je použít výstupní parametr u procedur])
+\item Kurzor pouze explicitní, DECLARE name CURSOR FOR SELECT (OPEN, FETCH (NEXT), CLOSE, DEALLOCATE)
+\item Dynamické SQL pomocí sp\_executesql
+\item CREATE [ OR ALTER ] { PROC | PROCEDURE } [schema\_name.] procedure\_name 
+\item BEGIN TRANSACTION, COMMIT TRANSACTION, ROLLBACK TRANSACTION
+\item CREATE TRIGGER [ schema\_name . ] trigger\_name ON { table | view }
+\item BULK INSERT 
+
+\end{itemize}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Fyzický návrh databáze; tabulka typu halda, index (B-strom), shlukovaná tabulka}
+Definuje datové struktury pro základní logické objekty:
+\begin{itemize}
+\item Tabulky
+\item Indexy
+\item Materializované pohledy
+\item Rozdělení dat
+\end{itemize}
+\noindent a řeší uložení dat na nejnižší úrovni. CREATE TABLE s PRIMARY KEY vytvoří v Oracle Haldu a v SQL Server shlukování záznamu.
+
+Datové struktury se skládají z různého počtu stránek (resp. uzlů u stromových struktur). Každá stránka je mapována na různý počet stránek vnější paměti. Pokud chce datová struktura načíst nějakou stránku, ta je načtena do vyrovnávací paměti. V hlavní paměti (rozhodují časová razítka). Při naplnění vyrovnávací paměti je vymazána (nebo uložena) nejdříve načtená stránka.  2 typy přístupů na stránky: (cache hit, pokud je stránka zrovna v paměti, jinak cache miss)
+\begin{itemize}
+\item Logický přístup -- Přístup ke stránce libovolné datové struktury
+\item Fyzický přístup -- Načtení nebo zápis stránky na disk
+\end{itemize}
+
+\textbf{Tabulka typu halda} je stránkované persistentní pole. Záznamy nejsou fyzicky mazány, jsou pouze označeny jako smazané (pro skutečné smazání musí být proveden \textbf{shrinking}). Při vkládání je záznam umístěn na první volnou pozici nebo na konec pole. Neefektivní vyhledávání ($O(n)$) – nelze se spoléhat na uspořádání záznamů v tabulce. Efektivní z pohledu využití místa a operace INSERT ($O(1)$).
+
+\textbf{Shlukování záznamů (data clustering)} -- záznamy jsou v datovém souboru seřazeny podle zvoleného klíče, pro implementaci bývá využita nějaká varianta B-stromu. Hodí se v případech, kdy je třeba získat hodnoty neklíčových atributů. Operace INSERT má zhoršený  výkon – data se musí zatřizovat.
+(Oracle: indexed organized table (IOT), SQL Server: clustered index)
+
+\textbf{B+ strom} všechny hodnoty jsou až v listech.
+
+\textbf{Hašovaná tabulka} -- záznamy se stejnou hašovanou hodnotou jsou uloženy ve stejném nebo velmi blízkém bloku.
+
+\textbf{Index} je databázová konstrukce sloužící ke zrychlení vyhledávacích a dotazovacích procesů využívající neklíčových atributů jako klíčů v nové stromové struktuře. Nejrozšířenější typ indexu využívá B-strom, dále pak existuje:
+\begin{itemize}
+\item Složený index – klíčem je více než jeden atribut (při dotazu na pod-klíč dochází k sekvenčnímu průchodu!)
+\item Hash table
+\item Bitmapový index – ke každému záznamu vytvořen bitový vektor, vhodné pro malé domény a logické operace
+\item Shlukovaný index (Cluster index) – pokud se pro atribut často používá JOIN; diskový blok pak obsahuje jak záznam z řídící tabulky, tak závislé záznamy.
+\end{itemize}
+%---------------------------------------------------------------------------------------------
+\subsection{Vykonávání dotazů v databázových systémech; plán vykonávání dotazů}
+Vybírá ho optimalizátor, plán lze zlepšit pomocí: parametrizovaných dotazů, hromadné operace nad velkými daty, nastavením transakce nebo danou fyzickou implementací. Výběr probíhá následovně:
+\begin{enumerate}
+\item Převod dotazu do interní formy
+	\begin{enumerate}
+	\item Eliminace syntaxe SQL
+	\item Nahradíme pohled jeho definicí
+	\item Interní forma je nejčastěji druh dotazovacího stromu
+	\end{enumerate}
+\item Převod do kanonické formy
+	\begin{enumerate}
+	\item Odstranění povrchních rozdílů a nalezení efektivnějšího tvaru než nabízel původní dotaz
+	\item Použiti transformačních pravidel, převod mezi ekvivalentními dotazy
+	\end{enumerate}
+\item Vygenerování plánu dorazu a výběr nejlevnějšího
+	\begin{enumerate}
+	\item Každému plánu je přiřazena cena (I/O Cost, CPU Cost)
+	\item Je vybrán nejlevnější plán
+	\end{enumerate}
+\end{enumerate}
+
+\textbf{Logický plán vykonání dotazu} -- strom pro vykonání dotazu s použitím relační algebry.
+
+\textbf{Fyzický plán vykonání dotazu} -- vybírá konkrétní algoritmy implementující jednotlivé operátory logického plánu.
+
+
+\textbf{Přístup k celé tabulce, prohledávání bez indexu (sekvenční)} při prohledání celé tabulky, bez restrikce, nebo s restrikcí na neindexovaný atribut.
+
+\textbf{Přístup přes index při:} Unique Scan – při hledání podle indexovaného atributu, Range Scan – hledání více záznamů pomocí indexu, ROWID – přístup k jedinému záznamu
+
+\textbf{Problém složeného indexu}\\
+Pokud vytvoříme index s např. 2 atributy, musíme definovat oba při vyhledání, jinak dojde k sekvenčnímu průchodu tabulkou. Navíc složité indexy zabírají více místa.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Objektově‐relační datový model}
+Relační databáze nejsou navrhovány pro ukládání objektů a naprogramování rozhraní pro ukládání objektů v databázi je velmi složité.
+Relační databázové systémy jsou dobré pro řízení velkého množství dat, vyhledávání dat, ale nízkou podpora manipulaci s nimi. 
+ODBMS jsou výborné pro manipulaci s daty, neboť pomocí jazyka aplikace přistupujeme k objektovým tabulkám.Pokud navíc opomeneme programátorskou stránku, dá se říct, že některé typy dotazů jsou efektivnější než v RDBMS díky dědičnosti a referencím. 
+
+Všechny trvalé informace jsou stále v tabulkách, ale některé položky mohou mít bohatší datovou strukturu, nazývanou abstraktní datové typy (ADT). ADT je datový typ, který vznikne zkombinováním základních datových typů. Podpora ADT je atraktivní, protože operace a funkce asociované s novými datovými typy mohou být použity k indexování, ukládání a získávání záznamů na základě obsahu nového datového typu. ORDBMS jsou nadmnožinou RDBMS a pokud nevyužijeme žádné objektové rozšíření jsou ekvivalentní SQL2. Proto má omezenou podporu dědičnosti, polymorfismu, referencí a integrace s programovacím jazykem
+
+OOSŘBD umožňují používat uživatelské typy, dědičnost, metody tříd, rozlišují pojmy instance a ukazatel na instanci. 
+\begin{lstlisting}
+CREATE OR REPLACE TYPE TAddress AS OBJECT(
+street VARCHAR2(30), 
+city VARCHAR2(30), 
+PSC NUMBER(5),
+STATIC FUNCTION x (a VARCHAR2, b INT) RETURN REF TAddress)
+\end{lstlisting}
+
+%---------------------------------------------------------------------------------------------
+\subsection[Datová vrsva IS, bezpečnost, frameworky]{Datová vrstva informačního systému; existující API, rámce a implementace, bezpečnost; objektově‐relační mapování}
+Datová vrstva IS – přístup k DB např. pomocí webového rozhraní.\\
+\textbf{Aplikační rámec}je sada spolupracujících tříd a rozhraní určených pro řešení specifického problému. Třídy a komponenty představují abstrakce pojmů, rámec definuje, jak se tyto abstrakce podílejí na řešení problémů.
+
+\textbf{JDBC ovladač} rozhraní pro unifikovaný přístup k datům (Oracle), inspirováno rozhraním ODBC, zprostředkování komunikace aplikace s konkrétním typem DB, implementován obvykle výrobcem databáze, dotazovací jazyk – SQL, předá se DB, ovladač vyhodnotí přímo.
+
+\textbf{Entity Framework}
+
+\subsubsection{ORM} 
+Programovací technika zpřístupňující relační či objektově-relační data pro objektové prostředí. Dovoluje práci s objektovým modelem, rychlejší vytváření aplikací. Přenositelnost mezi různými SŘBD. Nevyužívá všechny vlastnosti SŘBD (efektivita, bezpečnost apod.)
+Nabízí typovou kontrolu, méně chyb v SQL, jednodušší testování.
+
+Entita je implementována jako třída.
+
+\subsubsection{SQL Injection}
+Zranitelnost vznikající při nedostatečném ošetření vstupů užívaných v SQL dotazech. Řešením jsou hlavně parametrizované dotazy, uložené procedury, správně nastavená práva a kontrola vstupu.
+
+\begin{lstlisting}
+SELECT * FROM User WHERE login='admin' AND pass='' OR '1'='1'; --instant login 
+\end{lstlisting}
+
+%---------------------------------------------------------------------------------------------
+\subsection[Souběh, řízení souběhu v DBS, serializace]{Souběh v databázových systémech, anomálie souběhu, techniky řízení souběhu; sériový a serializovatelný plán, úroveň izolace v SQL}
+\textbf{Souběh} -- přístup několika aktérů k jednomu zdroji současně (více transakcí v jednom čase).
+
+\textbf{Plán} je posloupnost operací transakcí, pokud jsou plány prováděny souběžně mluvíme o souběžném (paralelním) plánu.
+
+Mohou nastat 3 hlavní problémy.
+\begin{enumerate}
+\item Ztráta aktualizace -- 2 transakce provádí aktualizaci stejných dat, poslední aktualizace bude uložena ale předchozí bude ztracena.
+\item Nepotvrzená závislost -- Jedna transakce přečte data, která byla změněna druhou transakcí, ale ještě nebyla potvrzená a tato druhá transakce může být navíc vrácena zpět (\textit{ROLLBACK})
+\item Nekonzistentní analýza -- Jedna z transakcí pracuje s nekonzistentní databází. První transakce načte data, druhá transakce tyto data změní, a až teď první transakce provede operace nad načtenými daty, které již nejsou aktuální.
+\end{enumerate}
+
+Konflikty čtení a zápisu (Uvažujeme transakce $A$,$B$ a entici $t$), nastávají, když 2 transakce chtějí číst nebo zapisovat stejnou entici:
+\begin{enumerate}
+\item RR -- $A$ a $B$ čtou $t$, není problém.
+\item RW
+	\begin{enumerate}
+	\item $A$ čte $t$, $B$ chce zapsat $t$, nastává problém nekonzistentní analýzy
+	\item $A$ načte $t$, $B$ změní $t$, $A$ znovu načte $t$, problém neopakovatelného čtení.
+	\end{enumerate}
+\item WR -- $A$ zapíše $t$, $B$ čte $t$ ještě nepotvrzené transakcí $A$, problém nepotvrzené závislosti. 
+	(Pokud $A$ provede \textit{ROLLBACK} jedná se o problém špinavého čtení)
+\item WW
+	\begin{enumerate}
+	\item $A$ zapíše $t$, $B$ chce taky zapsat $t$, nastává problém ztráty aktualizace pro transakci $A$, a problém nepotvrzené závislosti 
+	pro transakci $B$.
+	\item Pokud $B$ zapíše $t$ po $A$ jedná se o špinavý zápis.
+	\end{enumerate}
+\end{enumerate}
+
+\subsubsection{Zamykání}
+Využívá většina DBS. Předpokládá se, že transakce se budou ovlivňovat. Systém spravuje jednu kopii dat a transakcím přiřazuje zámky. Pokud tedy chce transakce provádět operace nad daty potřebuje získat zámek, udělující ji přístup a zákaz všem ostatním transakcím. Typy zámku:
+\begin{itemize}
+\item Výlučný zámek -- zámek pro zápis – $X$
+\item Sdílený zámek – zámek pro čtení – $S$
+\end{itemize}
+
+Pokud transakce $A$ drží výlučný zámek $X$ na entici $t$, pak požadavek paralelní transakce $B$ na zámek libovolného typu na stejnou entici není proveden okamžitě, až po uvolnění zámku $X$ transakcí $A$.
+
+Pokud transakce $A$ drží sdílený zámek $S$ na entici $t$, pak pokud:
+\begin{itemize}
+\item paralelní transakce $B$, požaduje výlučný zámek $X$, tak tomuto požadavku není vyhověno ihned.
+\item paralelní transakce $B$, požaduje sdílený zámek $S$, tak tomuto požadavku je vyhověno a obě transakce mají $S$ zámek.
+\end{itemize}
+
+Zámky jsou většinou přidělovány implicitně pomocí zamykacího protokolu. Uzamykací protokol probíhá následovně. Transakce chce získat přístup k entici, požádá o sdílený zámek S na tuto entici. Transakce, která chce aktualizovat (\textit{UPDATE, INSERT, DELETE}) musí požádat o výlučný zámek $X$.  Pokud stejná transakce již drží zámek $S$, tak je změněn na $X$. Pokud zámek nemůže být udělen tak transakce přejde do stavu čekání. 4eká dokud není zámek uvolněn. Transakce čekají ve frontě. Výlučné i sdílené zámky jsou uvolněny na konci transakce.
+
+Může nastat situace kdy dvě nebo více transakce čekají na uvolnění zámků držených jinou transakcí tzv. \textbf{deadlock}. Toto se dá řešit těmito způsoby:
+\begin{itemize}
+\item Detekce uváznutí -- nastavení časových limitů čekání, překročení limitu znamená deadlock
+\item Detekce cykly v grafu \textit{wait-for}. Zaznamená se, které transakce na sebe čekají, jedna je vybrána a zrušena \textit{ROLLBACKem}, následně je přepracována nebo vyhozena výjimka.
+\item Prevence pomocí časových razítek -- Každé transakci se přidělí časové razítko startu, pokud $A$ požaduje zámek na entici, která je již uzavřena a zámek drží $B$ tak 2 možnosti:\\
+WAIT-DIE – pokud je $A$ starší než $B$, tak $A$ čeká, pokud je $A$ mladší než $B$, transakce $A$ je zrušena pomocí \textit{ROLLBACK} a spuštěna znova.\\
+WOUND-WAIT – pokud je $A$ mladší než $B$, přejde do stavu čekání. Pokud je $A$ starší, transakce $B$ je zrušena \textit{ROLLBACK} a spuštěna znova.\\
+Transakce spuštěna znovu má své původní časové razítko, nevýhodou je teoreticky velká počet operací \textit{ROLLBACK}.
+\end{itemize}
+
+\subsubsection{Správa verzí}
+Předpokládáme, že se nebudou transakce ovlivňovat. Vytváří se kopie a systém sleduje, která verze má být viditelná pro ostatní v závislosti na izolaci.
+
+Další techniky řízení souběhu jsou  Časová razítka a Validace
+
+\subsubsection{Sériový a serializovatelný plán}
+\textbf{Sériový plán} jsou transakce provedené za sebou.
+
+\textbf{Serializovatelný plán} -- Plán vykonání 2 transakcí je korektní tehdy a jen tehdy pokud je serializovatelný, tj. je ekvivalentní s výsledkem libovolného sériového plánu. A dva plány jsou ekvivalentní pokud podávají stejné výsledky.
+
+\textbf{Dvoufázové zamykání} vždy zaručuje, že plán bude serializovatelný. Transakce musí požádat o zámek na objekt, před tím, než chce nad tímto objektem provést nějakou operaci (Fáze 1 – požadavek). Po uvolnění zámku nesmí již transakce požadovat další zámek (Fáze 2 - uvolnění).
+
+\subsubsection{Úrovně izolace transakce}
+Garantuje izolaci ve smyslu ACID. Úroveň izolace je možnost nastavení poměru propustnosti / míry izolace transakce. Vyšší úroveň značí vyšší míru izolace ale menší propustnost, RU < RC < RR < SR.
+
+\image{serial.png}{Úrovně izolace a jejich problémy}{0.6}
+
+Výskyt fantomů je situace, kdy $A$ načte data, $B$ získá zámek $X$ vloží nový záznam, uvolní zámek, $A$ načte znovu data, ale data jsou inkonzistentní.
+%---------------------------------------------------------------------------------------------
+\subsection[Architektura a struktura IS, pravidla, principy, základní pojmy]{Architektura a struktura informačního systému. Pravidla a principy. Komponenty, konektory, konfigurace. Dekompozice. Vztah architektury, návrhu a nasazení informačního systému}
+\textbf{Informační systém }je propojení informačních technologií a lidských aktivit směřující k zajištění podpory procesů v organizaci. V širším slova smyslu se jedná o interakci mezi lidmi, procesy a daty. Informační systém je určen ke zpracování (získávání, přenos, uložení, vyhledávání, manipulace, zobrazení) informací.
+
+\textbf{Doména} – oblast činností řešená v rámci IS.
+
+\textbf{Architektura} je základní organizace softwarového systému zahrnující komponenty, jejich vzájemné vztahy a vztahy s okolím systému, principy návrhu takového systému a vývoje. Yabývá se technickými (jinými než funkčními) a částečně funkčními požadavky. Leží na vyšší úrovni abstrakce tak, že zahrnuje:
+\begin{itemize}
+\item Pohled na aplikační doménu (pohled zákazníka)
+\item Pohled vývojáře na globální strukturu systému a chování jeho částí, jejich propojení a synchronizace
+\item Pohled na přístup k datům a toky dat v systému
+\item Fyzické rozmístění komponent atd.
+\end{itemize}
+
+\textbf{Softwarová architektura} představuje především strukturu softwarového systému a pravidla jejího vývoje.
+\begin{itemize}
+\item Statická architektura -- umožňuje zachytit pouze pevnou strukturu softwarového systému bez možnosti změn, struktura systému je daná při návrhu a neměnná za běhu systému.
+\item Dynamická architektura -- oproti statické architektuře navíc podporuje vznik a zánik komponent a vazeb za běhu systému podle pravidel určených při návrhu, struktura systému se dynamicky mění.
+\item Mobilní architektura -- rozšiřuje dynamickou architekturu o mobilní prvky, kdy se komponenty a vazby přesouvají za běhu systému podle stavu výpočtu.
+\end{itemize}
+
+\textbf{Dekompozice}:
+\begin{itemize}
+\item Identifikace systémových požadavků.
+\item Dekompozice systému do komponent.
+\item Přidělení požadavků k jednotlivým komponentám.
+\item Ověření, že všechny požadavky byly přiděleny.
+\end{itemize}
+
+\textbf{Komponenty} -- části dekomponovaného systému s daným rozhraním.
+
+\textbf{Konektory} -- komunikační kanály pro propojení komponent s daným rozhraním.
+
+\textbf{Konfigurace} -- konkrétní způsob vzájemného propojení komponent pomocí konektorů.
+
+\textbf{Návrh (design)} popisuje systém rozdělený do logických částí, tedy JAK funguje a s ČÍM pracuje (třídy, tabulky, komponenty, služby a vztahy mezi nimi).
+
+\textbf{Nasazení (deployment)} popisuje KDE systém běží (na jakém HW, platformě, \ldots).
+
+%---------------------------------------------------------------------------------------------
+\subsection[Kompetence IS, Architektury, Vzory]{Tři kompetence informačního systému a třívrstvá architektura. Logická a fyzická architektura informačního systému. Vzory pro enterprise architekturu. Zajištění doménové logiky, přístupu k datům, objektově-relačního chování. Principy objektově-relačního mapování a mapování dědičnosti}
+\textbf{Tři klíčové kompetence (Třívrstvá architektura)}
+\begin{enumerate}
+\item Komunikace s uživatelem (prezentace informací, předání požadavků).
+\item Zpracování informací a jejich (dočasné) uchování.
+\item Trvalé uchování informací (dat).
+\end{enumerate}
+
+\textbf{Návrhový vzor} představuje obecné řešení problému, které se využívá při návrhu programů. Vzor je to, co opakovaně funguje. Vzory se nikdy nevyskytují osaměle. Propojování vzorů je obvyklé zejména při spolupráci různých vrstev (logik).
+
+\subsubsection{Architektury}
+\textbf{Třívrstvá architektura}\\
+Rozdělení IS na 3 vrstvy: Prezentační, Doménová a Datová - Kdo o kom ví: Prezentační o doménové a doménová o datové! Ne naopak! - Je lineární.
+
+\textbf{MVC}\\
+Oddělení vrstev na logické úrovni. Minimalizace závislostí, izolovaná modifikace jednotlivých vrstev. Model představuje  doménovou logiku. View prezentační vrstva a Controller řídí komunikaci mezi View a Model vrstvou. MVC obvykle vůbec neřeší přístup k datům.
+
+\subsubsection{Doménová logika}
+\textbf{Transaction script} - organizuje doménovou logiku pomocí procedur, kde každá procedura obstarává jeden požadavek z prezentační vrstvy - použití: kde je málo logiky.
+
+\textbf{Domain model} - Objektový model domény, který zahrnuje jak chování, tak data - Lze použít společně s Service Layer pro více rozdílné API - Použití: komplikovaná a měnící se logika.
+
+\textbf{Table module} - Jedna instance, která řeší doménovou logiku pro všechny řádky v DB tabulce nebo pohledu - Využívá se ve spojení s TableData Gateway - Použití: u aplikací často využívajících tabulkovou orientaci (např. DataGridView)
+
+\textbf{Service layer} - Definuje hranice aplikace s vrstvou služeb, která stanoví řadu dostupných operací a koordinuje aplikační odpovědi při každé operaci. - .NET – WCF
+
+\subsubsection{Přístup k datům}
+Vzory řešící načítání dat z DB, nebo jiného datového zdroje, a předání dál do doménové vrstvy.
+
+\textbf{Table data gateway} funguje jako brána, která zapouzdřuje DB operace prováděné nad jednou tabulkou. Jedna třída reprezentuje jednu tabulku, tato třída obstarává CRUD nad danou tabulkou. Používá se s Table Module a Transaction Script. Lze využít DTO (Data Transfer Object).
+
+\textbf{Row data gateway} funguje jako brána, která zapouzdřuje CRUD operace nad jedním řádkem databázové tabulky. Jedna instance objektu odpovídá jednomu řádku tabulky. Použití s Transaction Script a Data Mapper.
+
+\textbf{Active record} je objekt, který obaluje řádek v databázové tabulce nebo pohledu, zapouzdřuje přístup k databázi, a přidává doménovou logiku.
+Použití s Domain Model nebo Transaction Script.
+
+\textbf{Data mapper} je objekt přesouvající data mezi objekty a databází, k objektu přistupuje z vnějšku, objekty a DB jsou na sobě nezávislé, vhodné pro Domain Model.
+
+\textbf{Data Transfer Object} je objekt, který nese data mezi procesy v závislosti na zmenšení počtu metod.
+
+\subsubsection{Objektově relační chování}
+Řeší problém častého přístupu k databázi.
+
+\textbf{Unit of Work} Udržuje seznam objektů ovlivněných bussines transakcí a koordinuje jejich zápis do databáze. Pro každou skupinu objektů (smazané, aktualizované, přidané) jeden seznam. Použití tehdy když můžeme odložit ukládání objektů do databáze.
+
+\textbf{Identity Map} Každý objekt je načten pouze jednou do Mapy (kolekce). Pokud objekt neexistuje, zažádá se o něj v datové vrstvě. Použití – když nechceme aby dva objekty reprezentovaly stejný záznam..
+
+\textbf{Lazy Load} Objekt nemá načtené všechny data, ale umí o ně zažádat – data jsou načtena z databáze jen tehdy, když jsou doopravdy potřeba.
+
+\subsubsection{Objektově-relační mapování}
+\textbf{Identity Field} Uloží databázové id do objektu jako atribut. Zajišťuje synchronizaci mezi DB a objektem.
+
+\textbf{Foreign Key Mapping} Mapuje vztah mezi objekty v doménovém modelu do databáze jako cizí klíče.
+
+\textbf{Association Table Mapping} Rozšiřuje Foreign Key Mapping. Mapuje vztah objektů M:N, který do DB mapuje klasickou asociační tabulkou (vazební tabulka)
+
+\textbf{Dependent Mapping} Vzor, který má jednu třídu na správu DB mapování pro třídu potomka.
+
+\textbf{Embedded Value} Mapuje objekt do několika polí jiné objektové tabulky.
+
+\textbf{Serialized LOB} Uloží serializovanou skupinu nebo strukturu objektů do jednoho záznamu v databázi. Používá se, pokud není mnoho dat, ale spíše více vztahů mezi objekty, které by bylo složité mapovat do DB zvlášť
+
+\subsubsection{Vzory dědičnosti}
+\textbf{Single Table Inheritance} Reprezentuje dědičnost mezi třídami jako jednu tabulku v DB, která obsahuje atributy rodiče i všech potomků. Použití – pokud jsou třídy různorodé.
+
+\textbf{Class Table Inheritance} Reprezentuje dědičnost jako tabulky v databázi, kdy jedna tabulka odpovídá jedné třídě.
+
+\textbf{Concrete Table Inheritance} Reprezentuje dědičnost jako třídy s jednou tabulkou na jednu konkrétní třídu dané dědičné hierarchie.
+
+\textbf{Inheritance Mappers} Reprezentuje dědičnost jako třídy s jednou tabulkou na jednu konkrétní třídu dané hierarchie (tabulka má atributy předka i svoje).
+
+%---------------------------------------------------------------------------------------------
+\subsection[Životní cyklus IS, Principy vývoje, Vývoj v týmu]{Životní cyklus informačního systému, Zachmanův framework. Úlohy, role, otázky. Principy týmového vývoje informačního systému. Principy a fáze Unified Process. Robustní a agilní přístupy při vývoji informačního systému}
+\textbf{Životní cyklus IS:}
+\begin{enumerate}
+\item Vize
+\item Analýza
+\item Návrh
+\item Implementace
+\item Nasazení
+\item Provoz
+\end{enumerate}
+
+\textbf{Klíčové otázky: CO, JAK, KDE, KDO, PROČ – The Zachman Framework for Enterprise Architecture}
+\begin{itemize}
+\item CO? Jde zejména o informace samotné.
+\item JAK? Jde o procesy prováděné s informacemi.
+\item KDE? Na jakých místech se pracuje s informacemi.
+\item KDO? Kdo a v jaké roli pracuje s informacemi.
+\item KDY? Kdy se s informacemi pracuje (události apod.)
+\end{itemize}
+
+Zachmanův Framework rozděluje vývoj IS do částí
+\begin{enumerate}
+\item Vize
+\item Business model
+\item Systémový model
+\item Technologický model
+\item Podrobná specifikace
+\item Údržba
+\end{enumerate}
+
+\subsubsection{Týmový vývoj}
+\textbf{Vodopádový model} sedm navazujících fází, k další fázi smíme přistoupit pouze tehdy, pokud je předchozí fáze dokončena. Výhody: včasné odhalení chyb, důraz na dokumentování, jednoduchost pro řízení. Nevýhody: trvá se na rozhodnutích, které se mohou ukázat jako nesprávná, dovedení jedné fáze k dokonalosti před přechodem k další.\\
+Požadavky - Návrh - Implementace - Integrace - Testování - Laděn - Instalace - Údržba
+
+\textbf{Iterační model} opakuje se v cyklech, po každé iteraci použitelný kód.
+
+\textbf{Interaktivní vývoj} je model založený na opakovaném procesu analýza, návrhu, implementace, testování a redefinici produktu.
+
+\textbf{Inkrementální vývoj} je model založený na principu postupně budovaného produktu po inkrementacích založených na iterativním návrhu.
+
+\textbf{Unified process} je populární Framework založený na interaktivním a inkrementálním vývoji. Čtyři fáze: počátek, zpracování, konstrukce a přechod. Příklady: RUP, MSF, OUM.
+
+\textbf{MSF (Microsoft Solutions Framework)} je sjednocená (unified) metodika založena na Otevřená komunikace, Sdílená vize, Pravomoci v týmu, Být agilní (přizpůsobit se), Kvalita,Zákazník součástí vývoje.
+
+\textbf{Manifest agilního programování} definuje principy agilního programování, je založen na:
+\begin{itemize}
+\item Lidé a jejich spolupráce před procesy a nástroji.
+\item Fungující software před obsáhlou dokumentací.
+\item Spolupráce se zákazníkem před sjednáváním smluv.
+\item Reakce na změnu před dodržováním plánu.
+\end{itemize}
+
+\textbf{Extrémní programování} je agilní metodika vývoje softwaru, vytvořená skupinou lidí okolo Kenta Becka. EX je založeno na tom, že se všechno dělá naplno – před ničím se neustupuje. Zákazník na pracovišti, Vydávání malých verzí, Párové programování, Udržitelné tempo, Testování.
+
+\textbf{Scrum} interaktivní a inkrementální metodika agilního vývoje softwaru. Sprinty (7-30 dnů), časté schůzky. Počátek sprintu (plány), denní meeting (včera, dnes), Konec sprintu (review).
+
+\textbf{TDD – programování řízené testy} je přístup k vývoji softwaru založený na malých, stále se opakujících krocích, vedoucích k zefektivnění celého vývoje. Vývojový cyklus:
+\begin{enumerate}
+\item Napsat test
+\item Spustit testy a ujistit se, že všechny neprojdou
+\item Napsat vlastní kód
+\item Kód testy prochází
+\item Refaktoring
+\item Opakování
+\end{enumerate}

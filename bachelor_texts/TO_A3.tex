@@ -1,0 +1,227 @@
+\section{Úvod do teoretické informatiky}
+%---------------------------------------------------------------------------------------------
+\subsection{Množiny, relace, funkce}
+\subsubsection{Množiny}
+Množina je kolekce vzájemně odlišitelných objektů, které nazýváme jejími prvky. Jestliže je objekt $x$ prvkem množiny $S$, píšeme $x \in S$. Jestliže $x$ není prvkem $S$, 
+píšeme $x \notin S$.
+Jednou z možností, jak popsat množinu, je explicitně vyjmenovat všechny její prvky mezi složenými závorkami. Pokud například chceme definovat, že množina $S$ obsahuje čísla 1, 2 a 3 (a neobsahuje žádné další prvky), můžeme napsat $S  = \{1, 2, 3\}$. Množina nemůže prvek obsahovat více než jednou a prvky množiny nejsou nijak seřazeny. \textbf{Valuace} je přiřazení prvků universa proměnným \m{x\neq y}.
+
+Operace:
+\begin{itemize}
+\item Průnik množin $A$ a $B$ je množina $\rightarrow A \cap B = \{x | x\in A \wedge x\in B \}$
+\item Sjednocení množin $A$ a $B$ je množina $\rightarrow A \cap B = \{x | x\in A \vee x\in B \}$
+\item Rozdíl množin $A$ a $B$ je množina $\rightarrow A-B = \{ x| x\in A \wedge x\notin B \}$
+\item Doplněk $A$ universa $U$ (Universum je soubor všech objektů v dané interpretaci.) je množina $\rightarrow A' = U-A$
+\item Kartézský součin množin $A$ a $B$, $A \times B$, je množina všech uspořádaných dvojic, kde první prvek z dvojice patří do množiny A a druhý do množiny B 
+$\rightarrow \{a,b \}\times \{c,d\} = \{(a,c),(a,d),(b,c),(b,d)\}$
+\item Potenční množina $A^2 = \{ B | B \subseteq A \}$. množina všech podmnožin. 
+\end{itemize}
+
+\subsubsection{Relace}
+Jako relaci nebo n-ární relaci nazveme v matematice libovolný vztah mezi skupinou prvků jedné nebo více množin. Ve většině případů je tímto označením myšlena binární relace. Relace na množinách $A_1$, $A_2$ \ldots $A_n$ je libovolná podmnožina kartézského součinu $A_1$, $A_2$ \ldots $A_n$. Relace na $n$ množinách se nazývá n-ární relace. 
+U n-tic záleží na pořadí, prvky se mohou opakovat, na rozdíl od množin. 
+Jestliže $n = 2$, jedná se o binární relaci. Jestliže $n = 3$, jedná se o ternární relaci.
+V případě, že $ A_1 = A_2 \ldots = A_n$  hovoříme o homogenní relaci, v opačném případě o relaci heterogenní. Binární relace se značí $R(a,b)$
+
+\subsubsection{Funkce}
+Funkce $f$ z množiny $A$ do množiny $B$ je binární relace $f \subseteq A \times B$ taková, že pro každé $a \in A$ existuje právě jedno $b \in B$ takové, že  $(a, b) \in f$. Množina $A$ se nazývá definiční obor funkce $f$, množina $B$ se nazývá obor hodnot funkce $f$.
+To, že $f$ je funkce z množiny $A$ do množiny $B$ obvykle zapisujeme jako $f : A \rightarrow B$ Místo $(a,b) \in f$ obvykle píšeme $b=f(a)$, neboť volbou prvku $a$ je prvek $b$ jednoznačně určen. Funkce $f : A \rightarrow B$ tedy každému prvku z $A$ přiřazuje právě jeden prvek z $B$.
+
+\begin{itemize}
+\item \textbf{Surjekce} --  $\forall b \in B : \exists a \in A \wedge f(a) = b$ Pro každý prvek z množiny $B$ existuje prvek z množiny $A$.
+\item \textbf{Injekce} --  $\forall x,y \in A, x \neq y : f(x) \neq f(y)$ Každým dvěma různým vzorům přiřazuje dva různé obrazy
+\item \textbf{Bijekce} -- surjekce i injekce zároveň
+\end{itemize}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Výroková logika, predikátová logika 1. řádu}
+Výroková logika analyzuje způsoby skládání jednoduchých výroků do výroků složených pomocí logických spojek (konjunkce, disjunkce, implikace, ekvivalence). \textbf{Výrok} -- je tvrzení, o kterém lze rozhodnout, zda je pravdivé, či nikoliv. \textbf{Úsudek} --  na základě pravdivosti předpokladů (\textit{premis}) $P_1, P_2, \ldots, P_n$ je možno soudit, že je pravdivý i \textbf{závěr} Z.
+
+Atomický výrok -- nedá se rozložit na žádné menší výroky. Složený výrok je složen z atomických výroků. Výroky jsou definovány pomocí formulí. 
+Formule je posloupnost symbolů určité abecedy. Logické spojky s aritou 1: negace; arita 2: konjunkce, disjunkce, implikace, ekvivalence.
+
+
+
+\begin{itemize}
+\item \textbf{Tautologie} --  Vždy pravdivé tvrzení.
+\item \textbf{Kontradikce} --  Vždy nepravdivé tvrzení.
+\item \textbf{Splnitelná formule} -- Alespoň jedno ohodnocení kdy je formule pravdivá.
+\item \textbf{Abstraktní syntaktický strom} -- orientovaný acyklický graf.
+\item \textbf{Sémantický spor} -- případ, kdy zjistíme, že při ohodnocení s požadovanou vlastností, které hledáme by musela být daná formule současně pravdivá i nepravdivá
+\item \textbf{Logicky ekvivalentní formule} -- Obě formule mají pro všechny ohodnocení stejnou pravdivostní hodnotu
+\item \textbf{Literál} -- atomický výrok nebo jeho negace.
+\end{itemize}
+
+Důležité ekvivalence:
+\begin{table}[h!]
+\begin{tabular}{l | l | l}
+\hline
+$\neg\neg p \iff p$ & $(p \wedge q) \wedge r \iff p \wedge (q \wedge r)$ & $p \wedge q \iff q \wedge p$ \\
+\hline
+$p \wedge p \iff p$ & $(p \vee q) \vee r \iff p \vee (q \vee r)$  & $p \vee q \iff q \vee p$ \\
+\hline
+$p \vee p \iff p$ & & \\
+\hline
+Distributivní zákony & $p \wedge (q \vee r) \iff (p \wedge q) \vee (p \wedge r)$ & $p \vee (q \wedge r) \iff (p \vee q) \wedge (p \vee r)$ \\
+\hline
+De-Morganovy zákony& $\neg(p \wedge q) \iff \neg p \vee \neg q$ & $\neg(p \vee q) \iff \neg p \wedge \neg q$ \\
+\hline
+Implikace & $p \implies q \iff \neg p \vee q$ & $\neg(p \implies q) \iff p \wedge \neg q$ \\
+
+\end{tabular}
+\end{table}
+\begin{table}[h!]
+\begin{tabular}{l}
+\hline
+Ekvivalence   \\
+\hline
+$((p \iff q) \iff r) \iff (p \iff (q \iff r))$ \\
+\hline
+$(p \iff q) \iff (q \iff p)$ \\
+$(p \iff q) \iff( (p \imp q) \wedge (q \implies p))$ \\
+\hline
+$(p \iff q) \iff ((p \vee \neg q) \wedge (q \vee \neg p))$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+\subsubsection{Normální formy}
+\textbf{DNF -- Disjunktivní normální forma} je ekvivalentní s danou formulí a mající tvar disjunkce elementárních konjunkcí
+\begin{equation*}
+	DNF(p \iff p)\iff (p \wedge p) \vee (\neg p \wedge \neg p) \iff p \vee \neg p
+\end{equation*}
+
+\textbf{KNF -- Konjunktivní normální forma} je ekvivalentní s danou formulí a mající tvar konjunkce elementárních disjunkcí.
+\begin{equation*}
+	KNF(p \iff p)\iff (\neg \vee p) \wedge (\neg p \vee p)
+\end{equation*}
+\textbf{UNDF -- Úplná disjunktivní normální forma} je ekvivalentní s danou formulí a mající tvar disjunkce úplných elementárních konjunkcí.
+\begin{equation*}
+	UDNF(p \iff q)\iff (p \wedge q) \vee (\neg p \wedge \neg q)
+\end{equation*}
+
+\subsubsection{Predikátová logika}
+Predikátová logika označuje formální odvozovací systém používaný k popisu matematických teorií a vět.
+Predikátová logika je rozšířením výrokové logiky. Navíc umožňuje analyzovat strukturu elementárních výroků, a to až do úrovně vlastností a vztahů mezi individui. Individuum je prvek z nějaké množiny (univerza) a predikát je relace na této množině.
+\begin{itemize}
+\item Univerzální kvantifikátor ($\forall$) - Do běžného jazyka lze jeho význam přeložit jako "pro každé"
+\item Existenční kvantifikátor ($\exists$) - Do běžného jazyka lze jeho význam přeložit jako existuje
+\end{itemize}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Regulární jazyky, konečné automaty}
+Abeceda je libovolná konečná neprázdná množina symbolů $\Sigma$ ($\Sigma^* všechny slova abecedy$).  Slovo je libovolná konečná posloupnost znaků abecedy. Jazyk je množina některých slov tvořených symboly z dané abecedy. Jazyk $L$ je regulérní právě tehdy, když existuje nějaký deterministický automat $A$, který jej přijímá. Dále si vysvětlíme výrazy nad slovem $v$.
+\begin{itemize}
+\item \textbf{Prefix} -- $x$ je prefix pokud existuje slovo $y = xv$
+\item \textbf{Sufix} -- $x$ je sufix pokud existuje slovo $y = vx$
+\item \textbf{Podslovo} -- podslovem slova $v$, je slovo $x$, pokud existuje slovo $v = uxv$
+\item \textbf{Zřetězení slov} -- zřetězením slov $x$ a $y$ dostaneme $v = xy$
+\end{itemize}
+
+\textbf{Zřetězení jazyků} 
+\begin{equation}
+\begin{aligned}
+	&L_1, L_2 \subseteq \Sigma^* \text{ zřetězením dostaneme} L \subseteq \Sigma^* \\
+	&\text{pro nějž platí } \forall w \in \Sigma^*: w\in L \iff (\exists u \in L_1)(\exists v \in L_2)(w = u \cdot v) \\
+	&L_1 \cdot L_2
+\end{aligned}
+\end{equation}
+
+\textbf{Iterace jazyků}
+Iterace jazyka $L$ označíme jako $L^*$, je to jazyk, tvořený slovy vzniklými zřetězením libovolného počtu slov z jazyka $L$. Libovolný počet, tedy může být i nula, prázdné slovo $\varepsilon$.
+\begin{equation}
+w \in L^* \iff \exists n \in N: \exists w_1,w_2\ldots w_n \in L : w = w_1 \cdot w_2 \ldots w_n
+\end{equation}
+\textbf{Zrcadlový obraz}
+Slova $w$ je slovo $w^r$. AHOJ = JOHA, zrcadlový obraz jazyka $L$, $L^r$ má všechny slova zrcadlově.
+\subsubsection{Deterministický konečný automat}
+Je definován jako pětice $(Q, \Sigma, \delta, q_0, F)$. Jazyk rozpoznávaný (přijímaný) daným DKA A ($L(A)$) je množina všech slov přijímaných tímto automatem. Pokud $L(A) = L$ je jazyk regulární, neboť jej přijímá DKA. Dva automaty jsou ekvivalentní pokud přijímají stejný jazyk 
+$A_1=A_2 \iff L(A_1)=L(A_2)$. Dosažitelný stav automatu -- pokud existuje nějaké slovo $w$ takové, že se automat jeho přečtením dostane ze vstupního stavu do daného stavu, v opačném případě je stav nedosažitelný.
+\begin{itemize}
+\item $Q$ -- konečná neprázdná množina stavů
+\item $\Sigma$ -- abeceda
+\item $\delta : Q \times \Sigma \rightarrow Q$ -- přechodová funkce
+\item $q_0$ -- počáteční stav
+\item $F: F \subset Q$ -- je množina přijímacích stavů
+\end{itemize} 
+
+
+Pravidla s jazyky:
+\begin{enumerate}
+\item Jestliže jsou jazyky $L_1$ a $L_2$ regulární, pak také $L_1 \cap L_2$ je regulární
+\item Jestliže jsou jazyky $L_1$ a $L_2$ regulární, pak také $L_1 \cup L_2$ je regulární
+\item \textbf{Doplněk jazyka} -- Jestliže je jazyk $L_1$ regulární, pak také $L_1'$ je regulární. U Automatu prohodíme přijímací stavy.
+\item \textbf{Zřetězení jazyků} -- výstupní stav(y) automatu přijímacího jazyk $A_1$ se propojí se vstupním stavem automatu přijímacího jazyk $A_2$
+$\varepsilon$-přechody.
+\item \textbf{Iterace jazyka} -- výstupní stav(y) automatu přijímacího jazyk se propojí s jeho vstupními stavy $\varepsilon$-přechody.
+\item Regulární jazyky jsou uzavřené vůči operacím sjednocení, průnik, doplněk, zřetězení, iterace.
+\item Jazyk je regulární právě tehdy, když je ho možné popsat regulárním výrazem.
+\end{enumerate}
+%---------------------------------------------------------------------------------------------
+\subsection{Algoritmy a algoritmické problémy, výpočetní modely}
+Algoritmus je přesný návod či postup, kterým lze vyřešit daný typ úlohy, konkrétní posloupnost instrukcí.
+Algoritmy slouží k řešení problémů. Problém — specifikace toho, co má algoritmus dělat obsahuje popis vstupu, popis výstupu, vztah mezi vstupy a výstupy. Algoritmus — konkrétní postup, jak při výpočtu postupovat.
+
+\subsubsection{Turingův stroj}
+Když rozšíříme deterministický konečný automat o pohyb čtecí hlavy oběma směry, možnost zápisu na vstupní pásku a prodloužíme jeho pásku do nekonečna tak získáme paměť. Turingův stroj je definován 6--ti elementy.
+\begin{itemize}
+\item Neprázdná konečná množina stavů
+\item Množina páskových symbolů (pásková abeceda)
+\item Množina vstupních symbolů
+\item Přechodová funkce
+\item Počáteční stav
+\item Koncový stav
+\end{itemize}
+Konfigurace je dána:
+\begin{itemize}
+\item Stavem řídící jednotky
+\item Obsahem pásky
+\item Pozicí hlavy
+\end{itemize}
+Turingův stroj nemusí dávat jen odpověď ano nebo ne, ale může realizovat i nějakou funkci, která každému slovu z abecedy přiřadí nějaké jiné slovo.
+\subsubsection{RAM stroj}
+Je idealizovaná model počítače. Nemá omezenou paměť, adresa může byt libovolné přirozené číslo. Velikost obsahu jednotlivých buňě není omezena. Čte data
+sekvenčně ze vstupu, který je tvořen sekvenci celých čísel, a ze vstupu lze pouze číst. Na výstup zapisuje sekvenčně data, zase celá čísla.
+
+Skládá se z \textbf{Programové jednotky} -- obsahuje program stroje RAM a ukazatel na pravě prováděnou instrukci. \textbf{Pracnovi paměť} - tvořena buňkami očíslovanými 0, 1, 2, atd. ; obsah buněk je možno čist i do nich zapisovat \textbf{Vstupní paska} – je z ni možné pouze čist. \textbf{Výstupní paska} – je na ni možno pouze zapisovat. Buňky 0 a 1 mají speciální význam a slouží jako registry stroje RAM:
+
+
+Buňka 0 – pracovní registr (akumulátor) – registr, který je jedním z operandů většiny instrukci a do kterého se ukládá výsledek většiny operaci.
+Buňka 1 – indexový registr – je použit při nepřímém adresovaní.
+
+
+%---------------------------------------------------------------------------------------------
+\subsection{Algoritmicky nerozhodnutelné problémy}
+Pro tyto problémy se dá dokázat, že pro ně nemohou existovat algoritmy, které by je řešily. Algoritmus řeší daný problém, jestliže se pro každý 
+vstup po konečném počtu kroků zastaví a vydá správný výstup. Pro následující problémy tedy platí, že pro každý algoritmus, který by se je pokoušel řešit, se dá najít příklad vstupu, pro který: se algoritmus nikdy nezastaví, nebo vydá chybný výstup. Nerozhodnutelná je celá řada problémů, které se týkají ověřování chování programů: Vydá daný program pro nějaký vstup odpověď Ano? Zastaví se daný program pro libovolný vstup? Dávají dva dané programy pro stejné vstupy stejný výstup?
+
+Vstup: Bezkontextové gramatiky $G_1$ a $G_2$.
+Otázka: Je $G_1 \cap G_2 = \emptyset$?
+
+%---------------------------------------------------------------------------------------------
+\subsection{Výpočetní složitost algoritmů, asymptotická notace}
+Odhady funkcí se vyjadřují pomocí tzv. asymptotické notace - např. se řekne, že časová složitost algoritmu MergeSort je $O(n \log n)$,
+ zatímco časová složitost algoritmu BubbleSort je $O(n^2)$.
+\begin{itemize}
+\item $O(f)$ -- množina všech funkcí, které rostou nejvýše tak rychle jako $f$
+\item $\Omega(f)$ -- množina všech funkcí, které rostou alespoň tak rychle jako $f$
+\item $\Theta(f)$ -- množina všech funkcí, které rostou stejně rychle jako $f$
+\end{itemize}
+
+Přesnou složitost algoritmu bývá problém vyjádřit. Ve většině případů nemusíme znát přesný počet provedených instrukcí a spokojíme se pouze s odhadem toho, jak rychle tento počet narůstá se zvětšováním vstupu. Asymptotická notace nám umožní zanedbat méně důležité detaily a odhadnout přibližně, jak rychle daná funkce roste.  Časová složitost algoritmu — jak závisí doba výpočtu na množství vstupních dat. Paměťová (resp. prostorová) složitost algoritmu — jak závisí množství použité paměti na množství vstupních dat. Typy složitosti:
+
+\begin{enumerate}
+\item \textbf{logaritmická} -- $f(n) \in \Theta(\log n)$
+\item \textbf{lineární} -- $f(n) \in \Theta(n)$
+\item \textbf{kvadratická} -- $f(n) \in \Theta(n^2)$
+\item \textbf{kubická} -- $f(n) \in \Theta(n^3)$
+\item \textbf{polynomiální} -- $f(n) \in O(n^k)$ pro nějaké $k > 0$
+\item \textbf{exponenciální} -- $f(n) \in O(c^{n^k})$ pro nějaké $c > 1$ a $k > 0$
+\end{enumerate}
+
+Asymptotické odhady se týkají pouze toho, jak roste čas s rostoucí velikostí vstupu. Neříkají nic o konkrétní době výpočtu. V asymptotické notaci mohou být skryty velké konstanty. Algoritmus, který má lepší asymptotickou časovou složitost než nějaký jiný algoritmus, může být ve skutečnosti rychlejší až pro nějaké hodně velké vstupy. Většinou analyzujeme složitost v nejhorším případě. Pro některé algoritmy může být doba výpočtu v nejhorším případě mnohem větší než doba výpočtu na 'typických' instancích. 

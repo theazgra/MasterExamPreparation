@@ -1,0 +1,180 @@
+\section*{Předmět Informatika a výpočetní technika}
+\noindent\rule{\textwidth}{1pt}
+
+\section{Úvod do teoretické informatiky}
+%---------------------------------------------------------------------------------------------
+\subsection{Interpretace a modely v predikátové logice 1. řádu. Rezoluční metoda}
+Formule predikátové logiky vyjadřují tvrzení o objektech, které mají nějaké vlastnosti a které jsou v určitých vzájemných vztazích.
+Interpretace či interpretační struktura je konkrétní soubor těchto objektů, jejich vlastností a vztahů. \textbf{Universum} je soubor všech objektů v dané interpretaci. Universem může být libovolná neprázdná množina. Objektům z tohoto universa se říká prvky universa. \textbf{Valuace} je přiřazení prvků universa proměnným.
+Pravdivost formulí závisí na dané interpretaci a valuaci. Ty interpretace, ve kterých daná formule platí, se označují jako její modely.
+V interpretacích se funkčním symbolům přiřazují pouze totální funkce, tj. funkce, jejichž hodnota je definovaná pro všechny možné hodnoty argumentů.
+
+\textbf{Formule v predikátové logice se skládá z:} logických spojek, kvantifikátorů, pomocných symbolů (',','(',')'), proměnných a predikátových symbolů.
+
+\subsubsection{Rezoluční metoda}
+Rezoluční metoda je jedním z algoritmů pro zjištění toho, zda daný závěr vyplývá z daných předpokladů. Dá se použít také pro zjištění, zda je daná formule tautologie, kontradikce nebo splnitelná. Pracuje s formulemi v KNF. Vytváří důkaz toho, že daný závěr plyne z předpokladů.  Jedná se o důkaz sporem — postupně generuje formule, které vyplývají z předpokladů. Výpočet může skončit dvěma různými způsoby: Podaří se najít spor, tj. podaří se odvodit formuli $\bot$ — pak platí, že závěr $\psi$ logicky vyplývá z předpokladů $\psi_1,\psi_2,\ldots ,\psi_n$ a nebo se nepodaří se odvodit $\bot$ a žádné další nové formule se nedají přidat — pak závěr $\psi$ z daných předpokladů nevyplývá.
+Pravidla:
+\begin{itemize}
+\item Pořadí literálů v klauzulích není podstatné.
+\item Vícenásobné výskyty stejných literálů v téže klauzuli je možno odstranit.
+\item Pokud je nově vygenerovaná klauzule stejná, jako nějaká dříve přidaná klauzule (a liší se nanejvýš pořadím literálů), nemá smysl ji přidávat.
+\item Klauzule, které obsahují zároveň literály $p$ a $\neg p$ jsou ekvivalentní $\top$ a je možné je odstranit.
+\item Klauzule je možno používat pro aplikaci rezolučního pravidla opakovaně (s jinými klauzulemi).
+\end{itemize}
+
+Příklad:
+\begin{enumerate}
+\item $\neg j \vee p$ -- předpoklad 1
+\item $\neg j \vee d \vee r$ -- předpoklad 2
+\item $\neg d \vee \neg p$ -- předpoklad 3
+\item $j$ -- 1. klauzule z negovaného závěru
+\item $\neg r$ -- 2. klauzule z negovaného závěru
+\item -----------------------------
+\setcounter{enumi}{5}
+\item $p$ -- rezoluce 1,4
+\item $d \vee r$ -- rezoluce 2,4
+\item $\neg d$ -- rezoluce 3,6
+\item $r$ -- rezoluce 7,8
+\item $\bot$ -- rezoluce 5,9, \textbf{SPOR}
+\end{enumerate}
+
+
+%---------------------------------------------------------------------------------------------
+\subsection[NKA, Regulární jazyky]{Nedeterministické konečné automaty, uzavřenost třídy regulárních jazyků vůči různým operacím na jazycích}
+\subsubsection{Nedeterministické konečné automaty}
+Z jednoho stavu může vest libovolný (i nulový) počet přechodů se stejným symbolem, může obsahovat vice než jeden počáteční stav. NKA přijímá dané slovo, pokud existuje alespoň jeden výpočet, který vede k přijetí slova. NKA jde převést na DKA.
+Definován jako pětice $(Q, \Sigma, \delta, I, F)$, kde:
+\begin{itemize}
+\item $Q$ -- konečná množina stavů
+\item $\Sigma$ -- konečná abeceda
+\item $\delta : Q\times \Sigma \rightarrow Q$ -- přechodová funkce
+\item $I \subseteq Q$ -- množina počátečních stavů
+\item $F \subseteq Q$ -- množina přijímacích stavů
+\end{itemize}
+
+Obecný NKA obsahuje navíc $\varepsilon$ přechody. Přechod pomocí prázdného slova. Definován jako stejná pětice, ale přechodová funkce má nyní tvar:
+$\delta : Q\times \{ \Sigma \cup \{\varepsilon\} \} \rightarrow Q$. ZNKA je možné převést na DKA podobnou konstrukcí jako NKA, je ale třeba do množin stavů přidat i všechny stavy dosažitelné z přidaných stavů nějakou sekvencí $\varepsilon$-přechodů.
+%---------------------------------------------------------------------------------------------
+\subsection{Regulární výrazy a jejich vztah ke konečným automatům}
+Regulární výrazy popisující jazyky nad abecedou $\Sigma$. $(\emptyset, \varepsilon, a) \quad(a \in \Sigma)$ jsou regulární výrazy. Jestliže 
+$\alpha$ a $\beta$ jsou regulární výrazy pak i $(\alpha + \beta)$, $(\alpha \cdot \beta)$, $(\alpha^*)$ jsou regulární výrazy.
+%---------------------------------------------------------------------------------------------
+\subsection{Bezkontextové jazyky a gramatiky}
+Je způsob popisu jazyka, nástroj ke generování slov jazyka. Formálně je bezkontextová gramatika definována jako čtveřice $G = (\Pi, \Sigma, S, P)$, kde:
+\begin{itemize}
+\item $\Pi$ je konečná množina neterminálních symbolů (neterminálů)
+\item $\Sigma$ je konečná množina terminálních symbolů (terminálů), přičemž $\Pi \cap \Sigma = \emptyset$
+\item $S \in \Pi$ je počáteční neterminál
+\item $P \subseteq \Pi \times (\Pi \cup \Sigma)^*$ je konečná množina přepisovacích pravidel
+\end{itemize}
+
+\textbf{Derivace} -- odvozování dalších řetězců z předchozích, užíváním přepisovacích pravidel na neterminály vyskytující se v předchozích řetězcích. Derivace délky $n$ - vytvoření $n$ přepisů.
+
+\textbf{Větné formy} -- jsou všechny řetězce, které lze vytvořit z počátečního neterminálu $S$ aplikací přepisovacích pravidel na neterminály (dokud nejsou všechny znaky v řetězci terminály).
+
+
+Jazyk $L(G)$ generovaný gramatikou $G$ je množina všech slov v abecedě, která lze odvodit nějakou derivací z počátečního neterminálu $S$ pomocí přepisovacích pravidel z $P$. Každé derivaci odpovídá derivační strom -- vrcholy jsou ohodnoceny terminály a neterminály, kořen počátečním neterminálem a listy terminály nebo $\varepsilon$, ostatní vrcholy neterminály. Pokud je některý vrchol ohodnocen neterminálem $A$, jeho potomci jsou ohodnoceni symboly pravé strany přepisovacího pravidla $A \rightarrow \alpha$. Derivace nemusí být ani levá ani pravá. Jednomu derivačnímu stromu může odpovídat více různých derivací, ale právě jedna levá a pravá.
+\begin{itemize}
+\item \textbf{Levá derivace} -- derivace, kdy v každém kroku nahrazujeme nejlevější neterminál
+\item \textbf{Pravá derivace} -- derivace, kdy v každém kroku nahrazujeme nejpravější neterminál
+\end{itemize}
+
+Gramatiky $G_1$ a $G_2$ jsou ekvivalentní, pokud generují tentýž jazyk $L(G_1) = L(G_2)$. Problém ekvivalence bezkontextových gramatik je algoritmicky nerozhodnutelný.
+
+\textbf{Nejednoznačná gramatika} -- existuje slovo $w$, kterému přísluší dva různé derivační stromy (dvě různé levé nebo pravé derivace).
+Někdy se nejednoznačná gramatika dá nahradit jednoznačnou, která generuje tentýž jazyk. Pokud to nejde, je gramatika podstatně nejednoznačná.
+
+\textbf{Bezkontextový jazyk} -- existuje bezkontextová gramatika, která tento jazyk generuje. Třída bezkontextových jazyků je uzavřená vůči zřetězení, sjednocení a iteraci, ne vůči doplňku a průniku.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Výpočetní složitost problémů, třídy složitosti}
+Algoritmy slouží k řešení různých problémů. V zadání musí být určeno co je množinou možných vstupů a výstupů a jaký je mezi nimi vztah. Když je výstup \textit{ano/ne} $\rightarrow$ jedná se o rozhodovací problémy. Specifikují se otázkou. (Např. Je n prvočíslo?) Je určen tudíž množinou možných vstupů a množinou vstupů pro které je odpověď Ano. Naproti tomu \textbf{optimalizační problém} je problém jehož úkolem je vybrat z množiny přípustných řešení takové které je optimální. Např. u problému Hledání nejkratší cesty v grafu je množina všech přípustných řešení tvořena všemi cestami v grafu.
+
+Předpokládejme že máme dán nějaký problém $P$. Jestliže existuje algoritmus, který ho řeší pak říkáme že problém $P$ je algoritmicky řešitelný. Jestliže $P$ je rozhodovací problém a existuje algoritmus, který ho řeší je problém $P$ rozhodnutelný. 
+
+\textbf{Složitost algoritmu} je funkce, která vyjadřuje, kolik kroků maximálně udělá daný algoritmus pro vstup velikosti $n$.
+
+\textbf{Složitost problému} je časová složitost 'nejoptimálnějšího' algoritmu, který řeší daný problem.
+
+Místo pojmu složitost problému se zavádí třídy složitosti. Třídy složitosti jsou podmnožiny množiny všech (algoritmických) problémů. Dana konkretní třída složitosti je vždy charakterizovaná nějakou vlastnosti, kterou mají problémy do ní patřící. Typickým příkladem takové vlastnosti je vlastnost, že pro daný problem existuje nějaký algoritmus s určitým omezením (např. časové nebo prostorové složitosti):
+\begin{itemize}
+\item Do dané třídy pak patři všechny problémy, pro které takovýto algoritmus existuje.
+\item Naopak do ni nepatři problémy, pro které žádný takový algoritmus neexistuje.
+\end{itemize}
+
+
+\textbf{Třídou časové složitosti} pro funkci $f : N \rightarrow N$ rozumíme  $T(f)$, též značenou $T(f(n))$, množinu těch problémů, které jsou řešeny RAMy s časovou složitostí v $O(f)$.
+
+\textbf{Třídou prostorové složitosti} $S(f)$, též $S(f(n))$, rozumíme třídu těch problémů, které jsou řešeny RAMy s prostorovou složitostí v $O(f)$.
+
+
+\subsubsection{Třída P (PTIME)}
+'Polynomial' time:
+\begin{equation}
+\textit{PTIME} = \bigcup_{k=0}^{\infty}T(n^k)
+\end{equation}
+V praxi se ukázalo, že pokud je pro nějaký problém nalezen polynomiální algoritmus, tak se obvykle podaří najít i algoritmus s nízkým stupněm polynomu,
+např. $<6$. PTIME je robustní, všechny rozumné navržené modely počítače jsou polynomiálně ekvivalentní. Polynomiální převod (jinak také redukce) problému $P_1$ na $P_2$ je převod R počítaný algoritmem s polynomiální časovou složitostí. Definice polynomiálního převodu nám tedy říká, že pokud umíme efektivně řešit problém $P_2$, pak  problém $P_1$  také  můžeme  efektivně  vyřešit  tím,  že  jej  (rychle)  převedeme  na  známý problém $P_2$. 
+\begin{equation}
+\begin{aligned}
+P_1 &: \Sigma^* \rightarrow \Sigma^* \\
+P_2 &: \Sigma^* \rightarrow \Sigma^* \\
+R &: \Sigma^* \rightarrow \Sigma^* : \forall w \in \Sigma^*, P_1(w) = P_2\left(R\left(w\right)\right)
+\end{aligned}
+\end{equation}
+
+
+\subsubsection{Třída NP (NPTIME)} 
+Problém patří do této třídy, pokud kladnou odpověď na něj lze prokázat výpočtem, který běží v polynomiálním čase. Definice  třídy NPTIME  se tak  týká  výhradně  rozhodovacích  problémů.
+\textbf{Nedeterministický Turingův stroj} je definován obdobně jako deterministický Turingův stroj, jen přechodová funkce dovoluje nedeterminismus, tedy možnost přechodu do více stavů stroje současně. Daný problém $P$ typu (\textit{ano/ne}) je rozhodován nedeterministickým Turingův strojem $M$, jestliže všechny výpočty $M$ jsou konečné a vydávají \textit{Ano} nebo \textit{Ne} a navíc platí:
+\begin{enumerate}
+\item jestliže  odpověď  na  otázku  problému $P$ pro  vstup $w$  je  \textit{Ano},  pak  existuje  (alespoň jeden) výpočet $M$ nad $w$ vydávající \textit{Ano}
+\item jestliže odpověď pro $w$ je \textit{Ne}, pak všechny výpočty $M$ nad $w$ vydávají \textit{Ne}
+\end{enumerate}
+
+Časová složitost nedeterministického Turingova stroje $M$ je zobrazeni $TM : N \rightarrow N$, kde $TM(n)$znamená maximální délku vypočtu pro vstup velikosti $n$.
+
+Třídou časové složitosti $NT(f)$ pro funkci $f : N \rightarrow N$ rozumíme třídu těch problémů, které jsou řešeny nedeterministickými Turingovými stroji s časovou složitostí v $O(f)$.
+\begin{equation}
+\textit{NPTIME} = \bigcup_{k=0}^{\infty}NT(n^k)
+\end{equation}
+\noindent \textbf{NPTIME  je  tedy  třída  těch  problémů,  které  jsou řešitelné  nedeterministickými  Turingovými stroji v polynomiálním čase.} 
+A $\textit{PTIME} \subseteq \textit{NPTIME}$ neboť deterministické algoritmy jsou podmnožinou těch nedeterministických.
+
+\subsubsection{Příklady NP time problémů}
+\textbf{SAT (splnitelnost booleovských formuli)}\\
+Vstup: Booleovská formule v KNF.\\
+Otázka: Je formule splnitelná? (Ano/Ne)
+
+\textbf{3--SAT}\\
+Je varianta problému SAT, ve které se omezujeme na formule určitého speciálního typu: \\
+Vstup: Formule v KNF, kde každá klauzule obsahuje pravě 3 literály. \\
+Otázka: Je formule splnitelná?
+
+\textbf{Problém nezávislé množiny (IS)}\\
+Vstup: Neorientovaný graf $G$, číslo $k$.\\
+Otázka: Existuje v grafu $G$ nezávislá množina velikosti $k$? (Nezávislá množina v grafu je podmnožina vrcholů grafu taková, že žádné dva vrcholy z teto podmnožiny nejsou spojeny hranou.)
+
+\textbf{Problém závislé množiny (IS)}\\
+Vstup: Neorientovaný graf $G$, číslo $k$.\\
+Otázka: Existuje v grafu $G$ závislá množina velikosti $k$? (každé dva vrcholy teto množiny jsou spojeny hranou)
+
+\textbf{Problém Barvení grafu 3 barvami}\\
+Vstup: Neorientovaný graf $G$\\
+Otázka: Lze vrcholy grafu $G$ obarvit 3 barvami tak, aby žádné dva vrcholy spojené hranou neměly stejnou barvu?
+
+\textbf{Vrcholové pokryti}\\
+Vstup: Neorientovaný graf $G$ a přirozené číslo $k$.\\
+Otázka: Existuje v grafu $G$ množina vrcholů velikosti $k$ taková, že každá hrana má alespoň jeden svůj vrchol v teto množině?
+
+\textbf{Problém hamiltonovského cyklu}\\
+Vstup: Orientovaný graf $G$.
+Otázka: Existuje v grafu $G$ hamiltonovský cyklus (orientovány cyklus procházející každým vrcholem pravě jednou)?
+
+\textbf{Problém Hamiltonovská kružnice}\\
+Vstup: Neorientovaný graf $G$. \\
+Otázka: Existuje v grafu $G$ Hamiltonovská kružnice (neorientovány cyklus procházející každým vrcholem pravě jednou)?
+
+\textbf{Problém obchodního cestujícího}\\
+Vstup: Neorientovaný graf $G$ s hranami ohodnocenými přirozenými čísly a číslo $k$. \\
+Otázka: Existuje v grafu $G$ uzavřená cesta procházející všemi vrcholy taková, že součet délek hran na této cestě (včetně opakovaných) je maximálně $k$ ?

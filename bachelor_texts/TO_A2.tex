@@ -1,0 +1,278 @@
+\section{Telekomunikační sítě}
+%---------------------------------------------------------------------------------------------
+\subsection{LAN a WAN sítě (Ethernet, ATM, Frame Relay).}
+\subsubsection{LAN a WAN sítě}
+Mezi hlavní patří klasifikace sítí podle rozlehlosti.
+
+
+Sítě LAN (Local area networks): jsou omezeny na jedno lokální místo – jeden podnik, místnost, budovu. Zajišťují sdílení lokálních prostředků (tiskáren, dat, aplikací). 
+Pro přenos dat se používají kabely. Nejrozšířenějšími technologiemi v LAN jsou Ethernet a WiFi. Přenosové rychlosti,stovky Mb až Gb/s.
+
+
+Můžeme se setkat i s termínem síťe MAN (Metropolitan area network). Metropolitní (městská) síť je menší než síť WAN, ale větší než síť LAN - udává se velikost do 75 km, kromě kabelových linek bývají jednotlivé sítě spojeny bezdrátově.
+
+
+Sítě WAN (Wide area networks): rozlehlé sítě. Skládají se z více vzájemně propojených sítí LAN, které od sebe mohou být vzdáleny desítky km. Jejich spojování se provádí nejčastěji telekomunikačními linkami či bezdrátově. Rozlehlost sítí může být různá, od sítí městských či firemních (firma s pobočkami ve více městech, zemích či kontinentech), až po nejznámější celosvětovou síť – Internet.
+
+\subsubsection{Ethernet}
+Ethernet je v informatice souhrnný název pro v současné době nejrozšířenější technologie pro budování počítačových sítí typu LAN (tj. domácí nebo firemní sítě). Ethernet se stal de facto standardem pro svoji jednoduchost a nízkou cenu a vytlačil z trhu ostatní alternativní technologie (např. ARCNET, ATM, FDDI). V současné době je ethernetové rozhraní s konektorem RJ-45 pro kroucenou dvojlinku standardním síťovým rozhraním prakticky všech notebooků, netbooků i základních desek běžných stolních počítačů. Norma IEEE 802.3 . Používá se v LAN sítích. Ethernetová rámec obsahuje hlavně preambuli, zdrojovou a cílovou MAC adresu a kontrolního součet. Používá se CSMA/CD metoda detekce kolizí. Stanice naslouchá, pokud je médium volné začne vysílat. Pokud začnou vysílat zároveň dvě stanice, vznikne kolize, pak se stanice odmlčí a znovu se pokoušejí vysílat. Mezi opakovanými pokusy a vysílání je náhodná prodleva.
+
+Přenosová média jsou koaxiální kabel, kroucená dvojlinka UTP či optické vlákno (jedno/dvou vidové). Značení Ethernetu má pevná pravidla. První číslice – 
+vyjadřuje rychlost, s níž standard pracuje. Slovo BASE popisuje signalizační metodu, ve většině případů jde o metodu BASE (je to označení pásma), přeložené pásmo je BROAD.
+Písmeno na konci popisuje kabel: F = optický kabel, T = nestíněná kroucená dvojlinka. Př. 10BASE-T. Verze Ethernetu:
+\begin{itemize}
+\item \textbf{Ethernet (10Base5 / 10BASE-T)} -- 10mb/s, pro koaxiální kabel, kroucenou dvojlinku a optické vlákno.
+\item \textbf{Fast Ethernet (100Base-F)} -- 100mb/s, definovaná standardem IEEE 802.3u, základní verze Ethernetu, pro kroucenou dvojlinku a optická vlákna. 
+\item \textbf{Gigabit Ethernet (1000Base-T)} -- 1Gb/s. Opět recykloval co nejvíce prvků z původního Ethernetu, teoreticky i algoritmus CSMA/CD. V praxi je ale gigabitový Ethernet provozován pouze přepínaně s plným duplexem. Pro optiku i kroucenou dvojlinku.
+\item \textbf{Desetigigabitový Ethernet (10GBase-T)} -- 10Gb/s. Médium zatím slouží hlavně optická vlákna a opět používá stejný formát rámce. Algoritmus CSMA/CD byl definitivně opuštěn, tato verze pracuje vždy plně duplexně. V současnosti (2008) byla vyvinuta jeho specifikace pro kroucenou dvojlinku s označení IEEE 802.3an.
+\item 40G, 100G \ldots
+\end{itemize}
+
+\image{ethernet.png}{Rámec Ethernetu}{0.8}
+
+\subsubsection{ATM}
+Standard, podporuje zajištění(QoS) - kvalita služeb, pro přenos hlasu a videa. Je přirozený následovník telefonních protokolů, ale už umí i data přepojování buněk s užitím virtuálních okruhů. Permanentní virtuální okruhy (Permanent Virtual Circuit – PVC), které jsou pevně dané správcem WAN sítě.
+Komutované virtuální okruhy (Switched Virtual Circuit – SVC), které jsou vytvářeny dynamicky na základě okamžitých potřeb. Dělení užitečných dat do buněk, každá buňka má přesně
+53 bajtů, díky velké složitosti se masově nerozšířilo jako Ethernet.
+K urychlení přepínání paketů v rozsáhlých sítích se používá metoda virtuální cesty. Virtuální cesta sdružuje  virtuální kanály, které mají stejnou cestu v ATM síti mezi dvěma koncovými zařízeními nebo síťovými uzly. Tímto způsobem se zvýší rozšiřitelnost ATM sítě, protože se podstatně sníží počet virtuálních spojení udržovaných páteřními ATM přepínači, čímž se zvýší jejich výkonnost.
+ATM využívá technologie SDH/SONET na fyzické vrstvě včetně jejich hierarchie přenosových rychlostí. Základní přenosovou rychlostí ATM je tedy 155 Mbit/s při použití  STM-1.
+Na virtuálním okruhu je možné přenášet i datagramy, kdy okruh negarantuje doručení datagramu příjemci, příkladem může být protokol Frame Relay. Pro garanci doručení lze využít protokol X.25, který se však téměř nevyužívá a dnes je už spíše nahrazen modernější technologií Frame Relay.
+
+\subsubsection{Frame relay}
+Nástupce technologie X.25, ale odstranil HDLC potvrzování zpráv (=UDP). Technologie přepínání paketů WAN - trvalé virtuální spojení typu bod-bod vytvořené provozovatelem
+(může být i dočasné pro konkrétní spojení).
+Nepoužívá kontrolu chyb - menší zatížení sítě; Činnosti spojené s obnovou ztracených nebo poškozených paketů jsou ponechány na protokolech vyšších vrstev (např. TCP).
+Fast packet switching - umožňuje přenášet velké objemy dat s vysokou přenosovou rychlostí ve velkých sítích přes jedno fyzické spojení realizuje několik virtuálních spojení.
+Adresace pomocí DLCI, které má pouze lokální význam (může se v sítí opakovat). LMI protokol pro správu a řízení sítě. Dnes se už moc nepoužívá.
+
+Rámec protokolu Frame Relay nemá samostatné adresní a řídící pole. Má společné pole záhlaví, které obsahuje identifikaci virtuálního okruhu DLCI a jiné řídící informace.
+Délka záhlaví je 1 až 4 B. Každý byte záhlaví obsahuje bit EA, který určuje, zdali je následující bajt stále součástí záhlaví a nebo přenášených dat. V případě, že je EA=0, pak i následující bajt je stále součástí záhlaví, pokud je EA=1, znamená to, že tento bajt je posledním bajtem záhlaví. DLCI je pole, které identifikuje virtuální okruh. 
+Bit C/R určuje, zdali jde o příkaz (C) nebo odpověď (R). Nastavený bit DE signalizuje, že rámec může být zahozen, aby se předešlo zahlcení sítě. Bit nastavuje zařízení ukončující virtuální okruh. BECN / FECN: v případě zahlcení virtuálního okruhu signalizuje síť odesílateli zahlcení nastavením bitu BECN a příjemci nastavuje zahlcení nastavením bitu FECN.
+
+\image{frame_relay.png}{Rámec Frame relay}{0.75}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Transportní sítě (SDH, DWDM, MPLS)}
+\subsubsection{SDH - Synchronous Digital Hierarchy}
+Synchronní digitální hierarchie vznikla, protože rostly nároky na kapacitu přenosových prostředků a přidávání dalších stupňů do PDH nebylo efektivní. Ve srovnání s IP sítí je v síti SDH základním prvkem periodicky se opakující posloupnost časových úseků, ve kterých jsou přenášena data předem definovanou cestou, nutná synchronizace. 
+Nejmenší přenosová rychlost SDH systémů je 2,048 Mb/s (E1). Linky s přenosovými rychlostmi se zvětšují násobky této rychlosti. SDH má časové multiplexování.
+Protokolový model SDH se skládá ze čtyř vrstev, ale celá SDH technologie přísluší fyzické vrstvě OSI modelu. SDH poskytuje vyšší přenosové rychlosti než PDH, proto při tvorbě rozsáhlé přenosové sítě se používá SDH technologie jako páteřní síť a PDH technologie jako přístupová síť. Synchronní digitální hierarchie umožňuje přenos velkých objemů informací bez ohledu na jejich původ. Má rychlosti pro transport pevně synchronizovány přes celou síť, řešeno pomocí atomových hodin. Tento synchronizační system dovoluje mezistátním sítím pracovat synchronně, a znatelně redukuje množství vyrovnávacích pamětí mezi jednotlivými prvky sítě. Jako všechny synchronní hierarchie se i vysokorychlostní SDH vyznačuje jednotnou dobou trvání rámce 125 mikro sekund.
+
+Předchůdkyní SDH je synchronní digitální hierarchie na optických vláknech SONET (synchronous optical network), která byla standardizována v USA. Standardizovány všechny funkce, z nichž nejzákladnější jsou rozhraní, multiplexování, formát ve kterém je signál zpracováván a přenášen, složení záhlaví, údržba, řízení, schopnost změny konfigurace sítí a další. Pokud IP síť používá technologii SONET, tak se takové řešení nazývá Packet over SONET (POS).
+
+\textbf{Hlavní znaky SDH:} řízené prokládání po bytech, pomocí adresace informačního pole, tzv. ukazatele (PTR – pointer) se lze dostat k žádané informaci včetně kanálového intervalu (timeslotu) i v rámcích signálů vyšších řádů. Veškeré signály SDH se multiplexují synchronně s pevným časovým vztahem mezi signálem vyššího a nižšího řádu. Vysoké přenosové rychlosti, nejnižší stupeň SDH začíná v oblasti, kde PDH končí (140 – 155 Mbit/s). Přenosovým médiem jsou optická vlákna. Způsob řízení přenosové sítě je standardizován, zajištění bezchybného provozu i při poruchách. Umožňuje multiplexování evropské, americké a japonské hierarchie -> více pomocných a výplňkových informací v rámci SDH.
+
+\subsubsection{DWDM - Dense Wavelength-division multiplexing}
+Multiplexování různých optických vlnových délek ($\lambda$) v rámci jednoho optického vlákna. Technologie DWDM funguje na principu přepínání kanálů, kde každá vlnová délka představuje oddělený přenosový kanál nesoucí vlastní data. DWDM zařízení se nezabývají samotným přenosem dat na jednotlivých vlnových délkách, tj. nestarají se o způsob kódování dat a definování přenosového protokolu. Multiplexování a přepínání vlnových délek se děje přímo s optickými signály, bez nutnosti jejich přeměny na elektrické signály jako je tomu u SDH a optického Ethernetu. Přenos vlnových délek v oblasti kolem 1550 nm. V DWDM sítích se využívá protokol G.709. Tento protokol zapouzdřuje přenášená data a poskytuje funkce pro provozování, správu, údržbu a zavádění služeb v systému. Zajišťuje také dopřednou opravu chyb v přenášených datech (forward error correction, FEC) 
+Opravné metody výrazně snižují chybovost přenosu a umožní prodloužit vzdálenosti dosažitelné bez regenerace signálu až na několikanásobek. Mimo jiné dokáže protokol signalizovat problémy na přenosové trase. 
+
+
+Přestože princip DWDM technologie je na první pohled velmi jednoduchý, optická zařízení, která takovéto kapacity umožňují, jsou složitá. Musejí se také vyrovnat s řadou fyzikálních nástrah, jako je útlum signálu, šum, chromatická disperze, polarizační disperze, nelineární efekty, vzájemné rušení sousedních kanálů i s některými dalšími. 
+
+\subsubsection{MPLS - MultiProtocol Label Switching}
+Technologie MPLS kombinuje techniku virtuálních kanálů s funkcemi z protokolového modelu TCP/IP. Jedno zařízení, označované jako LSR (Label Switch Router), hraje současně roli klasického IP směrovače a přepínače virtuálních kanálů. MPLS používá směrovací protokoly k zjištění topologie sítě. Současně používá techniku virtuálních kanálů k přenosu dat uvnitř MPLS sítě. Celé MPLS slouží k tomu, že dokáže přenášet data 2. vrstvy ISO-OSI modelu přes WAN síť. (normálně chodí až 3. vrstva), což může nevyhovat. Pakety v MPLS jsou přepínané - nejsou směrované. 
+
+Přepínací tabulky LSR směrovačů se vytvářejí pomocí signalizačního protokolu LDP (Label Distribution Protocol). (ekvivalent RIP nebo OSPF). Pomocí přepínacích tabulek LSR směrovačů LDP protokol vytváří virtuální cestu – LSP (Label Switch Path). Hraniční LSR směrovač se označuje jako LER (Label switch Edge Router). Vhodná pro ISP jako transportní síť.
+
+Pro urychlení cesty paketů sítí princip přepínání značek, založený na důsledném oddělení procesu směrování (routing) od vlastního předávání paketů (forwarding).
+Směrovač s podporou MPLS, LSR na okraji sítě příchozímu paketu přidělí značku, která se pak dále používá pro jeho předávání mezi směrovači (typu P, provider) uvnitř MPLS sítě. LSR pak mohou datagram předávat dál výhradně na základě svých individuálních jednoduchých tabulek značek. Předávání datagramů je tedy triviální záležitost. Všechny datagramy se stejnou značkou (všechny datagramy v rámci třídy FEC, Forwarding Equivalence Class) se posílají stejným způsobem, stejnou cestou sítí LSP přes příslušné LSR.
+
+Lokální převáděcí MPLS tabulka (tabulka značek) tedy jednoznačně určuje směrovací rozhodnutí tak, že pro každou lokální/vstupní hodnotu značky paketu přijatého z určitého rozhraní jednak přiřazuje, do kterého výstupního rozhraní má být tento paket dále směrován, a jednak definuje novou hodnotu lokální/výstupní značky (která přepisuje původní hodnotu lokální/vstupní značky). Tabulka je generována z kombinace informací získaných z lokálně používaného (IP) směrovacího protokolu a protokolu distribuce značek implementovaného mezi jednotlivými MPLS přepínači. Samotný řídicí mechanizmus (směrování, signalizace) je na rozdíl od vlastního předávání datagramů podstatně komplexnější. mechanizmus signalizace protokol LDP (Label Distribution Protocol). MPLS nelze z hlediska referenčního modelu OSI snadno zařadit: nemá vlastní síťovou adresaci a směrování a přitom pracuje s nejrůznějšími síťovými protokoly a síťovými technologiemi. K tomu mu slouží různý formát pro zapouzdření dat a značky. Někdy se MPLS proto označuje jako technologie vrstvy 2+.
+%---------------------------------------------------------------------------------------------
+\subsection{Internet, Bezpečné transportní služby (VPN, IPsec, SSL)}
+Je celosvětový systém navzájem propojených počítačových sítí ('síť sítí'), ve kterých mezi sebou počítače komunikují pomocí rodiny protokolů TCP/IP. \\
+Historie
+\begin{enumerate}
+\item \textbf{1969 - ARPANET} -- fyzické propojení 4 uzlů (univerzit) rychlostí 50 kb/s, protokol NCP
+\item \textbf{1973 - TCP a Ethernet}
+\item \textbf{1979 - USENET} --  apliakce klient- server pro výměnu informací
+\item \textbf{1981 - CSNET} -- síť propojující instituce mimo ARPANET
+\item \textbf{1983 - MILNET} -- rozdělení ARPANETU na vojenskou a civilní část - 100\% použití TCP/IP a vyvinutí DNS
+\item \textbf{1985 - NSFNET} -- páteřní síť mezi americkými superpočítačovými centry
+\end{enumerate}
+
+\subsubsection{Bezpečné transportní služby}
+Umožňují zabezpečený přenos dat přes veřejnou síť, jakou je Internet, s využitím nástrojů pro zajištění autentizace, integrity a důvěrnosti přenášených informací.
+V IP sítích se používají především dvě takové technologie – SSL (Secure Socket Layer) a IPSec (Internet Protocol Security). 
+Technologie SSL pracuje na prezentační vrstvě OSI modelu a je závislá na zabezpečované aplikaci. Zatímco technologie IPSec pracuje na síťové vrstvě a je nezávislá na použité aplikaci. Komplexnějším řešením zabezpečení provozu jsou virtuální privátní sítě (VPN). VPN představuje službu, která uživatelům veřejné sítě nabízí bezpečnost srovnatelnou s bezpečností privátní sítě. Jde především o ochranu provozu uživatelů privátní sítě před útoky ze strany uživatelů veřejné sítě. Uživatelé VPN sítě mohou také používat privátní adresy.
+\subsubsection{IPSec}
+Zabezpečení datové komunikace v IP sítích. Zajišťuje autentizaci, integritu a důvěrnost přenášených dat. Pomocí šifrování dat. IPSec vytváří zabezpečený kanál mezi dvěma síťovými zařízeními (počítači nebo směrovači). IPSec pracuje na síťové vrstvě, nezávislý jak na použité aplikaci, tak na technologii spojové vrstvy.
+
+\subsubsection{SSL}
+Pokud je zabezpečení komunikace zajištěno protokoly vyšších vrstev OSI modelu, je toto řešení nezávislé na použitých transportních technologiích (IP, IPX, Ethernet, ATM, …). 
+Tato vlastnost je nespornou výhodou. Na druhou stranu jsou pak jednotlivé aplikace závislé na použitém bezpečnostním protokolu.
+Tímto způsobem je možné zabezpečit jen jednotlivé aplikace-přenos souborů, webová nebo e-mailová komunikace. Pro každou aplikaci se vytváří samostatná verze zabezpečovacího protokolu.
+
+\subsubsection{VPN}
+Síť je považována za privátní, pokud ji určitá společnost celou vlastní a má nad ní plnou kontrolu. Budování privátních sítí je ale velmi nákladné. VPN technologie umožňuje sdílet síťovou infrastrukturu mezi více uživateli, ale zachovat vlastnosti privátních sítí jako je vysoká bezpečnost, dostupnost, předvídatelná propustnost sítě a nezávislost při návrhu adresování. VPN sítě se dělí na dva typy, v závislosti na tom, kdo je provozuje:
+\begin{itemize}
+\item \textbf{Customer provided VPN (CPVPN)} -- o správu sítě stará klient. ISP se stará jen o zajištění přístupu do veřejné sítě.
+\item \textbf{Provider provisioned VPN (PPVPN)} -- o vybudování a údržbu zákaznických VPN sítí stará ISP. Jednotlivé VPN různých zákazníků jsou od sebe izolovány.
+\end{itemize}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Signalizace v telekomunikačních sítích}
+Nezbytnou podmínkou pro fungování jakékoliv telekomunikační sítě je existence signalizace. Signalizace je soubor informací, které staví, udržují a ruší telekomunikační spojení.
+Účastnická signalizace je signalizace mezi telefonem a telefonní ústřednou.(v LAN) Síťová signalizace je signalizace mezi ústřednami. (ve WAN)
+\subsubsection{SS7}
+Užívaná v ISDN a GSM sítích (tedy hlasové okruhy, nikoliv datové). Systém SS7 byl navržen pro meziústřednová i mezisíťová rozhraní. Tato se nedostane ke koncovému uživateli.
+Je oddělena signalizační síť od hovorové. (ve významu jiný packet), ale signalizace probíhá po společném signalizačním kanálu, odděleně od kanálu, který přenáší hovor. (ve významu po stejném drátu). Určená pro použití v sítích se spojováním okruhů, jako je například ISDN a GSM. Signalizace obsluhující hovorové spojení jde jinou cestou než vlastni hovor. Např. jeden signalizační kanál (64 kbit/s) obslouží 1000 až 2000 hovorových kanálů. Signalizační kanál může být v libovolném kanálovém intervalu PCM rámce.
+Zavedení této signalizace je nutnou podmínkou pro zavedeni ISDN a realizaci. Signalizační síť SS7 nebo značena CSS7 je tvořena prvky:
+\begin{itemize}
+\item \textbf{SSP (Signaling Switching Point)} -- vytváří, ukončuje nebo přepíná telefonní spojení
+\item \textbf{STP (Signaling Transfer Point)} -- směrovače v signalizační síti, směřují signalizační zprávy, většinou jako součástí tranzitních ústředen
+\item STP (Signaling Transfer Point) -- databáze poskytující informace pro doplňkové služby.
+\end{itemize}
+
+\noindent Každý signalizační bod, či transportní signalizační bod musí mít jednoznačnou identifikaci v rámci sítě, používá se adresa nazývaná \textbf{SPC (Signaling Point Code)}.
+
+\subsubsection{Další hlasové signalizace}
+\begin{itemize}
+\item \textbf{CCITT No.5} -- registrová signalizace (přijímá číslo od volajícího a předává ho ústředně), stará, má problémy s časováním zpráv, analogová
+\item \textbf{MFC-R2} -- registrová signalizace, nástupce CCIT číslo 5, analogová
+\item \textbf{DSS1} -- Účastnická signalizace, digitální, pro připojení koncových ISDN zařízení anebo pobočkových ústředen.
+\item \textbf{QSIG} -- signalizace určená pro vzájemné propojování pobočkových ústředen, kterou si vytvořili výrobci PBX, umí například optimalizaci směrování v sítích a je bohatší na služby než obě výše zmíněné.
+\end{itemize}
+
+Hlavní 2 signalizace ve VoIP: H.323 vs SIP. Boj je zhruba na úrovni jako kdysi ATM vs. Ethernet. H.323 je robustní, všechno umí a tak je těžké ho implementovat. Naopak SIP je jednoduchý (ekvivalent Ethernetu v počátcích) a tak se jej snadněji zavedlo.
+
+\subsubsection{SIP - Session Initiation Protocol}
+Signalizační protokol pro sestavení, dohled a rozpad spojení mezi dvěma a více účastníky komunikace. SIP je textově orientovaný, strukturou podobný protokolu http.
+Pro přenos multimediálních dat jsou obvykle používané protokoly RTP, RTCP.
+Uvnitř signalizační zprávy protokolu SIP je zapouzdřena zpráva jiného protokolu, který specifikuje kódování pro multimediální data, jejich parametry a čísla portů, na kterých mají být data vysílána nebo přijímána. UDP transport na portu 5060, SIP dnes už jednoduchý není, jednoduchostí vynikal kolem roku 2007.
+IP entity jsou identifikovány použitím SIP URI (sip:user:password@host:port;uri-parameters?headers.
+
+Zprávy protokolu:
+\begin{itemize}
+
+
+\item \textbf{INVITE} -- žádost o inicializaci spojení nebo změnu parametrů již probíhajícího spojení (re-INVITE),
+\item \textbf{ACK} -- metoda potvrzující přijetí konečné odpovědi na žádost INVITE,
+\item \textbf{BYE} -- zpráva užívána k ukončení sestaveného spojení,
+\item \textbf{CANCEL} -- ke zrušení sestavovaného spojení,
+\item \textbf{REGISTER} -- žádost k registraci či odregistrování, váže se logická URI uživatele s jeho fyzickým umístěním (IP adresa a port), konkrétně jde o položky FROM a CONTACT ze SIP hlavičky,
+\item \textbf{OPTIONS} -- speciální typ metody k zjištění vlastností (možností) SIP entity.
+\end{itemize}
+
+\subsubsection{H.323}
+Obsahuje zprávy pro inicializaci i ukončení spojení (SETUP, ALERTING, CONNECT, RELEASE COMPLETE, atd..), koncepce byla převzata z ISDN H.323 infrastruktura je rozdělena do zón. Zóna je množina zařízení řízených jedním Gatekeeperem.  Využívá signalizace RAS (Registration/Administration/Status). Pomocí signalizace RAS se realizuje řízení přístupů k prostředkům sítě.
+
+\image{voip_sig.png}{Porovnání signalizací ve VoIP}{0.8}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Přístupové sítě (xDSL, DOCSIS, FTTx)}
+Rozdělení: dle přenosového média:
+\begin{enumerate}
+\item metalické (dvoudrátové vedení, koax. kabel, ...)
+\item optické vlákno
+\item bezdrátové vedení
+\end{enumerate}
+Rozdělení: dle technologie
+\begin{enumerate}
+\item xDSL, DOCSIS
+\item PON, FTTx
+\item WLAN, WIMAX
+\end{enumerate}
+
+\subsubsection{xDSL}
+DSL je technologie, která umožňuje využít stávající vedení telefonu pro vysokorychlostní přenos dat. Jednotlivé typy xDSL se liší v X v používaném frekvenčním pásmu, maximální rychlosti a dosahu. Obecně platí, že čím větší vzdálenost od ústředny nebo méně kvalitní vedení, tím nižší maximální dosažitelná rychlost. Pro běžné domácí nasazení se obvykle využívá asymetrická varianta (ADSL), kde je vyšší přenosová rychlost ve směru k zákazníkovi (anglicky download) a nižší rychlost směrem od zákazníka (anglicky upload). Ve firemním prostředí se používají symetrické varianty, kde jsou obě rychlosti stejné. Principem, že xDSL může existovat vedle POTS (klasické pevné linky), protože se pohybuje ve vyšší frekvenčním pásmu. Většina xDSL existuje s telefonem, pouze HDSL a SHDSL ne. (už jsou ale zastaralé resp. pomalé)
+\begin{itemize}
+\item \textbf{ADSL} -- asymetrická linka, využívající měděné kroucené dvojlinky, sdílení s telefonní linkou, až 8/1 Mbit/s
+\item \textbf{VDSL} -- asymetrická linka až 52 / 6,4 Mbit /s (podle vzdálenosti od ústředny)
+\item \textbf{SHDSL} -- symetrická linka, max. 4,5 Mbit/s při použití 2 párů kroucené dvojlinky
+\item \textbf{SDSL} -- symetrická linka, max. 2,3 Mbit/s
+\item \textbf{HDSL} -- symetrická linka, max. 4 Mbit/s při použití 2 párů kroucené dvojlinky
+\end{itemize}
+
+hlavní komponenty sítě:
+\begin{itemize}
+\item \textbf{DSLAM} -- Koncentrátor u ISP, spojuje data a telefon do 'jednoho drátu', který vede k zákazníkovi.
+\item \textbf{SPLITTER} -- pásmo DSL a POTS lze oddělit pásmovým filtrem, tzv. splitter, pasivně rozděluje telefon od dat u zákazníka
+\item \textbf{MODEM} -- moduluje a demoduluje signál na telefonní drát a vytváří z něj počítačovou síť na straně zákazníka
+\end{itemize}
+
+Annex specifikuje přesné frekvenční rozmezí. Existují 2 Annexy a to A a B, v česku se používá B a opravdu se liší jen frekvencemi. Data se modulují pomocí DMT (Discrete MultiTone), s modulacemi je to složitější, rozlišují se i subkanály. Budoucnost GDSL – svazek paralelních přípojek VDSL2 zvyšuje propustnost.
+
+\subsubsection{DOCSIS -- Data Over Cable Service Interface Specification (DOCSIS)}
+Nejpoužívanější protokol pro přenos dat po koaxiálním vedení (CATV) nebo prostřednictvím novějších rozvodů HFC (Hybrid Fiber Coax). Rozvody kabelové televize jsou použity jako přístupová síť, pro obousměrný provoz nutná výměna aktivních prvků (zesilovačů) v síti pro přenos v obou směrech. Na straně poskytovatele nutná optimalizace televizních programů (přeskupení) a uvolnění potřebného pásma pro DOCSIS. Upstream 5-42 MHz a downstream 91-857 MHz.
+
+Komponenty: \textbf{headend / CMTS} moduluje signál ze vstupního rozhraní Ethernet na koaxiální kabel a naopak. Pomocí slučovače (combiner) se sloučí TV signál (dnes často DVB-T, DVB-C) s daty a přenese jedním koaxiálním kabelem.
+
+
+\textbf{Cable Modem} je umístěn u zákazníka, pracuje na L1 a L2 vrstvě RM OSI, pomocí splitteru se oddělí TV služby a DOCSIS. Splitter může být součástí modemu. Připojení k počítači je obvykle realizováno přes standardní rozhraní Ethernet.
+
+Podstatné rozdíly mezi EU a USA co do rozčlenění frekvenčního pásma užívaného pro televizní vysílání, specifikace DOCSIS proto bylo nutno pro použití v Evropě modifikovat. Tato změna byla publikována pod jménem EuroDOCSIS. Výrazným rozdílem je také odlišná šířka TV kanálu. Evropské kabelové sít používají televizní systémy PAL, které mají šířku kanálu 7 MHz, na rozdíl od severoamerického NTSC, který má šířku kanálu 6 MHz. To umožnuje vyšší rychlost přenosů dat ve směru k zákazníkovi i od něj. Je asymetrický.
+
+\subsubsection{FTTx}
+Fiber to the x (FTTx) je obecný pojem pro všechny druhy širokopásmové síťové architektury, která využívá optické vlákno, používaných pro tzv. poslední míli telekomunikace 
+Telekomunikační průmysl rozlišuje několik odlišných konfigurací. V současnosti jsou široce užívané tyto termíny:
+\begin{itemize}
+\item \textbf{FTTN -- Fiber-to-the-node} - vlákno je zakončeno v (uzlu), umístěné až několik kilometrů od objektu zákazníka, konečná přípojka je z mědi.
+\item \textbf{FTTC -- Fiber-to-the-cabinet} nebo Fiber-to-the-curb - velmi podobné FTTN,je blíže k prostorám uživatele; vzdálenost do 300 metrů.
+\item \textbf{FTTB -- Fiber-to-the-building} nebo Fiber-to-the-basement - vlákno dosahuje hranice budovy.
+\item \textbf{FTTH -- Fiber-to-the-home} - vlákno dosahuje obvodu obytného prostoru.
+
+
+\end{itemize}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Bezdrátové přístupové sítě (WiFi, WIMAX, Bluetooth, Zigbee)}
+\subsubsection{WiFi}
+Několik standardů IEEE 802.11 popisujících bezdrátovou komunikaci v počítačových sítích. Využívá bezlicenčního frekvenčního pásma, ideální pro levné, ale výkonné sítě bez nutnosti pokládky kabelů. Využívá pouze 2 vrstvy ISO-OSI:
+\begin{enumerate}
+\item \textbf{Fyzickou} -- definuje modulaci (QPSK, BPSK, 16QAM, 64QAM) a techniku spektra (IR, DSSS -- direct sequence spread spectrum, FHSS, OFDM)
+\item \textbf{Linková} -- LLC a MAC
+\end{enumerate}
+
+Úspěch Wi-Fi přineslo využívání bezlicenčního pásma, což má negativní důsledky ve formě silného zarušení příslušného frekvenčního spektra a dále častých bezpečnostních incidentů. Následníkem Wi-Fi by měla být bezdrátová technologie WiMAX, která se zaměřuje na zlepšení přenosu signálu na větší vzdálenosti. (ale nikdy se tak nestalo).
+Wi-Fi zajišťuje komunikaci na linkové vrstvě, zbytek je záležitost vyšších. Typicky se proto přenášejí zapouzdřené ethernetové rámce. Na sdíleném médiu je používán protokol 
+CSMA/CA. Struktura sítě ADhoc nebo infrastrukturní. v ČR schváleno pouze 13 kanálů, odstup jednotlivých kanálů 5 MHz, šířka jednoho kanálu 22 MHz 
+frekvenční pásmo poskytuje pouze tři kanály, které se vzájemně nekryjí max. povolený vysílaný výkon je EIRP = 100 mW.  MIMO s 802.11n nejvonější 802.11ac.
+
+
+\subsubsection{WIMAX}
+WiMAX je definován v řadě norem IEEE 802.16. Standard pro bezdrátovou distribuci dat zaměřený na venkovní sítě. Wi-Fi chápeme jako standard pro vnitřní sítě.
+WiMAX je první otevřené řešení pro bezdrátový přístup v pásmech 2–11 GHz (nelicencované i licencované pásma), velký dosah signálu – teoreticky kolem 50 km při přímé viditelnosti a několik kilometrů v městské zástavbě při využití spojů bez přímé viditelnosti. kapacita připojení do 75 Mb/s, kterou lze rozdělit mezi desítky klientů a každému z nich garantovat stabilní přenosovou rychlost. Další vlastností je zabudovaná podpora QoS. Řízení kvality služeb umožňuje na wimax spojích provozovat například IP telefonii nebo přenášet video v reálném čase a v dostatečné kvalitě.
+
+\subsubsection{Bluetooth}
+Vytvořen byl v roce 1994 firmou Ericsson a míněn jako bezdrátová náhrada za sériové drátové rozhraní RS-232.
+Technologie Bluetooth je definovaná standardem IEEE 802.15.1. Spadá do kategorie osobních počítačových sítí, tzv. PAN (Personal Area Network). Vyskytuje se v několika verzích, z nichž v současnosti nejvíce využívaná je verze 2.0 a je implementována ve většině aktuálně prodávaných zařízení. Rozhraní Bluetooth 4.0, u kterého slibuje větší dosah (až 100 metrů), menší spotřebu elektrické energie a také podporu šifrování AES-128.
+
+Bluetooth pracuje v ISM pásmu 2,4 GHz (stejném jako u Wi-Fi). K přenosu využívá metody FHSS, kdy během jedné sekundy je provedeno 1600 skoků (přeladění) mezi 79 frekvencemi s rozestupem 1 MHz. 
+Tento mechanismus má zvýšit odolnost spojení vůči rušení na stejné frekvenci. Je definováno několik výkonových úrovní (1 mW, 2,5 mW, 100 mW), s nimiž je umožněna komunikace do vzdálenosti cca 10–100 m. Udávané hodnoty ovšem platí jen ve volném prostoru. Pokud jsou mezi komunikujícími zařízeními překážky (typicky například zdi), dosah rychle klesá. Většinou ovšem nedochází ke skokové ztrátě spojení, ale postupně se zvyšuje počet chybně přenesených paketů.
+Přenosová rychlost se pohybuje okolo 720 kbit/s (90 KiB/s) a je možné vytvořit datový spoj symetrický případně asymetrický. Jednotlivá zařízení jsou identifikována pomocí své adresy BD\_ADDR (BlueTooth Device Address) podobně, jako je MAC adresa u Ethernetu. Operační módy: Single-slave, Piconet (více slave až 7, na 1 mastera), Scatternet (více masterů v 1 sítí.)
+
+
+Bluetooth vs. Wi-Fi
+Implementačně je u Wi-Fi s Bluetooth podobný tzv. ad-hoc způsob komunikace. Wi-Fi pracuje na linkové vrstvě síťového modelu ISO/OSI, nestará se o typ přenášeného protokolu. Naproti tomu Bluetooth řeší sám o sobě vyšší, až aplikační vrstvy síťového modelu. Z toho vyplývá, že pro každý typ připojitelného zařízení musí mít Bluetooth definován speciální protokol pomocí kterého s ním bude komunikovat. Tento způsob komplikuje vývoj softwarové podpory Bluetooth (tj. ovladač zařízení), ale i kompatibilitu jednotlivých implementací, které mohou obsahovat chyby, které způsobí nefunkčnost komunikace. Na druhou stranu však zjednodušují vývoj software, který dané zařízení používá a konfiguraci jednotlivých zařízení, která mají být propojena.
+
+\subsubsection{Zigbee}
+ZigBee je bezdrátová komunikační technologie vystavěná na standardu IEEE 802.15.4. 
+Podobně jako Bluetooth je určena pro spojení nízkovýkonových zařízení v sítích PAN na malé vzdálenosti do 75 metrů. Díky použití multiskokového ad-hoc směrování umožňuje komunikaci i na větší vzdálenosti bez přímé radiové viditelnosti jednotlivých zařízení. Primární určení směřuje do aplikací v průmyslu a senzorových sítích.
+Pracuje v bezlicenčních pásmech (generální povolení) přibližně 868 MHz, 902–928 MHz a 2,4 GHz. Přenosová rychlost činí 20, 40, 250 kbit/s.
+
+
+ ZigBee je navržen jako jednoduchá a flexibilní technologie pro tvorbu i rozsáhlejších bezdrátových sítí u nichž není požadován přenos velkého objemu dat. K jejím hlavním přednostem patří spolehlivost, jednoduchá a nenáročná implementace, velmi nízká spotřeba energie a v neposlední řadě též příznivá cena. Hlavní uplatnění v IoT.
+ 
+Díky různorodosti předpokládaných aplikací standard definuje tři základní režimy přenosu dat
+\begin{itemize}
+\item periodicky se opakující (přenos dat z čidel)
+\item nepravidelné přenosy (externí události, např. stisknutí tlačítka uživatelem)
+\item opakující se přenosy u nichž je požadavek na malé zpoždění (bezdrátové počítačové periferie – klávesnice a myši).
+\end{itemize}
+%---------------------------------------------------------------------------------------------
+\subsection{Mobilní rádiové sítě (1. až 4. generace)}
+\subsubsection{1. Generace}
+80.léta. Čistě analogové sítě využívající přístupovou metodu FDMA (Frequency Division Multiple Access). Primárně na hlasovou komunikaci. Nejvýznamnější zástupce patří bezesporu systém NMT (Nordic Mobile Telephony), americký AMPS (Advanced Mobile Phone System) nebo britský TACS (Total Access Communication System). 
+Samotný systém NMT se stal 1.9. 1981 prvním úspěšně spuštěným buňkovým systémem. Průkopníkem na poli mobilních komunikací v Evropě byl švédský operátor Televerket (dnes Telia), jenž spustil svou mobilní síť pouze o měsíc později. V 80. letech nebyl NMT však jediným evropským standardem, mnoho zemí vyvíjelo svůj vlastní systém. Existovalo asi 6 různých vzájemně nekompatibilních standardů a 11 modifikací. S rostoucím zájmem docházela kapacita sítí 1G. Nutnost standartu, zrození evropského standardu 2. generace GSM (Global System for Mobile Communications).
+\subsubsection{2. Generace}
+ETSI definovala GSM 1989 buňkový standart, od 1998 skupina 3GPP. Změna přístupové metody na TDMA a FDMA. V Americe začal v této době dominovat systém Qualcommu CDMAOne založený na kódové metodě přístupu CDMA. Hlavně přechod z analogového světa na digitální, snížení vysílacího výkonu, menší velikost buněk, lepší odolnost vůči chybá,, zvýšení bezpečnosti.
+Představeno SMS, email.
+Nadstavbové technologie GPRS (General Packet Radio Service), doplňuje 2G o zcela nové komponenty (2.5G). Představitelem 2.75G se stala technologie EDGE (Enhanced Data Rates for GSM Evolution) zvyšující přenosovou rychlost použitím nové techniky modulace (8-PSK). Rovněž pro americký CDMAOne systém byla vytvořena nadstavba, a to v podobě systému cdma2000 1xRTT.
+
+\subsubsection{3. Generace}
+Vysokorychlostní, vysokokapacitní, efektivněji využívající přenosové spektrum, zpřístupňující multimediální služby koncovým uživatelům. Tyto sítě, jejímž evropským zástupcem je UMTS (Universal Mobile Telecommunication System), americkým CDMA2000 (3X), pracují s metodou přístupu CDMA, jsou plně digitální a zaměřeny především na podstatné zvýšení přenosové rychlosti.
+
+\subsubsection{4. Generace}
+LTE (Long Term Evolution) je technologie určená pro vysokorychlostní Internet v mobilních sítích. Formálně jde o technologii spadající do standardu 3G, přičemž její následovník – LTE Advanced – bude již plnohodnotné 4G řešení. Teoretická rychlost stahování (downlink) je 172,8 Mbps a odesílání (uplink) 57,6 Mbps.
+Zabývá se především rychlým přenosem dat neboli vysokorychlostním internetem. Hlas jsou poprvé v historii mobilních síti data a ne hlas jako doposud.

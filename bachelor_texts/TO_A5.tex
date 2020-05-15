@@ -1,0 +1,195 @@
+\section{Programování}
+%---------------------------------------------------------------------------------------------
+\subsection[Principy objektově orientovaného programování]{Principy objektově orientovaného programování (OOP) - třída, objekt, zapouzdření, dědičnost, polymorfismus}
+\subsubsection{Objektově orientované programování}
+Objektově-orientované programování definuje program jako soubor spolupracujících komponent (objektů) s přesně stanoveným chováním a stavem. Metody OOP napodobují vzhled a 
+chování objektu z reálného světa s možností velké abstrakce. 
+
+\textbf{Objekty} -- jednotlivé prvky modelované reality (jak data, tak související funkčnost) jsou v programu seskupeny do entit, nazývaných objekty. Objekty si pamatují svůj stav a navenek poskytují operace (přístupné jako metody pro volání). 
+
+\textbf{Abstrakce} -- programátor, potažmo program, který vytváří, může abstrahovat od některých detailů práce jednotlivých objektů. Každý objekt pracuje jako černá skříňka, která dokáže provádět určené činnosti a komunikovat s okolím, aniž by vyžadovala znalost způsobu, kterým vnitřně pracuje.
+
+\textbf{Zapouzdření (Encapsulation)} -- zaručuje, že objekt nemůže přímo přistupovat k 'vnitřnostem' jiných objektů, což by mohlo vést k ne konzistenci. Každý objekt navenek zpřístupňuje rozhraní, pomocí kterého (a nijak jinak) se s objektem pracuje.
+
+\textbf{Skládání} -- Objekt může obsahovat jiné objekty. 
+
+\textbf{Delegování} -- Objekt může využívat služeb jiných objektů tak, že je požádá o provedení operace.
+
+\textbf{Dědičnost (Inheritance)} – objekty jsou organizovány stromovým způsobem, kdy objekty nějakého druhu mohou dědit z jiného druhu objektů, čímž přebírají jejich schopnosti, ke kterým pouze přidávají svoje vlastní rozšíření. Tato myšlenka se obvykle implementuje pomocí rozdělení objektů do tříd, přičemž každý objekt je instancí nějaké třídy. Každá třída pak může dědit od jiné třídy (v některých programovacích jazycích i z několika jiných tříd).
+
+\textbf{Polymorfismus} -- odkazovaný objekt se chová podle toho, jaké třídy je instancí. Pokud několik objektů poskytuje stejné rozhraní, pracuje se s nimi stejným způsobem, ale jejich konkrétní chování se liší podle implementace. U polymorfismu podmíněného dědičností to znamená, že na místo, kde je očekávána instance nějaké třídy, můžeme dosadit i instanci libovolné její podtřídy, neboť rozhraní třídy je podmnožinou rozhraní podtřídy. U polymorfismu nepodmíněného dědičností je dostačující, jestliže se rozhraní (nebo jejich požadované části) u různých tříd shodují, pak jsou vzájemně polymorfní.
+
+\textbf{Třída (Class)} -- je základní konstrukční prvek objektově orientovaného programování sloužící jako předpis pro objekty, pro instance třídy. Třída definuje jejich data a metody. Data mohou být buď proměnné primitivního datového typu nebo odkazy na další objekty. Metoda se v objektově orientovaném programování říká procedurám a funkcím.Třída slouží jako šablona pro vytváření instancí; instancemi tříd jsou objekty. (Samotná třída tedy nepředstavuje vlastní informace, jedná se pouze o předlohu; data obsahují až objekty.)
+ 
+\textbf{Interface (rozhraní)} -- předepisuje třídě, která od ní bude odvozena, jaké metody (případně properties, vlastnosti) musí implementovat. Odvozený objekt může implementovat i další metody. Interface nedefinuje (nespecifikuje) žádné proměnné ani neobsahuje na-implementované metody (pouze jejich hlavičky). Přitom třída může implementovat libovolný počet rozhraní (na rozdíl od dědičnosti).
+
+\textbf{Abstraktní třída}
+Je to takový hybrid mezi rozhraním a klasickou třídou. Od klasické třídy má schopnost implementovat vlastnosti (proměnné) a metody, které se na všech odvozených třídách budou vykonávat stejně. Od rozhraní zase získala možnost obsahovat prázdné abstraktní metody, které si každá odvozená podtřída musí na-implementovat sama. S těmito výhodami má abstraktní třída i pár omezení, a to že jedna podtřída nemůže zdědit víc abstraktních tříd a od rozhraní přebírá omezení, že nemůže vytvořit samostatnou instanci (operátorem new).
+
+\begin{table}[h!]
+\begin{tabular}{l | l}
+\hline
+\textbf{Abstraktní třída} & \textbf{Rozhraní} \\
+\hline
+Může obsahovat instanční proměnné & neobsahuje instanční proměnné, (\textit{V C\# Properties.}) \\
+Může obsahovat abstraktní i na-implementované metody & Všechny metody bez implementace \\
+Třída může(\textit{měla by}) dědit jen z jedné třídy & Třída může implementovat více rozhraní\\
+\hline
+\end{tabular}
+\end{table}
+\textbf{Inheritance (Dědičnost)} Dědičnost (inheritance) třídy $T_2$ z třídy $T_1$ je nástroj, s jehož pomocí třída $T_2$ implicitně definuje (tzv. dědí) všechny datové a funkční členy třídy $T_1$, jako kdyby byly definovány přímo ve třídě $T_2$. Třídu $T_1$ nazýváme základní (nadřízená, nadřazená, base class) třída, třídu $T_2$ odvozená (podřízená, podřazená, derivovaná, derived class) třída.
+
+%---------------------------------------------------------------------------------------------
+\subsection[Algoritmy vyhledávání]{Algoritmy vyhledávání v poli – sekvenční, půlením intervalu, neformální objasnění jejich složitosti}
+Metody vyhledávání můžeme klasifikovat podle různých hledisek. Metody interního vyhledávání pracují s daty uloženými ve vnitřní paměti počítače, zatím co metody externího vyhledávání pracují s daty na vnějších pamětech počítače (stejné jak u algoritmů třídění).  Statické metody vyhledávání pracují nad datovou strukturou, která se v průběhu zpracování nemění, zatímco dynamické vyhledávání předpokládá, že v datové struktuře mohou v průběh zpracování vznikat nové a zanikat nepotřebné položky.  Jiné dělení může přihlížet k tomu, zda se pracuje s původními klíči nebo s transformovanými klíči (které vedou k tabulkám s rozptýlenými položkami) – a jsou známa i jiná hlediska. Algoritmy pro vyhledávání úzce souvisí s algoritmy pro řazení a jejich volba může záviset na řadě okolností. Prvotním účelem řazení je urychlení vyhledávání
+
+\subsubsection{Sekvenční vyhledávání (lineární)}
+Nejjednodušší způsob vyhledávání. Při vyhledávání prvku v posloupnosti se tato posloupnost postupně prohledává od prvního prvku až do nalezení hledaného prvku. V případě, že dojde k prohledání celé posloupnosti až do konce a žádný prvek posloupnosti neodpovídá hledanému prvku, pak se tento prvek v posloupnosti nenachází. Lineární vyhledávání použijeme tehdy, pokud nemáme žádné informace o uspořádání prvků struktury nebo pokud nám datová struktura (například spojový seznam) neumožňuje efektivnější způsob vyhledávání.
+Složitost sekvenčního vyhledávání je v nejhorším případě $O(n)$ - v nejhorším případě se totiž hledaný prvek může nacházet na posledním místě, nebo vůbec. V průměru je složitost $O(\frac{n}{2})$.
+\subsubsection{Binární vyhledávání}
+Tento algoritmus vyhledávání je efektivnější než předchozí sekvenční. Posloupnost, ve které se bude vyhledávat, musí být však setříděna.  Princip vyhledávání pak probíhá tak, že se podíváme na prvek uprostřed prohledávané struktury a porovnáme ho s hledaným prvkem ( pokud se shodují prvek je nalezen). V případě, že má vyšší nebo nižší hodnotu než hledaný prvek se rozhodne prvek vyhledávat v adekvátní polovině. Toto zjištění nám tudíž vyloučí celou polovinu prvků. Princip opět opakujeme pro danou polovinu, dokud nenalezneme hledaný prvek (nebo zjistíme, že tam vůbec není). Tento postup má složitost $O(\log_2 (n))$.
+%---------------------------------------------------------------------------------------------
+\subsection[Algoritmy třídění]{Algoritmy třídění – klasifikace, popis činnosti, neformální objasnění složitosti vybraných algoritmů}
+Pojmem třídění rozumíme proces, přeuspořádání prvků určité množiny reprezentované posloupností, podle určitého uspořádání (v matematickém smyslu). Tento proces provádíme většinou pro následné zrychlení procesu vyhledávání. Máme-li posloupnost $S_1,S_2,\ldots ,S_n$, tak chceme dostat takovou posloupnost pro kterou platí:
+\begin{enumerate}
+\item Posloupnost je seřazena, tj. $S_1 \leq S_2 \leq \ldots S_n$
+\item Seřazena posloupnost je permutací vstupní posloupnost, tj. obsahuje stejné prvky jen v jiném pořadí.
+\end{enumerate}
+
+\textbf{Vnitřní třídění} -- je takové třídění, kdy předem známe tříděné prvky a máme k dispozici dostatek volné paměti, abychom je uvnitř této paměti mohli setřídit. Úloha vnitřního třídění založeného na porovnávání dvou prvků má v nejhorším případě složitost $O(n \log n)$(to je výborná složitost HeapSortu). 
+Některé algoritmy (QuickSort, nejrychlejší algoritmus v průměrném případě) mohou v ideálním případě dosáhnout i lineární složitosti, jiné zase dosahují složitostí vyšších $O(n^2)$.
+
+\textbf{Vnější třídění} -- je případ, kdy jednotlivé prvky předem neznáme a musíme je ze vstupu postupně načítat v pořadí, v jakém přicházejí. Toto třídění se provádí typicky v situacích, kdy máme operační paměti málo a nejsme schopni v ní všechny prvky uložit. Ve vnějším třídění proto využijeme vnější paměti - pracujeme s jednotlivými soubory na disku. Teoreticky tak můžeme setřídit daleko větší množství dat, operace s vnější pamětí jsou však také podstatně pomalejší. Práce se soubory rychlé algoritmy podstatně degraduje.
+
+\subsubsection{Třídění výběrem \textit{SelectSort, HeapSort}}
+Přesouvají postupně největší (nejmenší) prvek ze seřazované množiny do výstupní lineární struktury. 
+\textbf{SelectSort} se vyplatí pouze na malé pole, složitost $O(n^2) = O(N+(N-1)+\ldots + 2 + 1)$. Postup algoritmu:
+\begin{enumerate}
+\item Tříděná posloupnost je rozdělená na dvě části - setříděnou a nesetříděnou
+\item Z nesetříděné části vybereme minimální prvek, který po nalezení prohodíme s prvním prvkem nesetříděné části (hodíme ho nakonec setříděné části) velikost setříděné části se zvýší o 1
+\item Pokračujeme dále dokud nesetřídíme celé pole
+\end{enumerate}
+
+\textbf{HeapSort} je nejvyspělejší metodou postavenou na principu výběru. Zásadním rysem této metody je způsob vyhledání maxima. Za tím účelem definujeme strukturu na základě binárního stromu, pro jejíž každý uzel bude platit, že všechny uzly obou podstromů jsou menší než daný uzel. Takovou stromovou strukturu budeme nazývat halda.
+
+\textbf{Halda}reprezentující posloupnost $S$ mohutnosti $n$, je úplný binární strom výšky $h \leq 1$ s $n$ vrcholy, a následujícími vlastnostmi:
+\begin{enumerate}
+\item všechny listy se nachází ve vzdálenosti $h$ nebo $h-1$ od kořene
+\item všechny listy na úrovni $h$ jsou vlevo od listů na úrovni $h-1$
+\item každému vrcholu tohoto stromu je přiřazen jeden prvek posloupnosti $S$ tak, že všem jeho potomkům jsou přiřazeny menší prvky.
+\end{enumerate}
+Halda se dá výhodně reprezentovat v poli tak, že do pole postupně zapíšeme všechny prvky přiřazené jednotlivým poschodím, zleva doprava, od kořene směrem k listům. Při této reprezentaci platí, že prvek ležící na  i-té pozici má levého potomka na pozici $2i$, pravého potomka na pozici $2i+1$. Z podmínek haldy potom plyne, že maximální prvek je vždy v kořenu haldy to znamená na první pozici pole. Časová složitost haldy je: $O(n \log n)$.
+
+Postup algoritmu: Pole se rozdělí na levou část (haldu) a pravou část (seřazená posloupnost).
+\begin{enumerate}
+\item Vlož postupně všechny prvky do haldy (celé pole je halda).
+\item Odeber největší prvek a přidej ho na začátek seřazené posloupnosti (tzn. přesuň prvek na poslední pozici v haldě a o jedna posuň rozdělení na haldu a seřazenou posloupnost).
+\item Pokračuj, dokud je halda neprázdná
+\end{enumerate}
+
+\subsubsection{Třídění vkládáním \textit{InsertSort, Binary Insert Sort, Shell Sort}}
+Zařazují (zatřiďují) do seřazené výstupní lineární struktury postupně všechny prvky seřazované množiny (v libovolném pořadí).
+
+\textbf{InsertSort} Princip je podobný metodě, jakou si karetní hráč obvykle seřazuje karty v ruce, když po rozdání karet bere karty ze stolu jednu po druhé a vkládá je mezi už seřazené karty. Posloupnost tříděných položek je opět rozdělena na setříděnou a nesetříděnou část. Z nesetříděné části vybíráme prvky a zařazujeme je do setříděné části tak, aby tato část zůstala setříděná. Tento postup opakujeme tak dlouho, dokud není nesetříděná část prázdná. Protože počet kroků algoritmu je $N$, celková časová složitost právě popsaného algoritmu je opět $O(n^2)$.
+
+\textbf{Binary Insert Sort} Tato varianta metody řazení vkládáním používá k vyhledání pozice pro zařazovaný prvek mechanismus binárního vyhledávání (půlení intervalu). Binární vyhledávání musí v případě rovnosti klíčů nalézt pozici za nejpravějším ze shodných klíčů.
+
+\textbf{Shell Sort} (řazení se snižujícím se přírůstkem) je kvadratický řadící algoritmus podobný Insertion sortu. Ačkoliv má také složitost $O(n^2)$, tak je z algoritmů tohoto typu nejvýkonnější. Shell sort řeší problém prvků, které mají být řazeny v opačné části pole, než je jejich původní umístění. Tyto prvky musí v běžných kvadratických algoritmech procestovat postupně celé pole. Přístup Shell sortu je v tomto ohledu jiný, protože neporovnává sousední prvky, ale každém svém kroku porovnává prvky v určité vzdálenosti (tato vzdálenost se v každém kroku snižuje, až se zmenší na 1). Tím se zajistí, že prvky zařazené na špatnou stranu pole přeskočí na tu správnou velice rychle. 
+\begin{enumerate}
+\item Prvky rozdělíme na 4 skupiny tak, že prvky každé skupiny jsou od sebe vzdáleny o krok a každou skupinu zvlášť seřadíme vhodnou jednoduchou metodou. $h_3 = 4$
+\item V další etapě rozdělíme všechny prvky pole na 2 skupiny tak, že prvky každé skupiny jsou od sebe vzdáleny o krok. $h_2 = 2$
+\item V poslední etapě seřadíme celou posloupnost všech prvků. $h_1 = 1$
+\end{enumerate}
+\subsubsection{Třídění výměnou \textit{BubbleSort, ShakerSort}}
+\textbf{BubbleSort} Postupně porovnává dvojice sousedních prvků, řekněme zleva doprava. Pokud v porovnávané dvojici následuje menší číslo po větším, tak se tato dvě čísla prohodí. Celý postup se opakuje, dokud probíhají nějaké výměny. Protože algoritmus skončí, když nedojde k žádné výměně, je pole na konci algoritmu setříděné. Popsaný algoritmus se tedy zastaví po nejvýše N průchodech a jeho celková časová složitost v nejhorším případě je $O(n^2)$, neboť na každý průchod spotřebuje čas $O(n)$.
+Výhodou tohoto algoritmu oproti předchozím dvěma je, že je tím rychlejší, čím blíže bylo zadané pole k setříděnému stavu – pokud bylo úplně setříděné, tehdy algoritmus spotřebuje jen lineární čas, $O(n)$.
+
+\textbf{ShakerSort} Je stabilní řadící algoritmus se složitostí $O(n^2)$, je vylepšením Bubble sortu, kdy se na rozdíl od něho pole neřadí pouze jedním směrem, ale oběma (metoda prochází pole střídavě zleva doprava). Každá iterace algoritmu se tedy skládá z dvou fází:
+\begin{enumerate}
+\item při dopředné stoupá nejlehčí bublinka vzhůru
+\item pří zpětné klesá nejtěžší bublinka ke dnu.
+\end{enumerate}
+Tímto postupem se předejde nedostatku Bubble sortu tzv. problému želv a zajíců, který spočívá v tom, že vysoké hodnoty probublají na konec pole rychle, ale ty nízké postupují na začátek velmi pomalu.
+\subsubsection{Třídění sléváním \textit{MergeSort}}
+\textbf{Mergesort} je řadící algoritmus na principu slévání již seřazených částí pole, který vymyslel v roce 1945 John von Neumann. Mergesort je stabilní algoritmus se složitostí $O(n \log n)$. Nevýhodou mergesortu je potřeba pomocného pole velikosti n. Princip MergeSortu:
+\begin{enumerate}
+\item Rozdělí neseřazenou množinu dat na dvě podmnožiny o přibližně stejné velikosti
+\item Seřadí obě podmnožiny
+\item Spojí seřazené podmnožiny do jedné seřazené množiny
+\end{enumerate}
+Vezmeme původní pole a rozdělíme jej na poloviny a toto zopakujeme pro obě poloviny pole. Tímto se dostaneme až k elementárnímu případu - jednomu prvku - který je triviálně seřazen. Při návratu z rekurze již jen sléváme obě poloviny pomocí procedury, kterou jsme si popsali výše.
+
+\subsubsection{Třídění rozdělováním \textit{QuickSort}}
+Rozděluje postupně všechny (pod)množiny na dvě další podmnožiny tak, že všechny prvky jedné podmnožiny jsou menší než všechny prvky druhé podmnožiny.
+\begin{enumerate}
+\item Zvolme v zadaném poli prvek a říkejme mu \textit{pivot}.
+\item Nyní můžeme pole přeházet tak, aby na jedné straně byly prvky menší než \textit{pivot}, na druhé větší než \textit{pivot} a \textit{pivot} samotný byl umístěn přesně mezi těmito částmi.
+\item Prvky v obou částech pak setřídíme rekurzivním zavoláním téhož algoritmu (opět se umístí \textit{pivot} a přeházejí se prvky). Proceduru opakujeme tak dlouho, dokud nedojde k seřazení pole (nenarazíme na podproblémy jednotkové velikosti, které jsou vyřešeny triviálně).
+\end{enumerate}
+Malý problém nastává ve volbě \textit{pivota}. Pro naše účely by se hodilo, aby po přeházení prvků levá i pravá část pole byly přibližně stejně velké. Nejlepší volbou \textit{pivota} by tedy byl medián tříděného úseku, tj. prvek takový, jenž by byl v setříděném poli přesně uprostřed. Přeuspořádání jistě zvládneme v lineárním čase a pokud by \textit{pivoty} na všech úrovních byly mediány, pak by počet úrovní rekurze byl $O(\log n)$ a celková časová složitost $O(n \log n)$. Ačkoli existuje algoritmus, který medián pole nalezne v čase $O(n)$, V QuickSortu se obvykle nepoužívá, jelikož konstanta u členu $n$ je příliš velká v porovnání s pravděpodobností, že náhodná volba \textit{pivota} algoritmus příliš zpomalí. Většinou se \textit{pivot} volí náhodně z dosud nesetříděného úseku – zkrátka se sáhne někam do pole a nalezený prvek se prohlásí za \textit{pivot}. Quick sort se používá v případě velkých polí, protože u malých se nám pravděpodobnost zvolení správného středového \textit{pivota} snižuje a tudíž je časová složitost větší. U malých problémů jsou výhodnější algoritmy jako je Insert Sort nebo Shell Sort.
+
+\subsubsection{Přihrádkové řízení \textit{BucketSort, Radix Sort}}
+Pokud by tříděné objekty obsahovaly vedle klíčů i nějaká data, můžeme je místo pouhého počítání rozdělovat do přihrádek podle hodnoty klíče a pak je z přihrádek vysbírat v rostoucím pořadí klíčů. Tomuto algoritmu se říká přihrádkové třídění (BucketSort) jeho víceprůchodovou variantu je (RadixSort), která je vhodnější pro větší hodnoty klíčů.
+
+\textbf{Bucket Sort} počítá s rovnoměrným rozložením vstupních dat, které následně rozdělí do $n$ přihrádek podle intervalu, do kterého hodnota řazeného prvku patří. Tyto přihrádky poté nechá seřadit jiným stabilním algoritmem a zřetězí je, čímž je pole seřazeno. Nejprve se tedy vytvoří přihrádky pokrývající celý rozsah prvků, poté se projde posloupnost a každý prvek se vloží do příslušné přihrádky. Dále se každá neprázdná přihrádka seřadí a nakonec se prvky z přihrádek vloží zpět do pole.
+
+\textbf{Radix Sort}je stabilní řadící algoritmus používaný především k řazení řetězců. Radix Sort je řadicí algoritmus, který řadí celá čísla postupným procházením všech číslic. Jelikož celočíselné hodnoty mohou reprezentovat řetězce (jména, data apod.), a dokonce i vhodně formátovaná čísla s plovoucí desetinnou čárkou, Radix Sort není omezen pouze na řazení celých čísel. Většina digitálních počítačů vnitřně reprezentuje všechna data jako binární  čísla, nejpřirozenější je pro něj tedy řazení podle skupin bitů (tj. podle číslic o základu 8, 16, 32, 256 apod.).
+
+Radix Sort má dvě verze a to LSD (\textit{Least Significant Digit}) a MSD (\textit{Most Singificant Digit}). LSD Radix Sort zpracovává reprezentace celých čísel od nejméně významné číslice a pohybuje se směrem k nejvíce významné číslici. MSD pracuje naopak. Reprezentace celých  čísel, které jsou zpracovávány  řadícími algoritmy jsou nazývány klíče. Tyto klíče mohou existovat samostatně nebo být asociovány k jiným datům. \textbf{LSD} Radix Sort obvykle používá následující řadící princip: krátké klíče jsou před delšími klíči a klíče stejné délky se řadí lexikograficky. Toto se shoduje s normálním řádem celých čísel. \textbf{MSD} radix sort používá lexikografické třídění, které je vhodné pro třídění  řetězců, nebo celých čísel pevné délky.
+
+Popis LSD Radix Sort:
+\begin{enumerate}
+\item Vezmi nejméně významnou číslici každého klíče.
+\item Seskup klíče založené na té číslici (LSD), ale také zachovej originální pořadí klíčů (Tento krok dělá LSD Radix Sort stabilním.)
+\item Opakuj seskupující proces s každou další více významnou číslicí.
+\end{enumerate}
+Řazení v kroku 2 je obvykle prováděno Bucket Sortem nebo Counting Sortem, které jsou účinné v případě, že je zde pouze malé množství číslic, což obvykle je.
+
+Popis MSD Radix Sort (rekurzivního):
+\begin{enumerate}
+\item Vezmi nejméně významnou číslici každého klíče.
+\item Seřaď seznam prvků založených na této číslici, seskupení prvků se stejnou číslicí do jedné přihrádky.
+\item Rekurzivně seřaď každou přihrádku, začni s další číslicí vpravo.
+\item Pospojuj přihrádky dohromady ve správném pořadí.
+\end{enumerate}
+
+%---------------------------------------------------------------------------------------------
+\subsection[Datové struktury]{Datové struktury – pole, seznam, fronta, zásobník, strom, graf}
+
+\subsubsection{Pole}
+Patří k nejjednodušším datovým strukturám. Přístup k prvkům pole je určen udáním hodnoty indexu a není závislý na přístupu k jinému prvku. Proto říkáme, že pole je strukturou s přímým nebo náhodným přístupem. Počet prvků pole může být určen pevně nebo se může měnit v době zpracování. V prvním případě nazýváme pole statickým a ve druhém dynamickým.
+Dynamické pole - je struktura, který realizuje pole s proměnnou délkou. Umožňuje vkládání na libovolné místo, odebírání z libovolného místa. Je třeba na-implementovat režii spojenou se zvětšováním pole.
+
+\subsubsection{Lineární seznam (spojový seznam)}
+Je dynamická datová struktura, která se podobá poli. Je určena k ukládání dat předem neznámé délky. Základní stavební jednotkou spojového seznamu je uzel, který vždy obsahuje ukládanou hodnotu a ukazatel (referenci) na následující prvek (další uzel), přičemž poslední uzel ukazuje na null. Toto uspořádání nám umožňuje traverzování ale pouze jedním směrem -> Jednosměrně zřetězený seznam. V obousměrně zřetězeném spojovém seznamu prvky obsahují nejen ukazatel na další prvek, ale také ukazatel na předchozí prvek => obousměrné traverzování. 
+
+\subsubsection{Zásobník}
+Zásobník je v informatice obecná datová struktura (tzv. abstraktní datový typ) používaná pro dočasné ukládání dat. Pro zásobník je charakteristický způsob manipulace s daty - data uložena jako poslední budou čtena jako první (last-in, first-out = LIFO).
+Ukazatel na aktuální prvek v zásobníku (posledně vložený) se nazývá vrchol zásobníku. Opakem je dno zásobníku. Operace vložení do zásobníku se tradičně nazývá Push a vyjmutí se nazývá Pop. Jako třetí se u zásobníku implementuje dotaz Empty, který indikuje prázdnost zásobníku. Navíc se někdy přidává dotaz Top, který vrací prvek na vrcholu zásobníku, aniž by ho vyjmul (nedestruktivní varianta Pop).
+
+\subsubsection{Fronta}
+Fronta je v programování abstraktní datový typ. Prvky se z fronty odebírají v tom pořadí, v jakém se do fronty vkládají (FIFO = first-in, first-out). Jako příklad si můžeme představit frontu nakupujících v obchodě. Operace vložení prvku se tradičně nazývá Put (Enqueue), operace odebrání potom Get (Dequeue). Obdobně jako u zásobníku je definován dotaz Empty, který indikuje prázdnost fronty. Pokud provedeme operaci Get nad prázdnou frontou, nastane chyba podtečení. Pro implementaci fronty jsou již potřeba dva ukazatele. Jeden ukazatel určuje hlavu (začátek) fronty tj. ukazuje na prvek, který je na řadě pro odebrání, druhým ukazatelem je ocas (konec) fronty. Tento ukazatel ukazuje na poslední prvek ve frontě.
+
+\subsubsection{Graf}
+Grafem nazýváme uspořádanou trojici uzlů, hran a incidencí (spojení hrany s uzlem). Zobrazení incidence přiřazuje dvojici uzlů právě jednu hranu.
+
+\textbf{Neorientovaný graf} je graf, kdy incidence přiřazuje hraně neuspořádanou dvojici uzlů. Neorientovaný graf, který neobsahuje rovnoběžné hrany, nazýváme prostým grafem, v opačném případě multigrafem. V případě neexistence smyček (hrana z uzlu X zpět do uzlu X) se jedná o prostý graf bez smyček (obyčejný graf).
+
+\textbf{Orientovaný graf}, kdy incidence přiřazuje hranám uspořádané dvojice uzlů. Analogicky s neorientovaným grafem mluvíme o orientovaném multigrafu a prostém orientovaném grafu. 
+
+\textbf{Souvislý graf} je takový neorientovaný graf, mezi jehož libovolnými uzly existuje sled. 
+
+\textbf{Komponenta grafu }je maximální souvislý podgraf. Analogicky pro orientovaný graf hovoříme o silně souvislém grafu a silné komponentě.
+
+\textbf{Stupeň uzlu} grafu ($\delta$) je počet hran incidujících s daným uzlem. Součet stupňů uzlů je roven dvojnásobku počtu hran.
+
+\textbf{Sled grafu} je libovolná posloupnost uzlů a hran. Uzly $u$ a $v$ jsou krajní uzly sledu $S$. Délkou sledu je počet obsažených hran a značí se $d(S)$ . Za předpokladu, že uzly $u$ a $v$ jsou totožné, hovoříme o uzavřeném sledu. Všechny ostatní sledy jsou otevřené, včetně sledu nulové délky.
+
+\textbf{Tah grafu} - je sled, kde jsou všechny hrany různé.
+
+\textbf{Cesta grafu} je tah, ve kterém, každý jeho uzel inciduje s nejvýše dvěma hranami. 
+
+\textbf{Kružnice grafu} je uzavřená cesta.
+
+\subsubsection{Strom}
+Z hlediska teorie grafů je stromem každý souvislý graf bez kružnic o $|U|-1$ hranách. Jedná se o hierarchickou strukturu, kde každý otec má 0 až mnoho dětí a každé dítě právě jednoho otce takovým způsobem, že v této struktuře nejsou cykly. Uzel, který je praotcem všech ostatních uzlů nazveme kořenem (z pohledu teorie grafů tím vytvoříme orientovaný strom). Uzel, který nemá žádné potomky nazýváme listem. Být stromem je rekurzívní vlastnost - každý podstrom stromu $S$ je také stromem. Strom je velmi populární pro svoji jednoduchost a použitelnost. Příkladem mohou být vyhledávací stromy nebo haldy.

@@ -1,0 +1,161 @@
+\section{Matematika}
+\url{http://www.studopory.vsb.cz/studijnimaterialy/Sbirka_uloh/video/obsah.html}
+%---------------------------------------------------------------------------------------------
+\subsection{Řešení soustav lineárních rovnic}
+V matematice a lineární algebře se jako soustava lineárních rovnic označuje množina lineárních rovnic. Například:
+\begin{equation}
+\begin{aligned}
+	3x_1 + 2x_2 - x_3 &= 1 \\
+	2x_2 - 2x_x + 4x_3 &= -2 \\
+	-x_1+\frac{1}{2}x_2-x_3 &=0
+\end{aligned}
+\end{equation}
+\noindent Úkolem při řešení je najít takové hodnoty $x_1$, $x_2$ a $x_3$ pro které platí všechny rovnice zároveň.
+Řešení soustavy se zapíše pomocí matic $A\cdot \vec{x} = \vec{b}$, $A$ je matice soustavy, $\vec{x}$ je vektor neznámých a $\vec{b}$ je vektor pravých stran, vzorec podrobně:
+\begin{equation}
+\left(
+\begin{array}{c c c c}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+a_{21} & a_{22} & \cdots & a_{2n}\\
+\vdots & \vdots & \ddots & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn}\\
+\end{array}
+\right)
+\cdot
+\left(
+\begin{array}{c}
+x_1\\
+x_2\\
+\vdots \\
+x_n
+\end{array}
+\right)
+=
+\left(
+\begin{array}{c}
+b_1\\
+b_2\\
+\vdots \\
+b_n
+\end{array}
+\right)
+\end{equation}
+
+\textbf{Řešení pomocí inverzní matice} $A^{-1}$, jde použít pokud $A$ je čtvercová matice a $A^{-1}$ existuje.
+\begin{equation}
+\vec{x} = A^{-1}\cdot \vec{b}
+\end{equation}
+
+\textbf{Gaussova eliminační metoda}
+Příklad pro matici $A$ s rozměry $2\times 2$. Tuto matici musíme upravit do schodového tvaru, tzn. každý řádek má o jednu nulu navíc než předchozí
+\begin{equation}
+\left(
+\begin{array}{c c | c}
+a_{11} & a_{12} & b_1 \\
+a_{21} & a_{22} & b_2
+\end{array}
+\right)
+\end{equation}
+
+\textbf{Gauss--Jordanova metoda} Je jinak zapsané řešení pomocí inverzní matice. Matici $A$ dáme do tvaru jako v Gaussově eliminační metodě a upravujeme levou část na jednotkovou matici.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Vektorový prostor}
+Vektorový (lineární) prostor je neprázdná množina $V$, jejíž prvky nazýváme vektory. V tomto prostoru jsou definovány 2 operace. Sčítání, tj. zobrazení $V \times V \rightarrow V$, značíme $+$ a násobení vektoru reálným číslem $\cdot$. Tyto dvě operace musí splňovat tyto podmínky pro, $\forall \vec{x},\vec{y},\vec{z} \in V$ a $\forall a,b \in \R$:
+\begin{enumerate}
+\item Sčítání vektorů je komutativní $\vec{x} + \vec{y} = \vec{y}+\vec{x}$
+\item Sčítání vektorů je asociativní $(\vec{x}+\vec{y})+\vec{z} = \vec{x}+(\vec{y}+\vec{z})$
+\item Asociativní zákon násobení $a\cdot(b\cdot\vec{x}) = (a\cdot b)\cdot\vec{x}$
+\item Distributivní zákon pro vektory $a\cdot(\vec{x}+\vec{y}) = a\cdot\vec{x} + a\cdot\vec{y}$
+\item Distributivita sčítání čísel $(a+b)\cdot \vec{x} = a\cdot \vec{x} + b\cdot \vec{x}$
+\item Výsledkem násobení vektoru číslem 1 je stejný vektor $1 \cdot \vec{x} = \vec x$
+\item Existuje nulový vektor, značí se tučnou nulou $\textbf{0}$, získáme jej vynásobením vektoru 0.
+\item Skalární součin $x,y\in \R^2 : \vec{x}\cdot\vec{y} = x_1 y_1 + x_2 y_2$
+\end{enumerate}
+%---------------------------------------------------------------------------------------------
+\subsection{Lineární zobrazení}
+Pojmem lineární zobrazení (lineární transformace) se v matematice označuje takové zobrazení mezi vektorovými prostory $X$ a $Y$, které zachovává vektorové operace sčítání a násobení skalárem.
+
+Nechť $U$ a $V$ jsou vektorové prostory, zobrazení $A : U \rightarrow V$ se nazývá lineární zobrazení, jestliže, pro každé dva vektory $u,v\in U$ a skalár $\alpha$ platí:
+\begin{enumerate}
+\item $A(u+v)= A(u) + A(v)$
+\item $A(\alpha u) = \alpha A(u)$
+\end{enumerate}
+
+Nulový prostor zobrazení (Vektorové prostory $A,B$, zobrazení $A : U \rightarrow V$) je množina vzorů $\textbf{0}$, tj. $N(A)  = \{ u\in U: A(u)=\textbf{0} \}$.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Derivace reálné funkce}
+Derivací funkce získáme směrnici tečny.
+\begin{table}[h!]
+\centering
+\begin{tabular}{l l || l l}
+\hline
+\textbf{Funkce} & \textbf{Derivace} & \textbf{Funkce} & \textbf{Derivace}\\
+\hline\hline
+$const'$ & 0 & $x'$ & 1\\
+$(x^c)'$ & $cx^{c-1}$ & $(f+g)'$ & $f' + g'$\\
+$(const \cdot f)'$ & $const \cdot f'$ & $(f\cdot g)'$ & $f'\cdot g + f\cdot g'$\\
+$\left(\frac{f}{g}\right)'$ & $\frac{f'\cdot g - f\cdot g'}{g^2}$ & $(f(g(x)))'$ & $f'(g(x))\cdot g'(x)$\\
+$(c^x)'$ & $c^{x \ln c}: c>0$ & $(e^x)'$ & $e^x$\\
+$(\log_c x)'$ & $\frac{1}{x \ln c} : c>0\wedge c\neq 0$ & $(\ln x)'$ & $\frac{1}{x}$\\
+$(\sin x)'$ & $\cos x$ & $(\cos x)'$ & $-\sin x$\\
+$(\tan x)'$ & $\frac{1}{\cos^2 x}$ & $(\cot x)'$ & $-\frac{1}{\sin^2 x}$\\
+$(\arcsin x)'$ & $\frac{1}{\sqrt{1-x^2}}$ & $(\arccos x)'$ & $-\frac{1}{\sqrt{1-x^2}}$\\
+$(\arctan x)'$ & $\frac{1}{1+x^2}$ & $(\text{arccot } x)'$ & $-\frac{1}{1+x^2}$\\
+\hline
+\end{tabular}
+\end{table}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Určitý a neurčitý integrál}
+\subsubsection{Určitý integrál}
+Výpočet plochy, která je vymezena grafem funkce $f$ na $<a,b>$ a osou x.
+\begin{equation}
+\int_a^b f(x) dx
+\end{equation}
+\subsubsection{Neurčitý integrál}
+Určení funkce, je-li známa její derivace $\rightarrow$ hledání primitivní funkce. Pojmem integrál se občas označuje primitivní funkce $F$, jejíž derivací je funkce $f$. To celé se pak nazývá neurčitý integrál a zapisuje se jako:
+\begin{equation}
+ F = \int f(x) dx
+\end{equation}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Kombinatorické výběry}
+Uspořádané výběry jsou permutace a kombinace, záleží na pořadí vybraných prvků. Naopak variace je neuspořádaný výběr. Výběry s opakováním, prvky mohou být do výběry zařazeny opakovaně.
+Kombinační číslo:
+\begin{equation}
+\binom{n}{k} = \frac{n!}{(n-k)!\cdot k!}
+\end{equation}
+\subsubsection{Variace bez opakování}
+Variace bez opakování $k$-té třídy z $n$ prvků nazýváme každou uspořádanou $k$-prvkovou podmnožinu $n$ prvkové základní množiny $M$.
+\begin{equation}
+V(n,k) = \frac{n!}{(n-k)!}
+\end{equation}
+\subsubsection{Variace s opakováním}
+\begin{equation}
+V^*(n,k) = n^k	
+\end{equation}
+\subsubsection{Kombinace bez opakování}
+\begin{equation}
+C(n,k) = \frac{n!}{(n-k)!\cdot k!}
+\end{equation}
+\subsubsection{Kombinace s opakováním}
+\begin{equation}
+C^*(n,k) = \frac{(n+k-1)!}{(n-1)!\cdot k!}
+\end{equation}
+\subsubsection{Permutace bez opakování}
+\begin{equation}
+P(n) = n!
+\end{equation}
+\subsubsection{Permutace s opakováním}
+\begin{equation}
+P^*(n_1, n_2, \ldots n_k) = \frac{n!}{n_1!+n_2!+\ldots n_k!}
+\end{equation}
+%---------------------------------------------------------------------------------------------
+\subsection{Grafy a jejich využití}
+Orientovaný graf $G$ je dvojice ($V$, $E$), kde $V$ je konečná množina vrcholů a $E \subseteq V\times V$ je množina hran.
+Neorientovaný graf se znázorňuje podobně jako orientovaný, na konci čar, které představují hrany však nekreslíme šipky.
+(\textit{V některých definicích neorientovaného grafu nejsou povoleny smyčky.})
+
+Vizualizace informací, hledaní cesty v grafu (navigace, routování path finding), proudění v sítích.

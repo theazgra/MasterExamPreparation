@@ -1,0 +1,306 @@
+\section{Architektury počítačů, Počítačové sítě}
+%---------------------------------------------------------------------------------------------
+\subsection[TCP/IP, ISO/OSI, NAT]{Protokolová rodina TCP/IP a její vztah k referenčnímu modelu ISO‐OSI. Překlad síťových adres - NAT, IPv6 - specifika nové verze protokolu}
+
+\subsubsection{Model ISO/OSI}
+Počítačové sítě vyvíjelo více firem, zpočátku to byly uzavřené a nekompatibilní systémy. Hlavním účelem sítí je však vzájemné propojování, a tak vyvstala potřeba stanovit pravidla pro přenos dat v sítích a mezi nimi. Mezinárodní ústav pro normalizaci ISO (International Standards Organization) vypracoval tzv. referenční model OSI (Open Systems Interconnection), který rozdělil práci v síti do 7 vzájemně spolupracujících vrstev.
+Jak již bylo řečeno, model ISO/OSI rozděluje síťovou práci na vrstvy. Princip spočívá v tom, že vyšší vrstva převezme úkol od podřízené vrstvy, zpracuje jej a předá vrstvě nadřízené. Vertikální spolupráce mezi vrstvami (nadřízená s podřízenou) je věcí výrobce sítě. Model ISO/OSI doporučuje jak mají vrstvy spolupracovat horizontálně – dvě stejné vrstvy modelu mezi různými sítěmi (či síťové prvky různých výrobců) musejí spolupracovat.
+Model je důležitý především pro výrobce síťových komponent. V praktické práci se sítí jej moc nevyužijeme. Umožňuje však pochopit principy práce síťových prvků a zároveň patří k základní terminologii sítí.
+\begin{enumerate}
+\item \textbf{Fyzická vrstva} -- - Popisuje elektrické (či optické), mechanické a funkční vlastnosti: jakým signálem je reprezentována logická jednička, jak přijímací stanice rozezná začátek bitu, jaký je tvar konektoru, k čemu je který vodič v kabelu použit
+\item \textbf{Spojová vrstva} -- Uskutečňuje přenos údajů (datových rámců) po fyzickém médiu, pracuje s fyzickými vrstva adresami síťových karet, odesílá a přijímá rámce, kontroluje cílové adresy každého přijatého rámce, určuje, zda bude rámec odevzdán vyšší vrstvě.
+\item \textbf{Síťová vrstva} -- Je zodpovědná za spojení a směrování mezi dvěma počítači nebo celými sítěmi, mezi nimiž neexistuje přímé spojení. Zajišťuje volbu trasy při spojení. (Volbu trasy nazýváme směrováním – routingem).
+\item \textbf{Transportní vrstva} -- Typickou činností transportní vrstvy je dělení přenášené zprávy na pakety a opětovné skládání přijatých paketů do zpráv (při přenosu se mohou pakety pomíchat či ztratit).
+\item \textbf{Relační vrstva} -- Navazuje a po skončení přenosu ukončuje spojení. Může provádět ověřování uživatelů, zabezpečení přístupu k zařízením
+\item \textbf{Prezentační vrstva} -- Má na starosti konverzi dat, přenášená data mohou totiž být v různých sítích různě kódována. Tato vrstva zajišťuje sjednocení formy vzájemně přenášených údajů. Dále data komprimuje, případně šifruje. V praxi často splývá s relační vrstvou.
+\item \textbf{Aplikační vrstva} -- Je určitou aplikací zpřístupňující uživatelům síťové služby. Nabízí a zajišťuje přístup k souborům (na jiných počítačích), vzdálený přístup k tiskárnám, správu sítě, e-maily
+\end{enumerate}
+
+\subsubsection{Protokol TCP/IP}
+Tato skupina protokolů je dnes určitě nejrozšířenější. Původně byla navržena pro síť, z níž se vyvinul Internet. Dnes je rodina protokolů TCP/IP používána v sítích Novellu i Microsoftu, kde se stala standardem a své předchůdce zcela vytlačila.
+Z funkčního hlediska můžeme TCP/IP rozdělit na tři vrstvy (reprezentované samostatnými protokoly): Aplikační, transportní a síťová vrstva.
+
+\image{tcpipmodel.png}{Porovnání TCP/IP a ISO/OSI a protokoly}{0.7}
+
+Spolupráce vrstev probíhá asi takto: K navázáni spojení použije program aplikační vrstvu, od níž putuje požadavek na spojení do transportní vrstvy. Ta zorganizuje dopravu dat (data rozdělí na segmenty, naváže spojení, zkontroluje, zda byla data doručena). Vlastní přenos zajišťuje nižší -- síťová vrstva. Segmenty, které obdržela od nadřazené vrstvy, "zabalí" do datagramů a doručí vzdálenému počítač
+
+\textbf{Aplikační vrstva} je tvořena množinou protokolů spolupracujících s jednotlivými aplikačními programy. Aplikačních protokolů je mnoho, např:
+\begin{itemize}
+\item \textbf{FTP} -- pro přenos souborů mezi počítači (TCP), jednoduší varianta TFTP (UDP)
+\item \textbf{Telnet} -- Jednoduché terminálové relace
+\item \textbf{DNS} -- Mapování jmen počítačá na IP adresy a naopak.
+\item \textbf{HTTP} -- internetový protokol určený pro výměnu hypertextových dokumentů ve formátu HTML
+\item \textbf{SMTP} -- Přenos emailových zpráv mezi přepravci elektronické pošty MTA (message transfer agent).
+\item \textbf{POP3} -- Stahování emailových zpráv
+\end{itemize}
+
+\textbf{Transportní vrstva} jádro TCP/IP, jeden ze dvou protokolů, TCP nebo UDP.
+
+Protokol TCP Od aplikační vrstvy přebere data, která rozdělí na segmenty, očísluje a seřadí podle toho, jak mají být postupně odeslány. Před začátkem výměny dat zahájí relaci s transportní vrstvou protějšího počítače. Poté začne s vysíláním a potvrzováním jednotlivých datových segmentů. Vlastní odesílání je již věcí síťové vrstvy, což je popsáno dále. (Vše funguje také opačně: Od síťové vrstvy jsou přebrány datové segmenty, které TCP setřídí. Pokud některý chybí, tak si jej znovu vyžádá. Ze segmentů složí data a předá je prostřednictvím aplikačního protokolu některému z programů).
+
+Na rozdíl od TCP, UDP nepotřebuje vytvářet před přenosem dat relaci s protějškem a nekontroluje zda byly datagramy protějškem přijaty.
+Protokol UDP je jednodušší, ale méně spolehlivý. Některé programy jej využívají namísto protokolu TCP pro rychlý, kde doručení každého paketu není podmínkou (stream videa, kde chybějící paket způsobí zaseknutí obrazu nebo artekakt, stream zvuku, kde chybějící paket způsobí prasknutí, a mnohé další).
+
+\textbf{Síťová vrstva -- Protokol IP}\\
+Pracuje v síťové vrstvě soustavy TCP/IP. Od nadřazených protokolů transportní vrstvy obdrží datové segmenty s požadavkem na odeslání. K segmentům připojí vlastní hlavičku a vytvoří IP datagram. V IP hlavičce je především IP adresa příjemce a odesílatele, hlavní úkol: doručení jednotlivých datagramů k příjemci
+– provádí tedy adresování a směrování datagramů mezi počítači. IP protokol je nespojový (před zahájením výměny dat nevytváří relaci) a nespolehlivý (předání paketů na místo určení není kontrolováno). Paket IP se tedy může ztratit, být doručen mimo pořadí, zdvojen nebo zpožděn. Protokol IP neobsahuje prostředky pro zotavení z chyb tohoto typu. To vše má zajistit nadřízená transportní vrstva – protokol TCP
+
+\subsubsection{IPv6}
+IPv6 přináší zejména masivní rozšíření adresního prostoru 2128 adres (tj. možnost přidělit všem zařízením jejich vlastní IPv6 adresu) a zdokonalení schopnosti přenášet vysokorychlostně data. Každá adresa má 128b. Odstraněna potřeba NAT. Bezpečnost v síťové vrstvě. Protokol pro IP vrstvu šifrování a autentizaci IPsec je integrální součástí souboru protokolů IPv6, na rozdíl od IPv4, kde je přítomen volitelně (obvykle ale implementován). Paket IPv6 se skládá ze dvou hlavních částí: hlavičky a těla. Obsah hlavičky:
+\begin{itemize}
+\item \textbf{Version} -- 4 bity, verze IPv6
+\item \textbf{Traffic class} -- 8 bitů pro prioritu paketu.
+\item \textbf{Flow Label} -- 20 bitů pro podporu \qos, původně určeno pro podporu aplikací reálného času, nevyužívá se 
+\item \textbf{Payload length} -- 16 bitů pro délku těla paketů. Vynulování pokud se nastaví \textit{jumbo} tělo
+\item \textbf{Next header} -- 8 bitů, určuje vnořenou hlavičku
+\item \textbf{Hop limit} -- 8 bitů, maximální počet přeskoků
+\item \textbf{Source adress} -- 128 bitů, zdrojová IPv6 adresa
+\item \textbf{Destination adress} -- 128 bitů, cílová IPv6 adresa.
+\end{itemize}
+
+\subsubsection{NAT}
+NAT přeloží adresy z lokální sítě na jedinečnou adresu, která slouží pro vstup do jiné sítě (např. Internetu), adresu překládanou si uloží do tabulky pod náhodným portem, při odpovědi si v tabulce vyhledá port a pošle pakety na IP adresu přiřazenou k danému portu. NAT je vlastně jednoduchým proxy serverem. NAT může být softwarového typu (Nat32, Kerio Winroute firewall), nebo hardwarového typu (router s implementací NAT). Překlady buď staticky (ručně) nebo dynamicky (Adresy se vybírají z rezervoáru adres = pool).
+Vlastní Komunikace: Klient odešle požadavek na komunikaci, směrovač se podívá do tabulky a zjistí, zdali se jedná o adresu lokální, nebo adresu venkovní. V případě venkovní adresy si do tabulky uloží číslo náhodného portu, pod kterým bude vysílat a k němu si přiřadí IP adresu.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Aktivní prvky počítačových sítí a jejich funkce - rozbočovač, přepínač, směrovač}
+Výběr trasy, kontrola správnosti paketů, rozhodnutí do které sítě má paket projít a kam ne, či mnoho dalších úkolů musejí provádět aktivní prvky vložené do kabeláže. 
+Tyto prvky aktivně ovlivňují dění v síti – proto jim říkáme aktivní prvky. (Síťové komponenty, které se na přenosu dat aktivně nepodílejí nazýváme prvky pasivními – např. kabely).
+\subsubsection{Zesilovač (repeater)}
+Je nejjednodušším aktivním prvkem, protože pouze opakuje jím procházející signál. Konstrukčně se jedná o krabičku se dvěma stejnými konektory. Používá se tam, kde je kabel tak dlouhý, že by na jeho konci už nebyl dostatečně silný signál. Nejčastěji jej najdeme u koaxiálních sítí.
+\subsubsection{Převodník (transceiver, media konvertor)}
+Je podobný zesilovači. Kromě toho, že signál zesiluje, převádí jej ještě z jednoho typu kabelu na jiný (např. kroucenou dvojlinku na optický kabel).
+\subsubsection{Rozbočovač, koncentrátor (Hub)}
+Byl nezbytným prvkem v sítích s hvězdicovou topologií (ale dnes jej nahradily switche). Každý pc má svůj přípojný kabel, který vede do rozbočovače. Vše co přijde na libovolný port je zopakováno na všechny ostatní. Počet prvků v síti odpovídá počtu portů na rozbočovači.  
+
+\subsubsection{Switch}
+Switch propojuje jednotlivé segmenty sítě. Obsahuje větší či menší množství portů (až několik stovek), na něž se připojují síťová zařízení nebo části sítě.
+Nejčastěji switch potkáte jako aktivní prvek v síti Ethernet realizované kroucenou dvojlinkou. Zde nahradil dříve používané huby (rozbočovače). Pracuje zde na 2. vrstvě OSI modelu. Vedle vyššího výkonu znamená přínos i pro bezpečnost sítě, protože médium již není sdíleno a data se vysílají jen do rozhraní, jímž je připojen jejich adresát.
+Odtud se switche učí automaticky z procházejícího provozu, konkrétně z adres odesilatelů uvedených v rámcích, které do switche přicházejí. Z těchto údajů si switch automaticky plní tabulku identifikující cílová rozhraní pro jednotlivé adresy. Pokud switch dostane k doručení rámec směřující na jemu dosud neznámou adresu, chová se jako hub a rozešle rámec do všech ostatních rozhraní. Lze očekávat, že oslovená stanice pravděpodobně odpoví a switch se tak vzápětí dozví, kde se nachází.
+\subsubsection{Most (bridge)}
+Most má podobné vlastnosti jako switch, je také schopen oddělit od sebe určité části sítě. Most je zařízením starším, jehož hlavním úkolem je oddělení síťových segmentů. Most je inteligentním prvkem, který se zajímá o přenášená data. Pakety propouští pouze do té části sítě, v níž je obsažen cíl paketu. Po přijmutí dat na vstupu a rozbalení paketu, zjistí cílovou adresu paketu a pak má 2 způsoby jak se zachová:
+
+
+\textbf{Filtering}: Když MAC adresa cíle v přejímaném rámci je ve stejném segmentu jako odesílatel. Tento rámec bude na mostě zablokován, tudíž neputuje do dalších segmentů ale zůstane pouze v tom svém. Filtrováním se podstatně snižuje zatížení sítě, protože pakety neputují do síťového segmentu kam nepatří a také se zajišťuje větší bezpečnost.
+
+\textbf{Forwarding}: když MAC adresa cíle je v jiném segmentu než odesílatel, nebo ji most nemá ve své tabulce. Tento rámec propustí tudíž do dalšího segmentu sítě.
+
+Most může být realizován mnoha způsoby. Velmi často bývá integrován do switchů, ty pak nejenže síť rozbočují, ale zároveň filtrují přenášené pakety. Druhá velmi častá realizace mostů je softwarová. Funkci mostu plní síťový operační systém, který filtruje pakety mezi několika síťovým kartami.
+
+\subsubsection{Směrovač (router)}
+Pracuje na 3. úrovni síťové vrstvy ISO/OSI. Směrovače ve většině případů slouží k propojování v sítích WAN nebo pro přístup z LAN sítě do WAN (typické při připojování sítí k Internetu). Dají se použít i v LAN sítích. Směrovač shromažďuje informace o připojených sítích a pak vybírá nejvýhodnější cestu pro posílaný paket. Cestu volí tak aby byla nejkratší, nejrychlejší a nejlevnější. Provádí se tzv. skoky přes prostředníky (další routery). Funkce Routeru: Filtrace paketů, routování, snížování TTL, šífrování, překlad NAT adres.
+
+Funkce směrovače jsou dnes velmi často integrovány do výkonnějších switchů a vznikají tedy tzv. L3 switche. 
+\subsubsection{Brána (Gateway)}
+Pracuje až na nejvyšší úrovni vrstvy ISO/OSI – aplikační. Slouží k připojování sítí LAN na cizí prostředí, například k sálovým počítačům IBM.
+
+Souhrn:
+\begin{table}[h!]
+\centering
+\begin{tabular}{l l r}
+Aktivní prvek & Funkce & Vrstva ISO/OSI \\
+\hline
+Repeater & Zesílení signálu & 1.\\
+Tranceiver & Zesílení signálu mezi různými typy kabelů & 1.\\
+Hub & Rozeslání do všech připojených větví  & 1.\\
+Bridge & Filtrace paketů & 2.\\
+Switch & Propojení v LAN sítích & 2.\\
+Router & Směrování paketů & 3.\\
+Gateway & Propojení rozdílných sítí & 7. \\
+\hline
+\end{tabular}
+\end{table}
+
+
+%---------------------------------------------------------------------------------------------
+\subsection[Služby internetu, DNS]{Služby Internetu a jejich protokoly: elektronická pošta (SMTP,POP,IMAP), WWW, SSH a Telnet. Systém DNS}
+\subsubsection{DNS}
+DNS mapuje logické jména na IP adresy. DNS rozděluje počítače do zón, nazývaných domény.
+(Například všechny počítače v ČR jsou zařazeny do domény .cz. Domény se dále řadí do stromové struktury. DNS zadáváme tehdy, když počítač připojujeme k Internetu a musíme zadat IP adresu alespoň jednoho serveru, který DNS převod provede. port TCP / UDP 53. Z IP na logické jméno je reverzivní mapování. Primární a sekundární servery, kopírující ty primární.
+
+\subsubsection{SMTP}
+Pracuje na portu 25. Tento protokol slouží pro odesílání elektronické pošty. Zpráva je doručena do poštovní schránky příjemce.
+\subsubsection{POP3}
+Slouží pro stahování poštovních zpráv ze vzdáleného serveru na klienta pomocí TCP/110. Uživatel si zprávy pomocí POP3 z poštovního serveru pouze stáhnou a odpojí se a mohou si je prohlížet v offline režimu. Původní POP3 je nešifrovaný, heslo se přenáší nezabezpečeným způsobem, využívá však několik autentizačních metod. POP3 lze také šifrovat pomocí SSL nebo novější TLS, poté je nazýván POP3S.
+
+\subsubsection{IMAP}
+Pro vzdálený přístup k e-mailové schránce. Na rozdíl od POP3 vyžaduje IMAP trvalé připojení, avšak nabízí větší množství funkcí. V současnosti se využívá IMAP4. IMAP umožňuje různě manipulovat s obsahem schránky, při zobrazení složky stahuje pouze hlavičky a jejich obsah až v případě, že si je uživatel chce přečíst. Pro uživateli s mnoha emaily je IMAP rychlejší než POP3 – stahuje jen hlavičky. IMAP umožňuje připojení více klientů k jedné schránce a umožňuje vidět změny prováděné ostatními klienty.
+IMAP zajišťuje informace o stavu zprávy, např. jestli zpráva byla přečtena. Navíc je toto možné i pokud je na schránku připojeno více uživatelů. POP3 tyto informace mezi nimi nesynchronizuje.
+
+\subsubsection{HTTP a HTTPS}
+HTTP je určen pro výměnu hypertextových dokumentů ve formátu HTML. Používá port TCP/80. Http je bezstavový protokol, neumí uchovávat informace o stavu komunikace. U složitějších implementací HTTP (např. elektronický obchod) je tato vlastnost nepříjemná, je třeba uchovávat nějaké informace např. o klientovi. K tomu účelu slouží protokol HTTP s rozšířením o cookies.  
+
+HTTPS mezi prohlížečem a serverem umožňuje zabezpečit spojení před odposloucháváním, podvržením dat a také umožňuje ověřit identitu druhé strany. HTTPS používá protokol HTTP, přičemž přenášená data jsou šifrována pomocí SSL nebo TLS a využívá port TCP/443.
+\subsubsection{WWW}
+Označení pro aplikace internetového protokolu HTTP. Je tím myšlena soustava propojených hypertextových dokumentů.
+V češtině se slovo web často používá nejen pro označení celosvětové sítě dokumentů, ale také pro označení jednotlivé soustavy dokumentů dostupných na tomtéž webovém serveru nebo na téže internetové doméně nejnižšího stupně (internetové stránce).
+Dokumenty umístěné na počítačových serverech jsou adresovány pomocí URL, jehož součástí je i doména a jméno počítače. Název naprosté většiny těchto serverů začíná zkratkou www, i když je možné používat libovolné jméno vyhovující pravidlům URL. Protokol HTTP je dnes již používán i pro přenos jiných dokumentů, než jen souborů ve tvaru HTML a výraz World Wide Web se postupně stává pro laickou veřejnost synonymem pro internetové aplikace.
+
+\subsubsection{Telnet}
+Umožňuje vytváření spojení klient-server pomocí protokolu TCP/23. Umožňuje ovládat vzdálené zařízení pomocí terminálu s příkazovou řádkou. Je velmi jednoduchý, přenáší osmibitové znaky oběma směry. Jeho hlavní nevýhodou je absence šifrování přenášených dat, jeho nástupcem je SSH.
+
+\subsubsection{SSH}
+Jedná se o zabezpečený komunikační protokol, který používá TCP/IP. Byl navržen jako náhrada za telnet a další nezabezpečené vzdálené shelly, které přenášejí heslo a data nešifrovaně. Šifrování přenášených dat, které SSH poskytuje, slouží k zabezpečení přenosu dat přes nedůvěryhodnou síť (Internet). Server naslouchá na portu TCP/22.
+%---------------------------------------------------------------------------------------------
+\subsection[Bezpečnost v sítích]{Bezpečnost počítačových sítí s TCP/IP: útoky, paketové filtry, stavový firewall. Šifrování a autentizace, virtuální privátní sítě}
+Základní pojmy:
+\begin{itemize}
+\item \textbf{Utajení (confidentality)} -- posluchač na kanále datům nerozumí
+\item \textbf{Autentizace (authentication)} -- jistota, že odesílatel je tím, za koho se vydává 
+\item \textbf{Integrita (integrity)} -- jistota, že data nebyla na cestě modifikována 
+\item \textbf{Nepopiratelnost (non-repudiation)} -- zdroj dat nemůže popřít jejich odeslání
+\end{itemize}
+
+\textbf{DoS} útok. Cílem tohoto útoku je vyčerpání systémových prostředků (paměť, CPU, šířka pásma)síťového prvku nebo serveru a jeho zhroucení nebo změna požadovaného chování 
+Záplava pakety SYN neboli SYN-flood je druh útoku označovaný jako DoS. Útočník pošle posloupnost paketů s příznakem SYN cílovému počítači, ale již dále neodpovídá.
+
+\subsubsection{Paketové filtry}
+\textbf{ACL} nejčastěji na rozhraní směrovačů, filtrace podle informací ze síťové a vyšších vrstev. Reflexivní ACL - Automaticky propouští vstupní provoz, který odpovídá povolenému provozu výstupnímu.
+
+\textbf{Stavový firewall} je v informatice označení pro takový firewall, který podporuje SPI (anglicky Stateful packet inspection), je schopen sledovat a udržovat všechny navázané TCP/UDP relace (pracuje na transportní vrstvě referenčního modelu ISO/OSI). Stavový firewall je schopen rozlišovat různé stavy paketů v rámci jednotlivých relací (spojení) a jeho úkolem je propustit pouze takové, které patří do již povolené relace (jiné jsou zamítnuty).
+Stavový firewall poskytuje vyšší efektivitu kontroly jednotlivých paketu, protože pro existující spojení kontroluje jen stavovou tabulku, místo toho, aby kontroloval u každého paketu sadu nadefinovaných složitých pravidel. Stavový firewall nijak nesouvisí s hloubkovou kontrolou paketů. Je schopný udržovat důležité parametry všech spojení v paměti od začátku až do konce. Nejnáročnější kontrola se provádí v době nastavení spojení.
+
+ 
+\subsubsection{Šifrování a autentizace}
+Tajný algoritmus je nesmysl, je třeba zavést tajný klíč, jenž parametrizuje algoritmus. Symetrické algoritmy používají pouze jeden sdílený klíč, jsou méně bezpečné, ale hodně rychlé, např. DES, 3DES, AES. Asymetrické algoritmy používají pár public a private key. Jeden z nich se použije pro šifrování (private) a druhý pro dešifrování (public). Tyto algoritmy jsou mnohem bezpečnější a náročnější na čas. Algoritmy: RSA, DSA, Diffie-Hellman key exchange, Elliptic curve.
+
+Certifikační autorita je důvěryhodná entita, která registruje public klíče.
+
+\subsubsection{VPN}
+VPN realizuje přenos privátních dat přes veřejnou síť s použitím kryptovacích metod a tunelů, Poskytuje autentizaci, integritu dat a utajení. Výhodou cena, flexibilita topologie, odpadá management WAN linek. Tunel je virtuální dvoubodové spojení přes veřejnou síť, nese data jednoho protokolu ve druhém protokolu.
+
+%---------------------------------------------------------------------------------------------
+\subsection[Architektura počítače, Hierarchie uspořádání paměti]{Architektury počítačů, jejich vlastnosti, principy fungování počítače. Hierarchické uspořádání pamětí v počítači, základní charakteristika jednotlivých pamětí}
+\subsubsection{Von Neumanova architektura}
+John Von Neumann definoval v roce 1945 základní koncepci počítače (EDVAC) řízeného obsahem paměti. Od té doby se objevilo několik odlišných modifikací, ale v podstatě se počítače v dnešní době konstruují podle tohoto modelu. Ve svém projektu si von Neumann stanovil určitá kritéria a principy,které musí počítač splňovat, aby byl použitelný univerzálně. Můžeme je ve stručnosti shrnout do následujících bodů.
+\begin{enumerate}
+\item Počítač se skládá z paměti, řídící jednotky, aritmeticko-logické jednotky, vstupní a výstupní jednotky.
+\item Struktura pc je nezávislá na typu řešené úlohy (univerzálnost), počítač se programuje obsahem paměti.
+\item Následující krok počítače je závislý na kroku předešlém.
+\item Instrukce a data jsou v téže paměti.
+\item Paměť je rozdělena do paměťových buněk stejné velikosti (Byte), jejichž pořadová čísla se využívají jako adresy.
+\item Program je tvořen posloupností instrukcí, které se vykonávají jednotlivě v pořadí, v jakém jsou zapsány do paměti.
+\item Změna pořadí prováděných instrukcí se provádí skokovými instrukcemi (podmíněné nebo nepodmíněné skákání na adresy)  
+\item Čísla, instrukce, adresy a znaky se značí ve dvojkové soustavě
+\end{enumerate}
+
+\image{vonneuman.jpg}{Model počítače podle Von Neumana}{0.5}
+
+\begin{itemize}
+\item \textbf{ALU} - aritmetickologická jednotka -- jednotka provádějící veškeré aritmetické výpočty a logické operace. Obsahuje sčítačky, násobičky a komparátory.
+\item \textbf{Operační paměť} -- slouží k uchování zpracovávaného programu, zpracovávaných dat a výsledků výpočtu
+\item \textbf{Řídící jednotka} -- řídí činnost všech částí počítače. Toto řízení je prováděno pomocí řídících signálů, které jsou zasílány jednotlivým modulům. Dnes řadič spolu s ALU tvoří jednu součástku, a to procesor neboli CPU.
+\item \textbf{Vstup/ Výstup} - zařízení určené pro vstup dat, a výstup zpracovaných výsledků
+\end{itemize}
+
+\textbf{Nevýhody této architektury:} Podle von Neumannova schématu počítač pracuje vždy nad jedním programem. Toto vede k velmi špatnému využití strojového času. Dnes je obvyklé, že počítač zpracovává paralelně více programů zároveň - tzv. multitasking. Počítač může mít i více jak jeden procesor. Podle Von Neumanova schématu mohl počítač pracovat pouze v tzv. diskrétním režimu, kdy byl do paměti počítače zaveden program, data a pak probíhal výpočet. V průběhu výpočtu již nebylo možné s počítačem dále interaktivně komunikovat.
+Dnes existují vstupní/ výstupní zařízení, např. pevné disky a páskové mechaniky, které umožňují vstup i výstup. Program se do paměti nemusí zavést celý, ale je možné zavést pouze jeho část a ostatní části zavádět až v případě potřeby.
+
+
+\subsubsection{Harvardská architektura}
+Oproti Von Neumanové koncepci rozděluje paměť pro data a program. Což má výhody: nedojde k přepsání programu, paralelní načítání dat a instrukcí přes dvě sběrnice. Obě paměti mohou být vyrobeny jiným způsobem, mít jinou velikost i jinou nejmenší adresovací jednotku. Ale i nevýhody: dražší výroba, složitější režie dvou sběrnic, nemožnost využití nevyužité paměti druhým typem obsahu.
+\image{harvard.jpg}{Harvardská koncepce počítače}{0.5}
+
+Základním nedostatkem obou koncepcí je sekvenční vykonávání instrukcí, které sice umožňuje snadnou implementaci systému, ale nepovoluje paralelní zpracování. Paralelizmy se musí simulovat až na úrovni operačního systému. Sběrnice zas nedovolují přistupovat do více míst paměti současně a navíc dovolují v daném okamžiku přenos dat jen jedním směrem.
+
+\subsubsection{Typy pamětí}
+Existují vnitřní (registry, cache, RAM) a vnější (HDD) paměti. Podle přístupu je dělíme na RAM a SAM. RAM značí libovolný náhodný přístup, zatímco SAM sériový přistup. Podle možnosti zápisu se dělí paměť na:
+\begin{itemize}
+\item ROM (read-only memory) -- paměť pouze pro čtení
+\item RWM (read-write memory) -- paměť pro čtení a zápis
+\item NVRAM (non-volatile RAM) -- kombinace RWM a EEPROM
+\item WOM (write-only memory) -- pouze pro zápis, černá skříňka
+\item WORM (write once, read many times) -- jeden zápis, opakované čtení, CD-R(OM)
+\end{itemize}
+
+Podle principu paměti:
+\begin{itemize}
+\item SRAM (static RAM) - malá kapacita, rychlé, klopné obvody
+\item DRAM (dynamic RAM) - velká kapacita, pomalejší, kondenzátory
+\item PROM (programmable ROM), EPROM (erasable PROM), EEPROM (electrically EPROM)
+\item Flash - programovatelné paměti
+\end{itemize}
+
+Paměti podle rychlosti můžeme seřadit následovně: registry, L1 cache, L2 cache, DRAM, SSD, HDD, CD.
+
+U dynamické paměti je paměť je uložena ve formě náboje kondenzátoru (nabitý - 1, vybitý - 0). jelikož se kondenzátor samovolně vybíjí, je potřeba všechny buňky v pravidelném intervalu obnovovat (refresh), data jsou zapomenuta přibližně po 10 ms bez obnovení. Buňky jsou uloženy v matici, nejprve se zašle adresa řádku a poté adresa sloupce.
+
+U SRAM (static RAM) je informace je uložena stavem klopného obvodu, typicky 2 NMOS přístupové, 2 NMOS paměťové tranzistory a 2 zátěžové prvky (rezistory nebo tranzistory). SRAM je dražší než DRAM, pojme méně paměti, ale je rychlejší (není potřeba je obnovovat). Používá se hlavně u cache pamětí. Pměťové buňky jsou uspořádány do matice, ale chybí adresní multiplexing (adresa řádku i sloupce je zadávána současně - potřeba více pinů).
+
+
+
+\textbf{Střadačové (pracovní) registry}  ve struktuře procesoru jsou obvykle 1-8-16 základních pracovních registrů, jsou nejpoužívanější. Ukládají se do nich aktuálně zpracovávaná data a jsou nejčastějším operandem strojových instrukcí (to na co se instrukce v závorkách odkazují). A také se do nich nejčastěji ukládají výsledky operací. Nejsou určeny pro dlouhodobé ukládání dat.
+
+
+\textbf{Univerzální zápisníkové registry} jsou jich desítky až stovky. Slouží pro ukládání nejčastěji používaných dat. Instrukční soubor obvykle dovoluje, aby se část strojových instrukcí prováděla přímo s těmito registry. Formát strojových instrukcí ovšem obvykle nedovoluje adresovat velký rozsah registru, proto se implementuje několik stejných skupin registru vedle sebe, s možností mezi skupinami přepínat - registrové banky.
+
+
+\textbf{Pamět dat RWM} slouží pro ukládání rozsáhlejších nebo méně používaných dat (z těch předešlých nejméně používaný). Instrukční soubor obvykle nedovoluje s obsahem této paměti přímo manipulovat, kromě instrukcí přesunových. Těmi se data přesunou např. do pracovního registru. Některé procesory dovolují, aby data z této paměti byla použita jako druhý operand strojové instrukce, výsledek ale nelze zpět do této paměti uložit přímo.
+
+
+%---------------------------------------------------------------------------------------------
+\subsection[Procesory RISC, Charakteristika procesoru Intel]{Základní konstrukční vlastnosti procesorů RISC, principy urychlování činnosti procesorů, predikce skoků. Základní charakteristika a principy činnosti procesorů rodiny Intel od Pentia Pro}
+
+\subsubsection{Základní vlastnosti RISC}
+\begin{enumerate}
+\item Reduced Instruction Set Computer(RISC)  =  počítač s redukovaným souborem instrukcí
+\item počet instrukcí a způsobů adresování je malý, ale zůstává úplný, aby bylo možno provést vše $\rightarrow$ v tom se liší od CISC, což je procesor s velkým počtem instrukcí
+\item instrukce jsou vytvořeny pomocí obvodu $\rightarrow$ jednodušší na výrobu než CISC
+\item širší sběrnice, rychlejší tok instrukcí a dat do procesoru
+\item instrukce jen nad registry
+\item navýšený počet registrů $\rightarrow$ delší program
+\item instrukce mají jednotný formát -- délku i obsah
+\item komunikace s pamětí pouze pomocí instrukcí  LOAD/ STORE
+\item každý strojový cyklus znamená dokončení jedné instrukce
+\item používá se zřetězené zpracování instrukcí
+\item řešení problému s frontou instrukcí
+\item mikroprogramový řadič může být nahrazen rychlejším obvodovým
+\item přenášejí složitost technologického řešení do programu (překladače)
+\item představitelé: ARM, MOTOROLA 6800, INTEL i960, MIPS R6000
+\end{enumerate}
+
+\subsubsection{Pentium PRO}
+Koncem roku 1995 uvádí firma Intel na trh další generaci procesorů řady 80x86. Novinkou jeho architektury je integrace \textbf{externí cache paměti} o kapacitě 256 kB (512 kB) přímo do pouzdra procesoru. Tato cache paměť není součástí čipu procesoru, ale je tvořena samostatným čipem umístěným v jednom pouzdru s čipem procesoru. Čip procesoru Intel Pentium pro je ekvivalentem asi 5,5 mil. tranzistorů a čip jeho externí cache paměti obsahuje cca 15 mil. tranzistorů. Pentium Pro je až 2x rychlejší než Pentium. Nový design procesoru vykazuje 4 pipelines na paralelní zpracování příkazů a integrovanou primární a sekundární cache paměť (L1 a L2 cache). \\
+Vlastnosti:
+\begin{itemize}
+\item externí Cache v pouzdře s čipem
+\item spekulativní provádění instrukcí mimo pořadí
+\item instrukce RISC, sběrnice: A32/D64
+\item 3 celočíselné jednotky ($14^o$ zřetězení), 1 jednotka pro pohyblivé řadové čárky
+\item vlastní soubor instrukcí – mikrooperace (předtím jednotky zpracovávaly přímo instrukce z instrukčního souboru 80x86), zatímco teď jsou jednotlivé instrukce (80x86) překládány  do jedné nebo několika mikrooperací, které jsou dále předávány ke zpracování jednotlivým prováděcím jednotkám.
+\item využití tzv. přejmenování registrů při provádění mikrooperací, kdy 40 záložních registrů mohou být přejmenovány na 8 z libovolných univerzálních registrů. Podpora pro multiprocesorové pc.
+\end{itemize}
+
+\textbf{Instruction Pool} je v podstatě sada čtyřiceti speciálních registrů, přičemž do každého z nich se vejde právě jedna mikroinstrukce. Pentium pro umožňuje vykonávání instrukcí tzv. 'out of order' čili je nemusí brát postupně z fronty, ale z instruction pool, který zrovna chce. Např. v případě že požadovaná data nejsou v cache paměti Pentium Pro nečeká na načtení z pomalejší operační paměti, ale provádí další instrukce. Instrukce mimo pořadí vykonává také, dokud nedojde k výpočtu požadovaného operandu.
+
+\textbf{Zřetězené zpracování instrukcí (pipelining)} \\
+Na dosažení zřetězení je nutné rozdělit úlohu do posloupnosti dílčích úloh, z nichž každá může být vykonána samostatně, např. oddělit načítaní a ukládání dat z paměti od provádění výpočtu instrukce a tyto části pak mohou běžet souběžně.  
+To znamená že musíme osamostatnit jednotlivé části sekvenčního obvodu tak, aby každému obvodu odpovídala jedna fáze zpracování instrukcí. Všechny fáze musí být stejně časově náročné, jinak je rychlost degradována na nejpomalejší z nich. Fáze zpracování je rozdělena minimálně na 2 úseky: (načtení a dekódování instrukce) a (provedení instrukce a případné uložení výsledku). Zřetězení se stále vylepšuje a u novějších procesorů se již můžeme setkat stále s více řetězci rozpracovaných informací (více pipelines).
+
+Největší problém spočívá v plnění zřetězené jednotky, hlavně při provádění podmíněných skoků, kdy během stejného počtu cyklů se vykoná více instrukcí.
+U pipelingu se instrukce následující po skoku vyzvedává dřív než je skok dokončen. Primitivní implementace vyzvedává vždy následující instrukci, což vede k tomu že se vždy mýlí, pokud je skok nepodmíněný. Pozdější implementace mají jednotku předpovídání skoku (1 bit), která vždy správně předpoví nepodmíněný skok a s použitím cache se záznamem předchozího chování programu se pokusí předpovědět i cíl podmíněných skoků nebo skoků s adresou v registru nebo paměti.
+V případě, že se predikce nepovede, bývá nutné vyprázdnit celou pipeline a začít vyzvedávat instrukce ze správné adresy, což znamená relativně velké zdržení. Souvisejícím problémem je přerušení.
+
+\textbf{Plnění fronty instrukcí}\\
+Pokud se dokončí skoková instrukce, která odkazuje na jinou část kódu musejí být instrukce za ní zahozeny (problém plnění fronty intrukcí). U malého zřetězení neřešíme.
+Používání bublin na vyprázdnění pipeline, naplnění prázdnými instrukcemi. Predikce skoku - vyhrazen jeden bit předurčující, zda se skok provede či nikoliv.
+Statická predikce -- součást instrukce, řeší programátor. Dynamická predikce je buď jedno nebo dvou bitová. Jednobitová skok se provedl 1, nebo neprovedl 0. Dvoubitová, metoda zpožděného skoku, v procesure se řeší např. tabulkou s 4kB instrukcí.
+
+Superskalární architektura (zdvojení) - když nastane podmíněný skok, začnou se vykonávat instrukce obou variant, nepotřebná část se pak zahodí. Tento způsob, pak vyžaduje vyřešit ukládání výsledku.
+
+\textbf{OD INTEL CORE} \\
+
+\textbf{QPI (Quick Path Interface)}\\
+Náhrada za zastaralou systémovou sběrnici FSB (Front Side Bus). Sériová linka, dva 20 bitové spoje (16 pro data, 4 pro opravu chyb a řízení).
+Propustnost 12.8 GB/s v každém směru a lze je kombinovat a použít až čtyři pro komunikaci s periferiemi.
+
+\textbf{Turbo Boost}\\
+Technologie, která umí dočasně přetaktovat jádra procesoru (každé zvlášť), monitorováním vytížení lze např. převést výpočet pouze na dvě jádra ze čtyř a obě přetaktovat. Teplota procesorů je monitorována, pokud přesáhne bezpečnou mez, je jejich takt opět snížen.
+
+\textbf{Hyper-Threading}\\
+Technologie umožňující lepší využití všech prostředků procesoru (aby např. FPU nezahálelo, když zrovna probíhá výpočet na ALU). Je zdvojeno vše, co udržuje stav procesoru (registry, čítač instrukcí), lze mezi těmito dvěma sadami přepnout v jednom hodinovém taktu - nárůst výkonu o cca. 30 \% .
+Každé jádro tak tvoří dva logické procesory (jádra).
+
+\textbf{Virtualization Technology}\\
+Režim VMX (Virtual Machine eXtension) operation. V režimu root-operation běží VMM (Virtual Machine Monitor), v non-root běží VM systém.
+VM OS může běžet pouze v protected režimu, reálný mód je emulován pomocí VMM. VM OS není emulovaný, ale běží přímo na hardwaru, takže přímo využívá ovladače zařízení.

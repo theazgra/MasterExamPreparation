@@ -1,0 +1,324 @@
+\section{Úvod do softwarového inženýrství}
+%---------------------------------------------------------------------------------------------
+\subsection{Softwarový proces. Jeho definice, modely a úrovně vyspělosti}
+Softwarové inženýrství je inženýrská disciplína zabývající se praktickými problémy vývoje rozsáhlých softwarových systémů.
+
+\subsubsection{Softwarový proces}
+Softwarový proces je po částech uspořádaná množina kroků směřujících k vytvoření nebo úpravě softwarového díla.
+\begin{itemize}
+\item Krokem může být aktivita nebo opět podproces (hierarchická dekompozice procesu). 
+\item Aktivity a podprocesy mohou probíhat v čase souběžně, tudíž je vyžadována jejich koordinace. 
+\item Je nutné zajistit opakovatelnost použití procesu ve vztahu k jednotlivým softwarovým projektům, tedy zajistit jeho znovupoužitelnost.  Cílem je dosáhnout stabilních výsledků vysoké úrovně kvality
+\end{itemize}
+
+\textbf{Vyspělostní úrovně:}\\
+Úroveň definice a využití softwarového procesu je hodnocena dle stupnice SEI (Software Engineering Institute) 1 - 5 vyjadřující vyspělost firmy či organizace z daného hlediska. Tento model hodnocení vyspělosti a schopností dodavatele softwarového produktu se nazývá CMM (Capability Maturity Model) a jeho jednotlivé úrovně lze stručně charakterizovat asi takto:
+\begin{enumerate}
+\item Počáteční (Initial) - firma nemá definován softwarový proces a každý projekt je řešen případ od případu (ad hoc).
+\item Opakovatelná (Repeatable) - firma identifikovala v jednotlivých projektech opakovatelné postupy a tyto je schopna reprodukovat v každém novém projektu.
+\item Definovaná (Defined) - softwarový proces je definován (a dokumentován) na základě integrace dříve identifikovaných opakovatelných kroků.
+\item Řízená (Managed) - na základě definovaného softwarového procesu je firma schopna jeho řízení a monitorování.
+\item Optimalizovaná (Optimized) - zpětnovazební informace získaná dlouhodobým procesem monitorování softwarového procesu je využita ve prospěch jeho optimalizace.
+\end{enumerate}
+
+\subsubsection{Vodopádový model}
+Základem téměř všech modelů softwarového procesu se stal vodopádový model. Tento vodopádový model vychází z rozdělení životního cyklu softwarového díla na čtyři základní fáze: analýza požadavků a jejich specifikace, návrh softwarového systému, implementace (kódování) a na konec testování a udržování vytvořeného produktu.  Princip vodopádu spočívá v tom, že následující množina činností spjatá s danou fází nemůže započít dříve než skončí předchozí.  Jinými slovy řečeno, výsledky předchozí fáze 'vtékají' jako vstupy do fáze následující.
+
+Model je možno v různých modifikacích a rozšířeních nalézt ve většině současných přístupů. Tyto modifikace vznikly především kvůli odstranění některých jeho nedostatků, mezi které patří:
+\begin{enumerate}
+\item Prodleva mezi zadáním projektu a vytvořením spustitelného systému je příliš dlouhá.
+\item Výsledek závisí na úplném a korektním zadaní požadavků kladených na výsledný produkt.
+\item Nelze odhalit výslednou kvalitu produktu danou splněním všech požadavků, dokud není výsledný softwarový systém hotov.
+\end{enumerate}
+Pokud mluvíme o modifikacích vodopádového modelu, pak se jedná především o modely:\\
+\textbf{Inkrementální}: postupné vytváření verzí softwaru zahrnujících postupně širší spektrum funkcí definovaných postupně v průběhu jeho vytváření. V podstatě se jedná o více menších vodopádů provedených za sebou tak, aby každý z nich odpovídal nové sadě doplněných požadavků.\\
+\textbf{Spirálový}: se podobá inkrementálnímu modelu s tím rozdílem, že ještě přidává RUP?
+
+\subsubsection{RUP}
+Proces RUP definuje disciplinovaný přístup k přiřazování úkolů a zodpovědností v rámci vývojové organizace.  Oproti vodopádovému modelu se liší v těchto základních principech:
+\begin{enumerate}
+\item softwarový produkt je vyvíjen iteračním způsobem 
+\item jsou spravovány požadavky na něj kladené 
+\item využívá se již existujících softwarových komponent 
+\item model softwarového systému je vizualizován (UML)
+\item průběžně je ověřována kvalita produktu 
+\item změny systému jsou řízeny (každá změna je přijatelná a změny jsou sledovatelné)
+\end{enumerate}
+
+V současném období, kdy se předmětem vývoje staly softwarové systémy vysoké úrovně sofistikace, je nemožné nejprve specifikovat celé zadání, následně navrhnout jeho řešení, vytvořit softwarový produkt implementující toto zadání, vše otestovat a předat zadavateli k užívání.  Jediné možné řešení takovému problému je přístup postavený na iteracích, umožňující postupně upřesňovat cílový produkt cestou jeho inkrementálního rozšiřovaní z původní hrubé formy do výsledné podoby.  Softwarový systém je tak vyvíjen ve verzích, které lze průběžně ověřovat se zadavatelem a případně jej pozměnit pro následující iteraci.
+
+\subsubsection{Cykly, fáze, iterace}
+Každý cyklus vede k vytvoření takové verze systému, kterou lze předat uživatelům a  implementuje jimi specifikované požadavky.
+Každý vývojový cyklus lze rozdělit do čtyř po sobě jdoucích fází, kde každá fáze může být dále rozložena do několika iterací. 
+\begin{enumerate}
+\item Zahájení, kde je původní myšlenka rozpracována do vize koncového produktu a je definován rámec toho, jak celý systém bude vyvíjen a implementován. 
+\item Rozpracování je fáze věnovaná podrobné specifikaci požadavků a rozpracování architektury výsledného produktu. 
+\item Tvorba je zaměřena na kompletní vyhotovení požadovaného díla.  Výsledné  programové vybavení je vytvořeno kolem navržené kostry (architektury) softwarového systému. 
+\item Předání je závěrečnou fází, kdy vytvořený produkt je předán do užívání.  Tato fáze zahrnuje i další aktivity jako je beta testování, zaškolení apod. 
+\end{enumerate}
+
+\textbf{Iterace} je úplná vývojová smyčka vedoucí k vytvoření spustitelné verze systému reprezentující podmnožinu vyvíjeného cílového produktu, a která je postupně rozšiřována každou iterací až do výsledné podoby.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Vymezení fáze ''sběr a analýza požadavků''. Diagramy UML využité v dané fázi}
+Kvalita výsledného produktu je dána mírou uspokojení požadavků zadavatele. Právě otázka korektní specifikace všech požadavků bývá problémem všech softwarových systémů. Velmi často výsledek i mnohaletého úsilí týmu softwarových inženýrů propadne díky nedostatečné specifikaci zadání.
+
+\subsubsection{Jazyk UML}
+Slouží k vytváření modelů vznikajících v průběhu realizace požadovaného produktu.V průběhu let se UML stal standardizovaným jazykem určeným pro vytvoření výkresové dokumentace (softwarového) systému.  UML je jazyk umožňující specifikaci, vizualizaci, konstrukci a dokumentaci artefaktů 
+softwarového systému. K vytváření jednotlivých modelů systému jazyk UML poskytuje celou řadu diagramů  umožňujících postihnout různé aspekty systému.  Jedná se celkem o čtyři základní náhledy a k nim přiřazené diagramy.
+
+\subsubsection{Specifikace požadavků} 
+Cílem specifikace požadavků je popsat co má softwarový systém dělat prostřednictvím specifikace jeho funkcionality.  Modely specifikace požadavků slouží k odsouhlasení zadání mezi vývojovým týmem a zadavatelem.
+
+Modely, které jsou v rámci specifikace činností vytvářeny vychází z tak zvaných případů užití (Use Cases). Ty jsou tvořeny: \\
+\textbf{Aktéry} definující uživatele či jiné systémy, kteří budou vstupovat do interakce s vyvíjeným softwarovým systémem.\\
+\textbf{Případy užití} specifikující vzory chování realizovaných softwarovým systémem. Každý případ užití lze chápat jako posloupnost vzájemně navazujících transakcí vykonaných v dialogu mezi aktérem a vlastním softwarovým systémem. Každý případ užití muže mít alternativy, prerekvizity, možnosti jeho vykonávání, implicitně nebo explicitně inkludovat jiný případ užití.
+
+Jazyk UML pro potřeby sestavení modelů specifikace požadavků využívá dvou typů diagramů: \\
+\textbf{Diagram případů užití} popisující vztahy mezi aktéry a jednotlivými případy použití. \\
+\textbf{Sekvenční diagram} zobrazující vzájemnou interakci participujících objektů organizovanou podle časového hlediska
+
+\subsubsection{Use case diagram}
+Účelem diagramu případů užití je definovat co existuje vně vyvíjeného systému (aktéři) a co má být systémem prováděno (případy užití). 
+Vstupem pro sestavení diagramu případů užití je byznys model, konkrétně modely podnikových procesů.  Výsledkem analýzy těchto procesů je seznam požadovaných funkcí softwarového systému, které podpoří nebo dokonce nahradí některé z uvedených aktivity cestou jejich softwarové implementace.
+
+Pro složitější a obsáhlejší diagramy případy užití se zavadí tři typy relací mezi jednotlivými případy užití: 
+\begin{itemize}
+\item Relace používá označovaná klíčovým slovem \textbf{<<uses>>} vyjadřuje situaci, kde určitý scénář popsaný jedním případem užití je využíván i jinými případy užití.
+\item Relace rozšiřuje označovaná klíčovým slovem \textbf{<<extends>>} vyjadřuje  situaci, kde určitý případ užití rozšiřuje jiný či představuje variantní průchody jím popsaným scénářem. 
+\item Relace zobecnění/specializace vyjadřuje vztah mezi obecnějším případem užití a jeho speciálním případem.
+\end{itemize}
+
+
+
+\subsubsection{Sekvenční diagram}
+Tento diagram postihuje jaké zprávy (požadavky) jsou mezi objekty zasílány z pohledu času. Diagram je tvořen objekty uspořádanými do sloupců a šipky mezi nimi odpovídají vzájemně si zasílaným zprávám. Zprávy mohou být synchronní nebo asynchronní. 
+V případě synchronních zpráv odesílatel čeká na odpověď (odezvu) adresáta, v případě asynchronní zprávy odesílatel nečeká na odpověď a pokračuje ve vykonávání své činnosti. Souvislé provádění nějaké činnosti se v sekvenčním diagram vyjadřuje svisle orientovaným obdélníkem. Odezvu adresáta lze opět modelovat, v tomto případě tzv.návratovou zprávou (přerušovaná čára). Tok času probíhá ve směru od shora dolů.
+
+%---------------------------------------------------------------------------------------------
+\subsection[Návrh, UML diagramy, návrhové vzory]{Vymezení fáze 'Návrh'. Diagramy UML využité v dané fázi. Návrhové vzory – členění, popis a příklady}
+Cílem etapy návrhu v rámci toku činností zabývajícího se analýzou a návrhem je vytvoření modelu návrhu.
+
+Model návrhu dále upřesňuje model analýzy ve světle skutečného implementačního prostředí. Pojem implementační prostředí v podstatě vyjadřuje možnost namapovat navržené softwarové komponenty obsažené v modelu analýzy na architekturu systému určeného k provozu vyvíjené aplikace s maximálním možným využitím služeb již existujících softwarových komponent. Postup včlenění implementačního prostředí do vyvíjené aplikace je dán následující posloupností činností:
+\begin{enumerate}
+\item definice systémové architektury,
+\item identifikace návrhových vzorů a možnosti znovupoužití tzv. rámcových řešení,
+\item definice softwarových komponent a jejich znovupoužití.
+\end{enumerate}
+
+Návrhové vzory můžeme chápat jako abstrakci imitování užitečných části jiných softwarových produktů.
+
+Volně interpretováno, pokud zjistíme že používáme k řešení určitého problému úspěšné řešení, které se opakuje v různých produktech z různých doménových oblastí, pak zobecnění tohoto řešení se stává návrhovým vzorem. Každý takový návrhový vzor je popsán množinou komunikujících objektů a jejich tříd, které jsou přizpůsobeny řešení obecného problému návrhu v daném konkrétním kontextu, tedy již existujícímu okolí. Návrhové vzory můžeme klasifikovat podle způsobu jejich použití do těchto základních tří skupin:
+\begin{itemize}
+\item Návrhové vzory \textbf{tvořící} určené k řešení problému vytváření instancí tříd cestou delegace této funkce na speciálně k tomuto účelu navržené třídy. (Továrna, Singleton, ObjectPool)
+\item Návrhové vzory \textbf{strukturální} řešící problémy způsobu strukturování objektů a jejich tříd. (Kompozit, Adapter, Proxy, Bridge, Facade)
+\item Návrhové vzory \textbf{chování} popisující algoritmy a spolupráci objektů. (Pozorovatel, Visitor)
+\end{itemize}
+
+\textbf{Diagram tříd} specifikující množinu tříd, rozhraní a jejich vzájemné vztahy. Tyto diagramy slouží k vyjádření statického pohledu na systém.
+
+\textbf{Diagram spolupráce} je obdobně jako předchozí sekvenční diagram zaměřen na interakce, ale z pohledu strukturální organizace objektů. Jinými slovy není primárním aspektem časová posloupnost posílaných zpráv, ale topologie rozmístění objektů.
+
+\textbf{Diagram nasazení} popisující konfiguraci (topologii) technických prostředků umožňujících běh vlastního softwarového systému.
+
+\textbf{Stavový diagram} dokumentující životní cyklus objektu dané třídy z hlediska jeho stavů, přechodů mezi těmito stavy a událostmi, které tyto přechody uskutečňují.
+
+%---------------------------------------------------------------------------------------------
+\subsection[Objektové orientované paradigma]{Objektově orientované paradigma. Pojmy třída, objekt, rozhraní. Základní vlastnosti objektu a vztah ke třídě. Základní vztahy mezi třídami a rozhraními. Třídní vs. instanční vlastnosti}
+\subsubsection{Třída}
+Třída je popis množiny objektů mající společnou strukturu, chování, vztahy a sémantiku.  Třídy nalezneme v sekvenčním diagramu zkoumáním interakcí mezi objekty vystupujícími v sekvenčních diagram. Objekt může být instancí právě jedné třídy.
+
+Popis chování objektů vytvářených podle daných tříd spočívá v definování jejich operací. Tyto operace, stejně jako třídy samotné, hledáme v sekvenčních diagramech.  Zpráva zaslaná z jednoho objektu (instance třídy) na druhý znamená, že třídy tohoto druhého objektu musí definovat jak bude tento objekt reagovat na přijetí této zprávy.
+
+Struktura třídy je reprezentována svými atributy.  Vyhledání atributů vychází ze zkoumání doménové oblasti a z její znalosti.  Každý objekt, který je pak podle dané třídy vytvořen, tyto atributy naplňuje pro něj jedinečnými hodnotami. Hodnoty atributů jsou vlastní vždy dané instanci, třída pouze definuje  pojmenování těchto atributů a jejich typ.  Třída také definuje operace, které jsou společné všem jejím objektům a tudíž se v notaci objektů již explicitně neuvádí.
+
+\textbf{Třídní proměnná} je společná pro všechny objekty.
+
+\textbf{Vztahy (relace)} mezi třídami specifikují cestu, jak mohou objekty mezi sebou komunikovat.
+
+Relace složení částí do jednoho celku, má v podstatě dvě možné podoby.  Jedná se o tzv. \textbf{agregaci}, pro kterou platí, že části mohou být obsaženy i v jiných celcích, jinými slovy řečeno, jsou sdíleny.  Nebo se jedná o výhradní vlastnictví částí celkem, pak hovoříme o složení typu \textbf{kompozice}. Druhá z uvedených typu složení má jednu důležitou vlastnost z hlediska životního cyklu celku a jeho částí.  Existence obou je totiž totožná.  Zánik celku (kompozitu) vede i k zániku jeho částí na rozdíl od agregace, kde části mohou přežívat dále jako součástí jiných celků.
+
+\textbf{Role} definuje specifické chování objektu v daném kontextu jeho použití. 
+
+\textbf{Typ objektu} specifikuje skupinu operací, které mohou být objektem prováděny.
+
+\textbf{Rozhraní} je pojmenování skupiny externě viditelných operací
+
+
+\subsubsection{Objekt}
+Objekt je identifikovatelná samostatná entita daná svou: \textbf{identitou} -- jedinečností umožňující ji odlišit od ostatních a 
+\textbf{chováním} -- službami poskytovanými v interakci s ostatními objekty.  
+
+Kromě těchto primárních vlastností vyjádřených v definici má objekt také sekundární vlastnosti, kterými jsou: 
+\begin{itemize}
+\item atributy -- (v čase se měnící) datové hodnoty popisující objekt, 
+\item doba existence -- časový interval daný okamžikem vzniku a zániku objektu, 
+\item stavy odrážející různé fáze doby existence objektu.
+\end{itemize}
+
+Ve vztahu k definovaným případům užití je nutné  definovat takové interakce mezi objekty, které povedou ke splnění jejich funkcionality, účelu ke kterému byly navrženy. Jazyk UML poskytuje pro účely zaznamenání těchto vzájemných interakcí tzv. sekvenční, někdy také nazývaný interakční, diagram.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Mapování UML diagramů na zdrojový kód}
+Důsledná a přesná specifikace objektů a jejich tříd v etapě návrhu umožňuje automatické generování zdrojových kódů dle následující tabulky. Tabulka má dva sloupce, první z nich odpovídá elementům jazyka UML, zatímco druhá z nich popisuje jejich zobrazení v programovacím jazyce, v našem případě se jedná o jazyk C\#, Java.
+\begin{table}[h!]
+\centering
+\begin{tabular}{l | l}
+\hline
+\textbf{Analýza a návrh (UML)} & \textbf{Zdrojový kód} \\
+\hline
+Třída &  Struktura typu class \\
+Role, Typ a Rozhraní& Struktura typu interface\\
+Operace & Metoda\\
+Atribut třídy & Statická proměnná označená static\\
+Atribut & Instanční proměnná\\
+Asociace & Instanční proměnná\\
+Závislost & Lokální proměnná, argument nebo návratová hodnota zprávy\\
+Interakce mezi objekty & Volání metod\\
+Případ užití & Sekvence volání metod\\
+Balíček, Subsystém & Knihovny \\
+\hline
+\end{tabular}
+\end{table}
+Z uvedené tabulky vyplývá, že jediné co nelze přímo odvodit z diagramů UML jsou těla metod, kód, který je proveden v odezvě na přijatou zprávu a také jaká je fyzická struktura vytvářených souborů reprezentujících softwarové komponenty. Vše ostatní lze automaticky vygenerovat doslova bez účasti týmu programátorů.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Správa paměti (v jazycích C/C++, JAVA, C\#, Python), virtuální stroj}
+Většina moderních jazyků používá zejména automatické správy paměti: C\#, Haskell, Java, JavaScript, Perl, PHP, Prolog, Python, Ruby.
+
+Výhody automatické správy paměti jsou následující:
+\begin{enumerate}
+\item Programátor se může věnovat řešení skutečného problému;
+\item Rozhraní modulů jsou přehlednější -- není třeba řešit problém zodpovědnosti za uvolnění paměti pro objekty vytvořené různými moduly;
+\item Nastává menší množství chyb spojených s přístupem do paměti;
+\item Správa paměti je často mnohem efektivnější.
+\end{enumerate}
+
+Tento přístup má však i své nevýhody. Paměť může být zachována jen proto, že je dostupná, i když není dále využita. Automatická správa paměti není k dispozici ve starších, ale často používaných jazycích.
+
+Pro zjištění toho, které úseky paměti se již nepoužívají, je k dispozici mnoho algoritmů. Většinou spoléhá automatická regenerace paměti na informace o tom, na které bloky paměti neukazuje žádná programová proměnná. V zásadě existují dvě skupiny metod - metody založené na sledování odkazů a metody založené na čítačích odkazů.
+
+Správa paměti je v jazyce C\# plně automatizovaná, paměťový prostor se přiděluje operátorem new, jeho uvolnění zajistí systém řízení běhu programu. V jazyce Java je správa paměti rovněž plně automatizovaná, o uvolňování paměti se stará separátní vlákno, které běží s nízkou prioritou a zajišťuje kontinuální sledování nepoužitých bloků paměti. Přidělování paměti se provádí operátorem new
+
+\subsubsection{Garbage Collector}
+Základní princip garbage collecting:
+\begin{enumerate}
+\item Vyhledají se v programu takové datové objekty, které nebudou v budoucnu použity.
+\item Vrácení zdrojů, kde se vyskytovaly nalezené objekty.
+\end{enumerate}
+
+Uvolňování paměti garbage collecting osvobozuje programátora od uvolňování objektů, které již dále nejsou zapotřebí, což ho většinou stojí značné úsilí. Je to vlastně pomůcka pro stabilnější program, protože zabraňuje některým třídám provozních chyb. Například zabraňuje chybám ukazatelů, které ukazují na již nepoužívaný objekt, nebo který je již zrušen a tato paměť se dále k ničemu nevyužívá.
+
+\textbf{Mark \& Sweep (jeho varianta použitá v GC .NET.)}\\
+Algoritmus nejdříve nastaví všem objektům, které jsou v paměti, speciální příznak navštíven na hodnotu ne. Poté projde všechny objekty, ke kterým se lze dostat. Těm, které takto navštívil, nastaví příznak na hodnotu ano. V okamžiku, kdy se už nemůže dostat k žádnému dalšímu objektu, znamená to, že všechny objekty s příznakem navštíven majícím hodnotu ne jsou odpad - a mohou být tedy uvolněny z paměti. Tato metoda má několik nevýhod. Největší je, že při garbage collectionu je přerušen běh programu. To znamená,že se programy pravidelně zmrznou, takže je nemožné pracovat s aplikacemi používající reálný čas. (Toto není případ .NETu)
+
+Java GC používá 4 algoritmy, kromě M\&S i 
+
+\textbf{Reference counting} -- objekt vytvořen -- counter =1, uložení reference na objekt c+1, změna hodnoty objektu, konec funkce, která s ním pracovala c-1, if c==0 - GC smaže
+
+\textbf{Generační algoritmus} - buď se mnoho objektů se stane odpadem krátce po svém vzniku  nebo jen malé procento referencí ve 'starších' objektech ukazuje na objekty mladší. Rozdělení paměti do generací.
+
+\textbf{Copying collector} - Tento algoritmus nejprve rozdělí prostor na haldě na dvě části, kdy jedna je aktivní a s druhou se nepracuje. Vždy můžeme alokovat objekty v celkové velikosti, která je poloviční velikost haldy. Pokud se při alokaci nevejdeme do místa na části haldy, je potřeba provést úklid. Ten spočívá v prohození aktivní a neaktivní části. Do nově aktivní části se překopírují živé objekty ze staré, již neaktivní, části. Mrtvé objekty nekopírujeme, ale při dalším prohození aktivní a neaktivní části je jednoduše přepíšeme.
+
+Nevýhoda GC - Garbage collector potřebuje ke své práci procesorový čas, aby mohl rozhodovat o tom, jestli je objekt v paměti mrtvý, nebo živý. O stavu objektů musí mít collector uloženou nějakou informaci. Tyto informace jsou další data, která ale nejsou nezbytná pro běh programu.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Podpora paralelního zpracování, vlákna}
+Paralelně programovaný software využívá možnost rozdělení jednoho velkého výpočetního problému na několik menších problémů, které jsou řešeny 'současně'. Prvky sloužící k paralelnímu zpracování výpočtu mohou být různé. Jedná se například o jeden počítač s více procesory, několik počítačů v síti, specializovaný hardware nebo kombinaci těchto prvků.
+Vlákno (též vlákno řízení, anglicky thread) označuje v informatice odlehčený proces, pomocí něhož se snižuje režie operačního systému při změně kontextu, které je nutné pro zajištění multitaskingu (zdánlivého běhu více úloh zároveň, který je zajištěn jejich rychlým střídáním na procesoru) nebo při masivně paralelních výpočtech. Zatímco běžné procesy jsou navzájem striktně odděleny, sdílí vlákna nejen společný paměťový prostor, ale i další struktury.
+
+Operační systém, který vlákna nepodporuje, má technicky jedno vlákno na každý proces, zatímco při podpoře vláken je možné v rámci jediného procesu vytvořit mnoho vláken. Vlákna usnadňují díky sdílené paměti vzájemnou komunikaci, což však přináší další komplikace v podobě souběhu.
+
+Využití semaforu, Monitoru.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Zpracování chyb v moderních programovacích jazycích}
+
+Pokud v průběhu programu dojde k výjimečné situaci, pro kterou v daném kontextu nemáme dostatek informací, abychom ji mohli hned na místě vyřešit a pokračovat v právě prováděném bloku programu, vyhodíme výjimku. Vyhození výjimky znamená ukončení prováděného bloku programu a možnost výjimku ve volajícím bloku, kde již mohou být informace v dostačujícím množství pro napravení chyby, ošetřit.
+Všechny výjimky v prostředí .NET frameworku mají společného předka, který je představován třídou System.Exception. Každá odvozená třída představuje konkrétnější výjimečný stav. Například třída DivideByZeroException představuje výjimku dělení nulou. Pro vyhozeni výjimky slouží klíčové slovo \textit{throw}, kterému je předána instance výjimky. Pro zachycení výjimky použijeme \textit{catch} a následně můžeme provést vlastní implementaci opravy.
+%---------------------------------------------------------------------------------------------
+\subsection[Datové proudy]{Princip datových proudů – pro vstup a výstup. Rozdíl mezi znakově a bytově orientovanými datovými proudy}
+Proudy můžeme dělit dle jejich směru na vstupní (přenášejí data do aplikace) a na výstupní (přenášejí data z aplikace). Proudy také rozlišujeme na binární a znakové. Jak již názvy napovídají, tak zatímco binární proudy využijeme pro libovolná binární data (tj. data vkládáme je po bajtech), tak znakové proudy jsou určeny pouze pro text (znaky).
+
+\textbf{Binární}\\
+Binární proudy umožňují přenést libovolná data. Základní operací definovanou v InputStreamu je metoda read, pomocí které můžeme z proudu přečíst jeden bajt. Analogicky výstupní proud definuje metodu write. Čtení a zápis po jednotlivých bajtech je velmi pomalé, zvláště pokud uvážíme, že na druhé straně proudu může být disk – a každý dotaz může velmi snadno znamenat nutnost nového vystavení hlaviček.
+
+\textbf{Textový}\\
+Znakové proudy fungují stejným způsobem jako ty binární, pouze operují s textem.
+
+%---------------------------------------------------------------------------------------------
+\newpage
+\subsection{Jazyk UML – typy diagramů a jejich využití v rámci vývoje}
+\begin{itemize}
+\item Funkční náhled -- Diagram případu užití
+\item Logický náhled
+	\begin{itemize}
+	\item Diagram tříd
+	\item Objektový diagram
+	\end{itemize}
+\item Dynamický náhled popisující chování
+	\begin{itemize}
+	\item Stavový diagram
+	\item Diagram aktivit
+	\item Interakční diagramy 	\begin{itemize}
+									\item Sekvenční diagram
+									\item Diagram spolupráce
+								\end{itemize}
+	\end{itemize}
+\item Implementační náhled
+	\begin{itemize}
+	\item Diagram komponent -- Zobrazuje komponenty, z kterých se skládá systém. Dále zobrazuje, které komponenty jsou propojeny (komunikují spolu).
+	\item Diagram nasazení -- Zobrazuje fyzické rozložení systému, fyzická zařízení využitá.
+	\end{itemize}
+\end{itemize}
+%---------------------------------------------------------------------------------------------
+\subsection[Překladač, Kompiler]{Struktura a činnost překladače, tvar zdrojového a cílového programu. Interpretační a kompilační překlad. Fáze překladu, vnitřní struktura překladače}
+Překladač provádí dvě základní činnosti - analyzuje zdrojový kód a následně jej přeložit do cílového programu. Součástí analýzy je lexikální, syntaktická a strukturální analýza. Činnost překladače je následující: 
+Zdrojový kód $\rightarrow$ pre-procesor $\rightarrow$ lexikální analyzátor $\rightarrow$ syntaktický analyzátor $\rightarrow$ tvorba mezikódu $\rightarrow$ optimalizátor $\rightarrow$ generování výsledného kód $\rightarrow$ optimalizace závislá na zařízení.
+
+Součástí generování cílového programu je optimalizace kódu.
+
+\subsubsection{Lexikální analýza}
+Text zdrojového kódu přepisuje lexikální analyzátor na posloupnost lexikálních jednotek (lexémů), tedy výrazu mající význam jako identifikátor (proměnná), operátor, symbol přiřazení. apod. Tyto lexémy jsou reprezentovány ve formě tokenů, které jsou poskytnuty ke zpracování syntaktickému analyzátoru. Úkolem lexikálního analyzátoru je také odstranění komentářů a bílých znaků ze zdrojového programu. V praxi je lexikální analyzátor realizován pomocí konečného automatu.
+
+\textbf{Funkce:}
+\begin{enumerate}
+\item nalezení a rozpoznání lexikálního symbolu 
+\item zakódování lexikálních symbolů
+\item vynechání nepotřebných znaků a symbolů
+\item výpočet syntetizovaných atributů lexikálních symbolů
+\end{enumerate}
+
+\subsubsection{Syntaktická analýza}
+Syntaktická analýza převede lexikální jednotky na fráze. Ty se obvykle reprezentují derivačním stromem. V této fázi se využívají bezkontextové gramatiky, které z výrazu sestrojí derivační stroj. Vstupem jsou tedy tokeny (např. závorka, literál, proměnná, klíčové slovo, symbol a pod.), což je pro parser již dále nedělitelná základní stavební jednotka, které má uloženy v listech načteného datového stromu.
+
+\subsubsection{Sémantická analýza}
+Sémantická analýza postupně prochází symboly či skupiny symbolů získané ze syntaktické analýzy a přiřazuje se jim význam. Pokud například skupina symbolů představuje použití konkrétní proměnné, pak analyzátor zjišťuje zda je proměnná už deklarována (pokud je to požadováno, nevyžaduje například programovací jazyk Perl či PHP) a zda je správně použita vzhledem k jejímu datovému typu. Dále například u operací kontroluje zda jsou operandy správného typu, případně provede potřebnou konverzi datového typu. Sémantická analýza tedy zpracovává především deklarace, které ukládá do svých datových struktur dělá se zde typová kontrola a další kontroly které ověřují, zda kód odpovídá specifikaci zdrojového jazyka
+
+\subsubsection{Generování mezikódu}
+Některé překladače generují mezikód (explicitní intermediální reprezentaci kódu). Jde o jakýsi kód pro abstraktní počítač, který lze jednoduše vytvořit a zároveň jej i jednoduše převést do cílového kódu. Pro některé interpretační překladače jde o poslední fázi a mezikód už rovnou vykonávají. Mezikódy v této fázi mohou mít různé podoby jednou z nich je tří-adresový kód. Tří-adresový kód se podobá instrukcím pro počítač a sestává se s posloupnosti instrukcí o nanejvýš třech operandech.
+
+\subsubsection{Optimalizace kódu}
+Vylepšuje kód tak aby byl rychlejší nebo kratší. Některé optimalizační metody jsou triviální, například zjednodušení různých výpočtů a zredukování proměnných intermediálního kódu jak je ukázané na příkladu vpravo.
+
+\subsubsection{Generování cílového kódu}
+Posledním krokem překladače je vygenerování cílového kódu. Výsledkem je většinou přemístitelný strojový kód, nebo program v asembleru. V této fázi se všem proměnným přidělí místo v paměti a instrukce mezikódu se přeloží do strojových instrukcí. Instrukce v ukázce vpravo obsahují F, protože se pracuje s hodnotami s desetinnnou čárkou.
+
+\subsubsection{Zdrojový kód}
+Vývojáři tvoří počítačové programy tak, že píší tzv. zdrojový kód v některém z programovacích jazyků. Je to jakýsi předpis, recept, kterým programátor říká počítači, co má dělat.
+Tento program položí uživateli otázku a zareaguje na jeho odpověď.
+
+Zdrojovému kódu rozumí člověk a může ho upravovat a vylepšovat, ale program v tomto tvaru není možné přímo vykonat procesorem – spustit. Před spuštěním je program potřeba tzv. zkompilovat – přeložit tak, aby mu rozuměl počítač. Zkompilované programy je velmi obtížné upravovat. Pokud tedy budete chtít v programu opravit nějakou chybu nebo přidat novou funkci, potřebujete jeho zdrojový kód.
+
+
+\subsubsection{Interpretační a kompilační překlad }
+\textbf{Kompilační překladač} Přeloží kód zdrojového program na kód v cílovém jazyce, který je následně spuštěn a vykonán. Výhodou těchto kompilátorů je, že program se přeloží jednou a dál už se spouští jen cílový program. 
+
+\textbf{Interpretační překladač} Interpretační překladač žádný výstupní program nevytváří, ale přímo interpretuje příkazy zdrojového jazyka a provádí příslušné akce.
+
+\subsubsection{Fáze překladu}
+Fáze se dělí na přední a zadní část. 
+
+Přední část se skládá z fází, které závisí na zdrojovém jazyku a ne tak na cílovém počítači. Obvykle lexikální, syntaktická analýza, vytváření tabulky symbolů, sémantická analýzy a generování mezi-kódu. Také lze provádět optimalizaci.
+
+Zadní část obsahuje fáze závislé na koncovém počítači, a na mezikódu. Patří zde optimalizace kódu, generování kódu pro počítač, finální optimalizace.

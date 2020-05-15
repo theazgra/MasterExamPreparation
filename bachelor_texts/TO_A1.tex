@@ -1,0 +1,110 @@
+\section*{Předmět Informační a komunikační technologie}
+\noindent\rule{\textwidth}{1pt}
+
+\section{Logické obvody}
+%---------------------------------------------------------------------------------------------
+\subsection[Booleova algebra, funkce, komb. obvody]{Booleova algebra, Boolovské funkce a vazba na kombinační obvody}
+
+Booleova algebra je algebraická struktura (\textit{každá množina, na které jsou definované nějaké operace - výsledkem operace nad prvky této množiny je vždy také prvek této množiny}), která modeluje vlastnosti množinových a logických operací. Představuje jeden z možných matematických prostředků, pomocí něhož lze pracovat s logickými proměnnými, které nabývají pouze dvou hodnot. Definovány 3 základní Booleovské funkce: AND, OR, NOT. Logický součin $\wedge$, součet $\vee$, negace $\neg$. 
+\newline Příklady: \url{https://moodle.sspbrno.cz/pluginfile.php/10746/mod_resource/content/1/Booleova\%20algebra.pdf}
+
+Vlastnosti:
+\begin{itemize}
+\item Asociativita $(x \vee y) \vee z = x \vee (y \vee z) \text{ to stejné pro } \wedge$, komutativita, distributivita
+\item De-Morganovy zákony $ \neg(A + B) = \neg A \cdot \neg B, \neg (A \cdot B) = \neg A + \neg B $
+\end{itemize}
+
+
+%---------------------------------------------------------------------------------------------
+\subsection[Zobrazování celých čísel a odpovídající aritmetika, BCD kód]{Zobrazování celých čísel a odpovídající aritmetika (dvojkový doplněk, kód s posunutou nulou (offset binary), BCD kód}
+
+\subsubsection{Přímý kód}
+První bit vyčleníme jako znaménkový bit. 00\ldots 01 vyjadřuje 1, 10\ldots 01 pak označuje -1. Toto komplikuje algoritmy, pro sčítání a odčítání různé algoritmy.
+Další nevýhoda je reprezentace nuly, ta je reprezentována jako kladná nebo záporná. \\
+Rozsah zobrazení: $-2^{n-1}-1 \text{ až } 2^{n-1}-1$.\\
+Konverze: Kladné číslo = polynom, záporné číslo: $y = 2^{n-1} \text{ bitwise or } y$
+
+\subsubsection{Dvojkový doplněk}
+Používá se pro ukládání, přenos a zpracování záporných binárních čísel. Zjednodušuje konstrukci ALU v CPU, neboť pro sčítání a odčítání funguje stejný algoritmus.
+Od absolutní hodnoty kódovaného záporného čísla je odečtena 1, číslo je převedeno do binární soustavy a je provedena jeho negace. MSB je znaménkový bit, 0 kladné, 1 záporné, ale pouze kladná nula. \\
+Konverze: Kladné číslo = polynom, záporné číslo: $2_y = (\text{bitwise not } y) + 1$, kde $2_y  = 1_y + 1$, $2_y$ je dvojkový doplněk, $y$ je absolutní hodnoty, $n$ počet bitů.
+
+\subsubsection{Kód s posunutou nulou}
+Neboli offset binary, aditivní kód. K číslu je připočtena známá konstanta. Nevýhodou je, že kladná čísla se liší od bez-znaménkové reprezentace čísel.
+Kód se běžně používá pro exponent v reprezentaci desetinných čísel pomocí pohyblivé řádové čárky.
+
+\subsubsection{BCD}
+Neboli Binary Coded Decimal (zkráceně BCD, dvojkově reprezentované dekadické číslo) je způsob kódování celých čísel s využitím pouze desítkových číslic (0-9).
+BCD kód je z hlediska využití paměti neúsporný. BCD kód zneefektivňuje využití paměti, ale umožňuje snadnější sčítání s číslicemi stejných řádů. Použití tam, kde je třeba přesnost.
+
+Operace:
+\begin{itemize}
+\item \textbf{Sčítání} -- V binární soustavě se používá stejný algoritmus, jako v desítkové soustavě. Úplná binární sčítačka se realizuje pomocí LKO s hradly s funkcí XOR a NAND.
+
+\item \textbf{Odčítání} -- Vychází ze sčítačky, před kterou je třeba předřadit kombinační obvod realizující jednotkový doplněk. V případě provádění výpočtu ve dvojkovém doplňku, je možné přičíst +1 prostřednictvím přenosu.
+
+\item \textbf{Násobení} -- V binární soustavě, se postupuje podle stejného algoritmu jako v soustavě desítkové. Pro vynásobení dvou proměnných volen operátor logického součinu.
+
+\item \textbf{Dělení} -- Algoritmus se nejsnáze realizuje pomocí odčítaček, sčítačky s použitím dvojkového doplňku dělitele, a dále pomocí přepínače, který zajišťuje do dalšího výpočtu přenos. Binární podle stejného algoritmu jako dělení v soustavě desítkové
+
+\item \textbf{Porovnávání} -- Jestliže máme dvě n-bitová čísla A a B, můžeme pro porovnávání jejich logických hodnot definovat minimálně šest logických funkcí. 
+$f_1 = A = B; f_2 = A \neq B; f_3 = A < B; f_4 = A \leq B; f_5 = A > B; f_6 = A \geq B;$ Avšak k realizaci všech funkcí nám postačuje realizovat pouze dvě funkce, a to buď $f_4$ a $f_6$ nebo $f_3$ a $f_5$. Z těchto funkcí lze potom generovat zbývající následovně: $f_1 = \neg f_2; f_3 = \neg f_6; f_4 = \neg f_5; f_4 \cdot f_6=f_1=\neg f_5 \cdot \neg f_3$
+
+\end{itemize}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Zobrazení čísel s pevnou řádovou čárkou, aritmetika}
+Pokud potřebujeme zobrazovat zároveň čísla kladná i záporná, musíme počet bitů čísla zvětšit o 1 znaménkový bit. Standardně se pro znaménko využívá bit s nejvyšší váhou. Pokud máme pro zobrazování dat 8bitů, můžeme zobrazovat celá čísla v rozsahu –127 až 127. V tomto způsobu zobrazování by ale existovaly 2 nuly. Z toho důvodu se záporná čísla vyjadřují doplňkem.
+%---------------------------------------------------------------------------------------------
+\subsection[Zobrazení čísel s pohyblivou řádovou čárkou, aritmetika]{Zobrazení čísel s pohyblivou řádovou čárkou (IEEE 754-2008, binární a decimální základ), aritmetika}
+Chceme-li pracovat s čísly v pohyblivé desetinné čárce, musíme je rozšířit o číslo vyjadřující hodnotu exponentu včetně jeho znaménka. Normální číslo rozšířit o číslo vyjadřující hodnotu exponentu včetně jeho znaménka. Pro zobrazení reálných nebo příliš velkých celých čísel. 8 bitů pro exponent (E), 23 bitů mantisa (M), 1 bit pro znaménko. B značí základ číselné soustavy, pak tvar: $A = M \cdot B^E$. Reálná čísla jsou zobrazována v  jednoduché přesnosti (32 bitů), v dvojnásobné přesnosti (64 bitů) a rozšířené přesnosti (80 bitů).
+
+\image{fpn.png}{Zobrazení reálného čísla v jednoduché přesnosti.}{0.5}
+
+Mantisa je uložena na 23 bitech v přímém kódu se znaménkem. Nejvyšší bit je vždy 1 a nezobrazuje se. Mantisa se ukládá počínaje druhým bitem. Smyšlená desetinná tečka je za nejvyšším bitem mantisy.\\
+IEEE 754-2008 -- Definuje čísla s poloviční a čtyřnásobnou přesností
+
+%---------------------------------------------------------------------------------------------
+\subsection{Kódování znaků, ASCII, Unicode}
+\subsubsection{ASCII}
+Jde o kódovou tabulku, která definuje znaky anglické abecedy. Kód ASCII je podle původní definice sedmibitový, obsahuje tedy 128 platných znaků. Rozšíření ASCII kódu dalších 
+128 kódů - pro potřeby jazyků byly vytvořeny různé kódové tabulky, význam kódů nad 127 není tedy jednoznačný.
+\begin{itemize}
+\item Windows-1250
+\item ISO 8859-2
+\item Atd. = chaos, proto Unicode.
+\end{itemize}
+
+\subsubsection{Unicode}
+Unicode je tabulka znaků všech existujících abeced, na webu se používá UTF-8.
+Všechny verze Unicode od 2.0 výše jsou zpětně kompatibilní, jsou přidávány pouze nové znaky, existující znaky nejsou vyřazovány nebo přejmenovávány.
+Šestnáctibitové kódování sebou nese a přináší i několik nevýhod a to velikost - Znaky na PC se zobrazí fonty, které kvůli Unicode musí obsahovat 256x víc znaků, než pro 8bitové znakové sady. Text je po převádění z osmibitového kódování Unicode 2x delší, ale bez přidání nějaké informační hodnoty. Neslučitelnost s osmibitovým prostředím.
+
+\image{unicode.png}{Unicode tabulka.}{0.8}
+
+%---------------------------------------------------------------------------------------------
+\subsection{Automat s konečným počtem stavů, Moore a Mealy automat}
+Výpočetní model primitivního počítače, který se skládá z několika stavů a z několika přechodů a který dokáže přijmout nebo zamítnout předané slovo.
+\subsubsection{Moore automat}
+Změna na vstupu se u něj projeví na výstupu až v následujícím stavu. Výstupní funkce jsou tedy funkcemi pouze vnitřního stavu. Výstup nezáleží na současném vstupu, 
+a proto mají Mooreovy stroje vždy zpoždění. Moorovy automaty schopny trvale poskytovat hodnotu svého vnitřního stavu. \\
+Moorův automat je šestice ($S$, $S_0$, $\Sigma$ ,$\Lambda$ , $T$, $G$)
+\begin{itemize}
+\item $S$ -- konečná množina stavů
+\item $S_0$ -- počáteční stav
+\item $\Sigma$ -- konečná množina vstupní abecedy
+\item $\Lambda$ -- konečná množina výstupní abecedy
+\item $T$ -- přechodová funkce $T : S \times \Sigma \rightarrow S$
+\item $G$ -- funkce mapující stav na výstupní abecedu $G : S \rightarrow \Lambda$
+\end{itemize}
+
+\subsubsection{Mealy automat}
+Označuje konečný automat s výstupem. Výstup je generován na základě příchozího vstupu i momentálního stavu, ve kterém se automat nachází.
+Mealyho automat připomíná synchronní komunikaci: reaguje jen na hranu vstupního signálu, ale jakmile ho zpracuje a dosáhne dalšího stavu, jednou vygeneruje výstupní hodnotu, 
+puls výstupního signálu, a pak už žádný výstup neposkytuje. Mealy lze převést na Moore. \\
+Mealy automat je také šestice ($S$, $S_0$, $\Sigma$ ,$\Lambda$ , $T$, $G$) vše je stejné až na funkci $G$, která je definována jako:
+\begin{equation*}
+	G : S \times \Sigma \rightarrow \Lambda
+\end{equation*}
+
+Mealy automaty mají většinou méně stavů než Moore. Moore automaty jsou bezpečnější. Mealy reagují rychleji na vstup.

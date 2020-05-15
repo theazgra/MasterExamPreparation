@@ -1,0 +1,300 @@
+\section{Architektury počítačů, Počítačové sítě}
+%---------------------------------------------------------------------------------------------
+\subsection{Standardy IEEE 802, Ethernet. Bezdrátové sítě IEEE 802.11}
+Standarty rodiny 802 jsou standarty pro LAN a MAN sítě. Pro sítě přenášející pakety o různé velikosti. Pracují se spojovou (MAC, LLC) a fyzickou vrstvou.
+
+\subsubsection{802.1 (Autentizace)} 
+Je v informatice název protokolu, který umožňuje zabezpečení přístupu do počítačové sítě. 802.1 zabraňuje neautorizovaným osobám v přístupu k síťové komunikaci, aniž by bylo nutné všechna připojená zařízení fyzicky autorizovat. Autentizace pomocí EAP (extensible authentication protocol)protokolu.
+Dále definuje mosty (bridges): transparentní mosty a mosty s explicitním směrováním, protokol Spanning Tree - vyloučení smyček v topologii mostů (802.1d),
+virtuální sítě VLAN (802.1q), priorita provozu (802.1p).
+
+
+\subsubsection{802.2 LLC a MAC} 
+LLC vrstva definuje služby, které síť poskytuje, přidává do dat MAC vrstvy LLC hlavičku. Dovoluje multiplexování, kontrolu chyb, pro spojovou vrstvu, s automatickými žádostmi o znovu-poslání dat. Zakrývá rozdíly mezi sítěmi projektu 802 
+
+MAC vrstva poskytuje sdílení přístupu ke společnému kanálu, formáty rámců, adresaci stanic, zabezpečení proti chybám a přenášení rámců po oktetech.
+\subsubsection{802.3 Ethernet} 
+\verb|Mbps (10, 100, $\ldots$) [Base, Broad] [délka_segmentu v m nebo médium] (médium: T – Twisted pair, F – Fiber optic) např. 10Base5, 10BaseT, 100BaseF| \\
+Pracuje buď v half-duplex nebo full-duplex módu. V hald-duplex (kolizní prostředí je využívána metoda CSMA/CD). Full-duplex mód je přepínané prostředí.
+Maximální délka rámce je 1500B. Rámec se skládá z:
+\begin{itemize}
+\item \textbf{Preamble} -- slouží k synchronizaci hodin příjemce
+\item \textbf{Type/lenght} -- pro Ethernet II je to pole určující typ vyššího protokolu, pro IEEE 802.3 udává délku pole dat
+\item \textbf{Data} -- pole dlouhé minimálně 46 a maximálně 1500 oktetů (46 - 1500B); minimální délka je nutná pro správnou detekci kolizí v rámci segmentu
+\item \textbf{Pad} -- vyplní zbytek datové části rámce, pokud je přepravovaných dat méně než 46B
+\item \textbf{Checksum} -- kontrolní součet, kontroluje správnost dat, ze všech polí kromě Preamble a FCS
+\end{itemize}
+
+Varianty Ethernetu:
+\begin{itemize}
+\item \textbf{10Base2} -- CheaperNet, sběrnice, koax, segment 185 m ukončený terminátory, max. 30 stanic/segment, BNC konektory pro propojení
+\item \textbf{10Base5} -- Ethernet 2, sběrnice, koaxiální kabel, segment 500 m ukončený terminátory, max. 100 stanic/segment, Manchester kódování
+\item \textbf{10BaseT} -- topologie hvězda, 2 páry TP kabelu (RJ-45), použití hubu, max. 512 stanic/segment, max. 100m od rozbočovače
+\item \textbf{100Mbps-Fast Ethernet} --802.3u, 2 páry UTP-5,100m, kódování 4B5B, vychází z 10BaseT
+\item \textbf{Gigabit Ethernet} -- 802.3z, topologie hvězda, přepínané páteřní obvody
+\item \textbf{10 Gigabit Ethernet} -- optika, full-duplex, i ve wan sítích
+\end{itemize}
+
+\subsubsection{802.4 Token bus} 
+Token je poslán po sítí, a jen stanice s tokenem může vysílat. Každá stanice musí znát svého souseda. Velké problémy při výpadku stanice nebo přidávání nové stanice do sítě, pro toto je potřeba jiný protokol. Fyzická topologie je sběrnice, kruh je jen logická.
+\subsubsection{802.5 Token ring} 
+Používá kruhovou fyzickou i logickou topologii.
+\subsubsection{802.11 WLAN}
+Rádiové sítě provozované v nelicencovaném pásmu ISM. V celé Evropě požadavek dynamické volby kanálu a automatické regulace vysílaného výkonu. 2,4GHz nebo 5GHz. Optimalizováno pro použití uvnitř budov. Definuje spojovou i fyzickou vrstvu. Evropa: kanály 1-13, USA 1-11. Odstup kanálů odstup kanálu 5MHz, 
+šířka kanálu pro použití rozprostřeného spektra však je 22 MHz. Kanál zasahuje do 4 okolních kanálů. Pokud chceme nerušený signál, musíme volit min. odstup centrálních frekvencí 25 MHz, lze použít pouze 3 samostatné kanály.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Směrování v počítačových sítích, směrovací protokoly}
+Směrování je určování cesty datagramu (paketu) v prostředí počítačových sítí. Směrování zajišťují hlavně routery, ale i koncové stanice. Cílem je doručit datagram (paket) adresátovi, po co nejefektivnější cestě. Směrování zajišťuje síťová vrstva modelu ISO/OSI a je využíváno v lokálních sítích LAN i na Internetu, kde jsou dnes směrovány zejména IP datagramy. Síťová infrastruktura mezi odesílatelem a adresátem paketu může být velmi složitá, a proto se směrování zpravidla nezabývá celou cestou paketu, ale řeší vždy jen jeden krok, tj. komu datagram předat jako dalšímu. 
+
+Ke směrování jsou třeba směrovací tabulky. Dají se naplnit staticky (ručně), použitelné jen pro malé sítě, nebo dynamicky, pro sítě s měnící se infrastrukturou. Máme tedy statické a dynamické směrování. Kvůli tomu jak je internet rozsáhlý a jak má složitou topologii se řeší směrování hierarchicky. Internet je rozdělen do tzv. autonomních systémů (AS). 
+
+AS je skupina sítí a směrovačů, které jsou pod společnou správou a řídí se společnou směrovací politikou, tj. používají jeden směrovací protokol, ale také speciální požadavky administrátorů na směrování některých druhů provozu (traffic engineering, load balancing). Příkladem autonomního systému tak může být autonomní systém jednoho konkrétního poskytovatele Internetu (ISP) nebo velké firmy.
+
+Cílem hierarchického směrování je vždy nejprve doručit paket určený pro některou ze sítí autonomního systému na hranice tohoto autonomního systému. O další směrování ke konkrétní síti uvnitř AS se již postará vnitřní směrovací protokol, který topologii (nebo alepoň cesty ke všem 
+sítím) svého vlastního AS zná. Směrovač, který je na hranici autonomního systému a účastní se jak na směrování mezi AS tak ve směrovacím protokolu svého AS, se nazývá hraniční směrovač.
+
+Při směrování v rámci jednotlivých autonomních systémů se používají tzv. vnitřní směrovací 
+protokoly - \textit{Interior Gateway Protocols}, IGP. Naopak pro směrování mezi autonomními systémy se používají vnější směrovací protokoly - \textit{Exterior Gateway Protocols}, EGP. Typickými vnitřními směrovacími protokoly jsou dnes např. OSPF nebo starší RIP, jako vnější směrovací protokol se používá téměř výhradně protokol BGP.
+
+\subsubsection{Statické směrování}
+Směrovací tabulky v jednotlivých směrovačích konfigurovány 'ručně', odpadá režie směrovacích protokolů. Tento způsob je bezpečnější (omezení možnosti generování falešných směrovacích informací, odposlouchávání topologie). Avšak při výpadku je nutný ruční zásah a manuální oprava. Použití v malých sítích, např, intranety.
+
+\subsubsection{Dynamické směrování}
+Automaticky reaguje na změny v sítí. Je méně bezpečně, ale hodí se pro velké sítě. Musí být provozovány směrovací protokoly. V praxi se většinou použijí oba typy směrování zároveň a staticky nadefinované cesty mají přednost.
+
+Směrovací algoritmy se děli na DVA-Distance vector algorithm a Link state.
+
+\subsubsection{Distance vector algorithm}
+Sousední směrovače navzájem vyměňují své směrovací tabulky a doplňují si informace, které se naučí od sousedů. Topologii celé sítě však neznají, musí se 
+spokojit s adresami sousedů, přes která mají posílat pakety do jednotlivých cílových sítí a vzdálenostmi k těmto sítím, které společně tvoří tzv. distanční vektory. Na začátku směrovací tabulka obsahuje pouze přímo připojené sítě staticky nakonfigurováno administrátorem.
+Periodicky se zasílají směrovací tabulky sousedům a z došlých směrovacích tabulek sousedů (vzdáleností sousedů od jednotlivých sítí) a výběrem nejlepší cesty si směrovač postupně upravuje svou směrovací tabulku. Pokud cesta nebyla delší dobu sousedem inzerována, ze směrovací tabulky se odstraní. 
+
+Metrikou je počet přeskoků na cestě mezi zdrojem a cílem, tedy nezohledňuje zatížení linek. Nevýhodou je pomalá konvergence při změně topologie, změna nastává až při nějakém broadcastu tabulek sousedů. Další nevýhodou je broadcast celých tabulek.
+
+\textbf{RIP -- Routing Information Protocol} starý, stále používaný v malých sítích. Max. 16 přeskoků.
+
+\textbf{IGRP -- Interior Gateway Routing Protocol} od Cisca, kromě počtu přeskoků zohledňuje zpoždění, propustnosti, spolehlivost. Max. 255 přeskoků.
+
+\subsubsection{Link state}
+Směrovače znají topologii celé sítě (cenu a funkčnost jednotlivých linek), tyto informace mají uložené v topologické databázi. Směrování probíhá tedy na základě stavu jednotlivých linek. Nejkratší cesta se počítá pomocí Dijkstrova algoritmu. 
+
+Každý směrovač neustále kontroluje stav připojených linek, testuje připojené sousedy (Hello protocol). Při změně okamžitě šíří tuto informaci všem ostatním směrovačům, které si ji uloží do topologické databáze, rychlá konvergence. Příkladem je \textbf{OSPF}.
+
+Nevýhodou je že směrovač musí znát topologii celé sítě.
+%---------------------------------------------------------------------------------------------
+\subsection{Topologie počítačových sítí, média, kolizní a bezkolizní metody sdílení média}
+Fyzická topologie je rozdělena podle vedení kabeláže. Logická topologie je logický systém uspořádání jednotlivých stanic. Elektrická topologie podle vedení vlastního signálu.
+\subsubsection{Topologie LAN sítí}
+\textbf{Sběrnice (bus)} používá pouze jeden páteřní kabel, který je na obou koncích ukončen terminátory a jednotlivá zařízení jsou připojena na tento kabel. Zcela pasivní médium, bez aktivních prvků. Využití v 10Base2 a 10Base5 Ethernetu. Výhodou je malé zpoždění signálu, nevýhodou je příjem dat všemi stanicemi. Problém nastává při chybě stanice a hlavně výpadku média.
+
+\textbf{Hvězda (star)} má ve středu jeden centrální prvek. Odolné vůči výpadku stanic, citlivé na výpadek centrálního prvku. Lehká realizace spojů bod--bod.
+
+\textbf{Strom (distribuovaná hvězda)} Centrální prvky hvězd jsou propojeny dalšími centrálními prvky. V LAN dnes nejpoužívanější. Možnost vytvářen smyčky, kvůli zajištění záložního spojení při výpadku spojení. Smyčky jsou vyřešeny protokolem Spanning Tree.
+
+\textbf{Kruh} Propojení jednotlivých zařízení za sebou. Při výpadku stanice se topologie rozpadne. Stanice umí vysílat pouze svému sousedovi, který data popřípadě přepošle dále.
+
+\subsubsection{Topologie WAN sítí}
+\textbf{Polygonální} Vzájemné propojení zařízení (směrovačů). Při výpadku spojení je síť schopna využít jiné cesty. Mezi směrovači spoje typu bod--bod.
+
+\subsubsection{Přenosová média}
+Přenosová média se dělá na Metalické, Optické a Rádiové sítě.
+
+\textbf{Metalická média}\\
+Nesymetrické - koaxiální a symetrické - kroucená dvojlinka (stíněná, nestíněná) kabely.
+
+\textbf{Koaxiální kabely} dokáží přenášet v základním i přeloženém pásmu. Základní pásmo: 0-150 MHz (bez použití modulace). Elektrické vlastnosti omezují maximální vzdálenost na stovky metrů.
+\\Přeložené pásmo: 50-750 MHz (použití modulace), lze překlenout vzdálenosti řádově jednotky Km.
+Koaxiální kabely jsou odolnější vůči interferenci než kroucená dvojlinka. Koaxiálního kabel je lehký a ohebný, jádro je z měděného drátu obklopeného izolací a opleteného kovovým stíněním(chrání jádro před elektrickým šumem) a vnější izolací.
+
+\textbf{Kroucená dvojlinka}  je nejlevnější a vyvinula se ze snahy využít stávajících telefonních rozvodů. Parametry má výrazně horší než koaxiální kabel. Typicky se používá  v základním pásmu v LAN. Dosah má maximálně 100m při přenosových rychlostech do 1Gbps. (přenosová rychlost podle kvality kabelu (kategorie)) Kabel obsahuje 4 kroucené páry z měděných izolovaných drátů -- kroucení odrušuje elektrický šum. Existují 2 typy TP:
+\begin{itemize}
+\item Nestíněná (UTP) - ze 2 izolovaných měděných vodičů, možnost přeslechu (smísení signálů) - nekvalitní
+\item Stíněná (STP) - plášť měděného drátu je kvalitnější, každý vodič krytý izolační fólií a navíc každý pár kroucených vodičů je také opláštěn
+\end{itemize}
+
+\textbf{Optická média}\\
+Vlákna jedno nebo více--vidová. Poskytují vysoko přenosovou kapacitu. Optická vlákna se používají místo kovových vodičů, protože signály jsou přenášeny s menší ztrátou a zároveň jsou vlákna imunní vůči elektromagnetickému rušení. Vlákno přepravuje světelný paprsek od zdroje k detektoru pomocí světelných impulsů. Optické vlákno je válečkový dielektrický vlnovod, ve kterém se šíří elektromagnetické vlny (zpravidla světlo) ve směru osy vlákna s využitím principu totálního odrazu na rozhraní dvou prostředí s rozdílným indexem lomu. Vnitřní část vlákna se nazývá jádro, okolo jádra je plášť a primární ochrana. K vazbě optického signálu na jádro musí být index lomu jádra vyšší, než má obal.
+
+Mnohavidové (multimode) optické vlákno - je druh optického vlákna, který je nejčastěji používán pro komunikaci na krátké vzdálenosti, jako například uvnitř budovy nebo areálu. Rychlost přenosu u vícevidových linek se pohybuje okolo 10 Mbit/s až 10 Gbit/s na vzdálenosti do 600 metrů, což je více než dostačující pro většinu prostor. Výhodou mnohavidových vláken je jejich relativně nízká cena a snazší spojování. Nevýhodou je projev multimódové disperze, dnes už se prakticky používá jen Single mod.
+
+Jednovidové (singlemode) optické vlákno - přenáší pouze jeden vid. Dosahuje nejvyšších rychlostí (skoro bez odrazů) a to velmi malým průměrem jádra (díky malému jádru se neprojevuje módová disperze). Jsou však dražší než mnohovidová. Lze je použít na delší vzdálenosti. Uplatnění pro vysokorychlostní přenosy v Internetu.
+
+\textbf{Rádiové sítě}\\
+
+\subsubsection{Kolizní metody sdílení média}
+Více stanic přistupuje současně na sdílené médium, možnost kolize, která je třeba řešit. Algoritmy řešení kolize: kolizní slot, aloha, taktovaná aloha,
+řízená aloha, CSMA/CD, CSMA/CA.
+
+\textbf{CSMA/CD}\\
+Před odeslaním rámce se testuje stav kanálu, je-li kanál odesílání se odloží. Kolize může nastat když více stanic začne vysílat při uvolnění média. Při detekci kolize se vyšle \textit{jam} signál, která oznámi všem, že musí okamžitě přestat vysílat a počkat náhodnou dobu než začnou vysílat znova.
+
+\subsubsection{Bezkolizní metody sdílení média}
+Je definován jednoznačný algoritmus, určující v jakém stanice mohou stanice přistupovat na sdílené médium, nemůže dojít ke kolizi, protože nikdy nepřistoupí více než jedna stanice na médium současně. Algoritmy: Token passing, centralizované řízení (pooling), distribuované řízení, rezervační rámec, binární vyhledávání a logický kruh.
+
+\textbf{Token passing}\\ 
+Mezi stanicemi cyklicky putuje rámec token (vysílací právo). Pouze stanice s tímto tokenem může začít vysílat. Metoda se buďto váže k fyzickému kruhu nebo sběrnici. Každá stanice dostane toto právě do nějakého časového limitu. Vhodné pro řízení technologických procesů.
+
+\textbf{Centralizované řízení}\\ 
+Přidělování na výzvu, stanice smí vysílat když je k tomu vyzvána řídícím prvkem (master). Tyto výzva je buď cyklická (stanice zašle data nebo neodpoví) nebo používá binární vyhledávání ve stromové struktuře.
+
+Přidělování na žádost, stanice žádají řídící prvek o právo vysílat.
+
+\textbf{Distribuované řízení - rezervační rámec} \\
+Řídící stanice periodicky generuje rezervační rámec, každá stanice má svůj slot, ve kterém si může zažádat o přidělení vysílacího práva. Datové sloty následně následují za rezervačním rámcem.
+
+%---------------------------------------------------------------------------------------------
+\subsection[Monolitické počítače]{Monolitické počítače, základní konstrukční vlastnosti. Obvyklé integrované periférie, jejich charakteristika}
+\subsubsection{Monolitické počítače}
+Mikroprocesory, mikrokontroléry, minipočítače to jsou další názvy pro monolitické počítače. Jsou to malé počítače integrované v jediném pouzdře (all in one), mají širokou oblast využití. Využívají Harvardské koncepce, což umožňuje aplikovat paměti pro data a program různých technologií. Zjednodušené rysy architektury RISC (INTEL 8051 (standart), ATMEL, MICROCHIP PIC). V monolitických počítačích můžeme najít dva základní typy paměti ROM - E(E)PROM nebo Flash. Paměť pro data a program je rozdělena. Typické periferie(obvody, které zajišťují komunikaci mikropočítače s okolím):
+
+\textbf{Vstupní a výstupní brány}\\
+Nejjednodušší a nejčastěji používané rozhraní pro vstup a výstup informací je u mikropočítačů paralelní brána - port. Bývá obvykle organizována jako 4 nebo 8 jednobitové vývody, kde lze současně zapisovat i číst logické informace (0 a 1). U většiny bran lze jednotlivě nastavit, které bitové vývody budou sloužit jako vstupní a které jako výstupní. Na vstupu je Schmittův klopný obvod. U mnoha mikropočítačů jsou brány implementovány tak, že s nimi instrukční soubor může pracovat jako s množinou vývodu, nebo jako s jednotlivými bity.
+
+\textbf{Čítače a časovače}\\
+Do skupiny nejpoužívanějších periférií mikropočítače určitě patří čítače a časovače. Časovač se od čítače příliš neliší. Není ale inkrementován vnějším signálem, ale přímo vnitřním hodinovým signálem používaným pro řízení samotného mikropočítače. Lze tak podle přesnosti zdroje hodinového signálu zajistit řízení událostí a chování v reálném čase. Při přetečení časovače se i zde může automaticky předávat signál do přerušovacího podsystému mikropočítače.
+
+\textbf{Sériové linky}\\
+Sériový přenos dat je v praxi stále více používán. Dovoluje efektivním způsobem přenášet data na relativně velké vzdálenosti při použití minimálního počtu vodičů. Hlavní nevýhodou je však nižší přenosová rychlost, a to že se data musí kódovat a dekódovat.
+\begin{itemize}
+\item USART (RS232) +/-12V jet transformována na TTL /RS422/RS485
+\item I2C (Philips) komunikace mezi integrovanými obvody (přenos dat uvnitř elektronického zařízení)
+\item SPI
+\end{itemize}
+
+\textbf{A/D a D/A převodníky}\\
+Fyzikální veličiny, které vstupují do mikropočítače, jsou většinou reprezentovány analogovou formou (napětím, proudem, nebo odporem). Pro zpracování počítačem však potřebujeme informaci v digitální (číselné) formě. K tomuto účelu slouží analogově–číslicové převodníky.
+
+%---------------------------------------------------------------------------------------------
+\subsection[Externí paměti počítačů, Zobrazovací jednotky]{Externí paměti počítačů: pevné disky, optická média. Zobrazovací jednotky: CRT, LCD, OLED, E-ink}
+\subsubsection{Magnetické paměti}
+Záznamové médium má tvar kruhové desky nebo dlouhé pásky a je pokryto magnetickou vrstvou rozdělenou na jednotlivé sektory, u nichž lze měnit pomocí cívky orientaci, podle toho zda-li chceme vyjádřit 1 nebo 0 nastavujeme S a J. Materiál nese informaci trvale a mezi hlavní představitele magnetické paměti dnes patří pevný disk a magnetofonové pásky.
+
+Zapisovací hlavu obvykle tvoří magneticky měkký materiál, na němž je navlečená cívka. Tato hlava má u styku s médiem štěrbinu. Prochází-li cívkou hlavy proud, vzniká v jejím jádru magnetické pole. Toto pole v místě štěrbiny z jádra 'vystupuje' a magnetuje aktivní vrstvu záznamového materiálu (pásek), který se před štěrbinou rovnoměrně posouvá. Při změně směru elektrického proudu v cívce se mění i směr magnetického toku jádrem a tím směr magnetizace vrstvy. Tak vznikají oblasti magnetizované tím či oním směrem a mezi nimi místa magnetických změn (magnetických reverzací), které představují zapsanou informaci (na obr. šipky vlevo či vpravo jsou buď 1 nebo 0). Čtení je realizováno také pomocí cívky, ve které se při pohybu nad různě orientovanými zmagnetizovanými místy indukuje elektrický proud.
+
+\image{magnetic.jpg}{Magnetický záznam}{0.6}
+
+\subsubsection{Pevné disky}
+Pevné disky jsou média pro uchování dat s vysokou kapacitou záznamu (řádově stovky MB až jednotky TB). V současnosti jsou pevné disky standardní součástí každého PC. Jedná se o pevně uzavřenou nepřenosnou jednotku. Uvnitř této jednotky se nachází několik nad sebou umístěných rotujících kotoučů (ploten). Tyto disky se otáčejí po celou dobu, kdy je pevný disk připojen ke zdroji elektrického napájení nezávisle na tom, zda se z něj čte nebo zapisuje. Rychlost otáčení bývá 3600 až 15000 otáček za minutu. Díky tomuto otáčení se v okolí disků vytváří tenká vzduchová vrstva, na níž se pohybují čtecí/zapisovací hlavy. Vzdálenost hlav od disku je asi 0,3 až 0,6 mikronu. Vzhledem k velmi vysoké hustotě záznamu je skutečně nutné, aby jednotka pevného disku byla pevně uzavřena, protože i velmi malá nečistota způsobí její zničení. Přenosové rychlosti 10-100MB/s.
+
+\image{hdd.jpg}{Plotna pevného disku}{0.4}
+Plotna je kruhovitá, kovová či skleněná deska pokrytá magnetickou vrstvou, u pevných disků jsou plotny neohebné (u disket ohebné), nad každým povrchem plotny je čtecí hlava, počtu ploten odpovídá počet hlav, plotna se obsahuje:
+\begin{itemize}
+\item stopu -- rozdělení plotny do soustředěných kružnic.
+\item sektor -- nejmenší adresovací jednotka (např. 4kB). Všechny stopy mají stejný počet sektorů, i když by na vnější straně mohl být větší počet sektorů.
+\item cylindr -- válec tvořící stopy nad sebou.
+\end{itemize}
+
+Data jsou na pevný disk ukládána po jednotlivých cylindrech tak, že se zaplní sektory celého 1. cylindru, a pak druhého. Tento způsob dovoluje, aby se čtecí (zapisovací) hlavy podílely na čtení (zápisu) paralelně. Ukládání dat po jednotlivých discích by bylo podstatně pomalejší, protože v daném okamžiku by vždy mohla pracovat právě jedna hlava.
+
+\subsubsection{Optické paměti CD/DVD}
+CD/DVD je médium, které je určeno pouze ke čtení informací. CD kapacita 700MB, DVD 4,7GB. Průměr 12 cm, vyrobeno polykarbonát. Data nejsou ukládána do soustředných kružnic jako u pevného disku, ale do jedné dlouhé spirály, která začíná u středu média a rozvíjí se postupně až k jeho okraji.
+Záznam je pouze na spodní straně disku. U klasických CD mechanik je konstantní rychlost čtení, ale rychlost otáčení CD-ROM disku se různí - je kontinuálně přizpůsobována podle toho, zda se čtení provádí blíže kraji nebo středu disku (u středu je rychlost otáčení vyšší na okraji naopak nižší).
+
+Záznam se provádí v podobě prohlubní a ostrůvků, pitů a polí, což reprezentuje jedničky a nuly. Při čtení dopadá laserový paprsek celou tloušťkou průhledného polykarbonátu, odráží se od vnitřní strany kotoučku a znovu prochází celou jeho tloušťkou ke čtecímu senzoru. Prochází tedy celé médium dvakrát. Pokud se v místě odrazu svazku od horního povrchu nachází pit, dojde k částečnému rozptýlení odrazu, a to vyvolá na čtecím senzoru jinou odezvu, než v případě odrazu čistého povrchu.
+ 
+Protože šířka stopy spirály je velmi malá, data jsou uložena s poměrně velkou hustotou a vlastní CD-ROM nosič není ničím chráněn, je velká pravděpodobnost, že i při běžné manipulaci může dojít ke špatnému přečtení některých uložených bitů. Proto informace uložené na médiu CD-ROM jsou silně redundantní (nadbytečné) a mechanika má obvody realizující na základě těchto nadbytečných informací poměrně složité algoritmy pro korekturu chyb vzniklých při čtení.
+
+CD-RW -- po tepelně měnitelný povrch dovolující přepsání uložené informace. DVD má více jak jednu vrstvu polykarbonátového disku.
+
+\subsubsection{CRT}
+CRT monitory pracují na principu katodové trubice. Hlavní částí každého monitoru je obrazovka, kterou tvoří skleněná baňka, na jejímž stínítku se zobrazují jednotlivé pixely. Při práci obrazovky jsou ze tří katod emitovány elektronové svazky, které jsou pomocí jednotlivých mřížek taženy až na stínítko obrazovky. Na zadní stěně stínítka obrazovky jsou naneseny vrstvy tzv. luminoforů (látka přeměňující kinetickou energii na energii světelnou). Tyto luminofory jsou ve třech základních barvách RGB. Vlastní elektronové svazky jsou bezbarvé, ale po dopadu na příslušné luminofory dojde k rozsvícení bodu odpovídající barvy. Protože elektronový svazek je z částic stejného náboje (záporného), mají tyto částice tendenci se odpuzovat a vlivem toho dochází k rozostřování svazku. Proto těsně před stínítkem obrazovky se nachází maska obrazovky. Je to v podstatě mřížka, která má za úkol propustit jen úzký svazek elektronů. Elektronové svazky jsou vychylovány pomocí vychylovacích cívek tak, že vzniká světelná stopa. Paprsek elektronů začne v levém horním rohu obrazovky, postupně dojde na pravý horní roh, vypne se, pak se sníží o jeden řádek a opět pokračuje zleva doprava. Obrazovka se překresluje asi 60x/s což je (60Hz) může být až 100Hz.
+
+\image{crt.png}{Řez CRT monitorem}{0.4}
+
+Výhody, ostrost, věrné barvy, doba odezvy, pozorovací úhly.
+
+Nevýhody, velikost, vyzařování, spotřeba.
+
+\newpage
+\subsubsection{LCD}
+Je tenké a ploché zobrazovací zařízení skládající se z určitého počtu barevných nebo monochromatických pixelů seřazených před zdrojem světla (podsvětlující katody). Vyžaduje poměrně malé množství elektrické energie. Každý pixel LCD se skládá z molekul tekutých krystalů uložených mezi dvěma průhlednými elektrodami (skleněné panely) a mezi dvěma polarizačními filtry a barevným filtrem (pro červenou, zelenou a modrou). Každý pixel je také aktivně ovládán jedním tranzistorem kontrolujícím velikost napětí, které prochází mezi vyrovnávacími vrstvami. Tato technologie je založena na elektromagnetických vlastnostech tekutých krystalů. Pomocí napětí na elektrodách jsou molekuly tekutých krystalů usměrňovány do příslušné polohy, přes které prochází polarizované světlo. Pokud je tekutý krystal v základním stavu (bez procházejícího napětí), molekuly jsou srovnány do spirálek. V tomto případě točí polarizaci procházejícího světla o 90 stupňů, takže světlo může projít i druhým polarizačním filtrem a v konečném důsledku prochází plný jas podsvětlujících katod. Druhý případ je kdy pixelem prochází veškeré možné napětí. Pak se molekuly srovnají vedle sebe a procházející světlo je polarizováno kolmě k druhému filtru, tím pádem dojde k pohlcení polarizačním filtrem. Důsledkem toho by měl být černý pixel. Pomocí ovlivnění stočení krystalů v pixelu lze kontrolovat množství procházejícího světla, a tudíž i celkovou svítivost pixelu. Tímto způsobem lze krystal regulovat v několika desítkách až stovkách různých stavů a tak vzniká výsledný jas barevných odstínů.
+
+IPS panel má krystaly ve stejné rovině jako první polarizační filtr, displej nesvítí v klidovém stavu. Což je opačná logika oproti TN.
+
+
+\image{lcd.png}{Tekuté krystaly mezi elektrodami v LCD panelu}{0.4}
+
+Dobrá kvalita obrazu, životnost, spotřeba energie, odrazivost a oslnivost, bez emisí.
+
+Nevýhody, citlivost na teplotu, pevné rozlišení, vadné pixely, doba odezvy.
+
+\subsubsection{OLED}
+OLED (organic light-emitting diode/display), hlavním prvkem displeje je organická dioda emitující světlo.
+V buňce pixelu je kovová katoda, vrstva pro přenos elektronů, organická vrstva emitující světlo, vrstva pro přenos děr a průhledná anoda. Po přivedení napětí na obě elektrody se začnou hromadit elektrony na straně anody (vrstva pro elektrony), díry (kladné částice) se nahromadí u katody (vrstva pro přenos děr). Při tom začne v organické vrstvě docházet ke srážkám mezi elektrony a dírami a tyto srážky vyvolají jejich vzájemnou eliminaci (rekombinace), přičemž dojde k vyzáření fotonu.
+
+Není třeba podsvícení, vysoký kontrast, velmi tenké, nízká spotřeba, dobrý pozorovací úhel, minimální zpoždění, snadná výroba, možnost použití v pružných displejích.
+
+Menší životnost, náchylnost na vodu.
+
+\subsubsection{E-INK}
+Neboli elektronický inkoust. Tento inkoust je tvořen mikrokapslemi o velikosti desítek až stovek mikro metrů. Kaplse obsahuje elektricky separovatelný roztok obsahující černé (záporné) a bílé (kladné) částice. Kapsle jsou umístěny mezi elektrody a částice jsou přitahovány k elektrodě opačného napětí. Používá se hydrokarbonátový olej(částice vydrží na místě i po odpojení napětí.) Černé částice z uhlíku, bíle z oxidu titaničitého.
+
+Energeticky velmi nenáročný displej s dobrým kontrastem a pozorovacími úhly, bez nutnosti podsvícení. 
+
+Ale pouze 16 odstínu šedi, zpoždění při překreslování.
+
+%---------------------------------------------------------------------------------------------
+\subsection{Paralelní architektury grafických procesorů (např. CUDA, OpenCL, apod.)}
+Grafické procesory slouží k zobrazení dat dodaných procesorem, propočítává body obrazu a ukládá je do videopaměti, ulehčuje práci CPU, jsou specializovány na grafické výpočty (výpočty geometrie, zpracování rastrových dat, práce s texturami atd.).
+
+Paměti:
+\begin{itemize}
+\item DRAM (dynamic RAM) -- jedna V/V brána pro čtení a zápis jako u CPU.
+\item VRAM (video RAM) -- jedna brána pro zápis, jedna pro čtení pro urychlení přenosu dat.
+\item WRAM (window RAM) -- stejně jako VRAM a navíc podpora 3D transformací a zpracování videa.
+\end{itemize}
+
+\subsubsection{CUDA}
+CUDA je unifikovaná architektura pro (obecné) výpočty na grafických kartách. Není potřeba znát architekturu konkrétní grafické karty a problémy se nemusí definovat v jazyce grafiky (textury), odpadá  tedy nutnost znalosti DirectX, OpenGL. CUDA funguje pouze na NVidia kartách, AMD má OpenCL.
+CUDA poskytuje programovací rozhraní pro často používané jazyky - C/C++, Fortran, Python a je optimalizována na matematicky náročné výpočty (zpracování obrazu, problémy definované pomocí mřížek). 
+
+V programu lze užít větvení, ale výkonnost programu je jím degradována. GPU obsahují velké množství ALU, ale malé množství řídících obvodů. Karta obsahuje několik multiprocesorů (SM). Multiprocesory mají sdílejí paměť grafické karty, ale i obsahují svoji vlastní paměť v niž jsou uloženy textury, a konstanty. Dále každý SM má vlastní procesory (každý s vlastními registry), sdílející paměť v rámci SM, a instrukční jednotku, která rozděluje práci procesorům. Všechny multiprocesory mají přístup sdílené ke globální, konstantní a texturové paměti.
+
+Výpočet na CUDE probíhá následovně:
+\begin{enumerate}
+\item Zkopírování dat z CPU na GPU
+\item Spuštění vláken na GPU
+\item Provedení výpočtu na GPU
+\item Zkopírování výsledku z GPU na CPU
+\end{enumerate}
+
+
+\textbf{Vlákna} musí na sobě být nezávislé, jelikož nelze zaručit pořadí jejich vykonávání. Vlákna jsou organizovány do bloku, bloky jsou dále také organizovány do mřížky (grid), ta jde rozšířit i do třetí dimenze. Skupiny vláken se nazývají warpy a jsou opakovaně spouštěny schedulerem a přepínají se mezi sebou (masivní paralelismus).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
