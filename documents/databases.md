@@ -3,6 +3,7 @@
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 1. Modelování databázových systémů, konceptuální modelování, datová analýza, funkční analýza; nástroje a modely.
 Základní pojmy v databázích:
+- SŘBD - Systém řízení báze dat
 - Entita - objekt reálného světa, jehož vlastnosti chceme evidovat, instance entitního typu
 - Typ entity - množina objektů stejného typu charakterizována názvem typu a seznamem atributů
 - Atribut - vlastnost entity, hodnota z domény atributu, zadán identifikátorem a datovým typem
@@ -427,14 +428,120 @@ Definuje datové struktury pro základní logické objekty a řeší uložení d
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 6. Objektově‐relační datový model a XML datový model: principy, dotazovací jazyky.
+Relační databázové systémy jsou dobré pro řízení velkého množství dat, vyhledávání dat, ale mají nízkou podpora pro manipulaci s nimi. 
+ORDB jsou výborné pro manipulaci s daty, neboť pomocí jazyka aplikace přistupujeme k objektovým tabulkám. Pokud navíc opomeneme programátorskou stránku, dá se říct, že některé typy dotazů jsou efektivnější než v RDB díky dědičnosti a referencím. 
 
+Objektový datový model jsou data uložená v objektové strukture. Jde většinou o objektovou mezivrstvu mezi kódem a databází, do které jsou ukládány data.
+
+Všechny trvalé informace jsou stále v tabulkách, ale některé položky mohou mít bohatší datovou strukturu, nazývanou abstraktní datové typy (ADT). ADT je datový typ, který vznikne zkombinováním základních datových typů. Podpora ADT je atraktivní, protože operace a funkce asociované s novými datovými typy mohou být použity k indexování, ukládání a získávání záznamů na základě obsahu nového datového typu. ORDB jsou nadmnožinou RDB a pokud nevyužijeme žádné objektové rozšíření jsou ekvivalentní SQL2. Proto má omezenou podporu dědičnosti, polymorfismu, referencí a integrace s programovacím jazykem.
+
+OOSŘBD umožňují používat uživatelské typy, dědičnost, metody tříd, rozlišují pojmy instance a ukazatel na instanci. 
+```
+CREATE OR REPLACE TYPE TAddress AS OBJECT(
+  street VARCHAR2(30), 
+  city VARCHAR2(30), 
+  PSC NUMBER(5),
+STATIC FUNCTION x (a VARCHAR2, b INT) RETURN REF TAddress)
+```
+
+- objektové rysy jsou v současnosti ve všech větších DBS
+- objektové typy a jejich metody jsou uloženy s daty přímo v DB, není nutnost vytvářet v aplikaci
+- programátor může přistupovat k množině objektů jako k jednomu objektu
+- objekty mohou jednoduše reprezentovat vazby
+- metody jsou spouštěny na serveru
+- objektové datové typy:
+  - Objektové tabulky - obsahují pouze objekty, řádkové objekty
+  - Relační tabulky - obsahují objekty i data, sloupcový objekt
+- objektové datové typy:
+  - Objektový identifikátor `OID` - identifikuje objekt, není přímo dostupný, pouze přes referenci, ORDB automaticky generuje `OID`
+    - ukazatel nebo reference na objekt je datový typ `REF`, ten může mít hodnotu `null`
+  - Kolekce - pro vícehodnotové atributy nebo vazby M:N
+    - pole proměnné délky
+    - vehnízděné tabulky
+  - Hierarchická dědičnost - můžeme dědit, možnost využít dědičnost
+  - objektové datové typy mohou obsahovat jak data (atributy) tak i operace (metody)
+
+### XML
+- obecný značkovací jazyk, standard W3C
+- Data jsou uložena v textovém XML souboru formou stromu
+- Logika a význam dat je součástí XML souboru
+- Skládá se z hlavičky, jednoho kořenového elementu a dalších vnořených elementů či atributů
+- Dotazovací jazyk XQuery
+  - silně typovaný jazyk
+  - $ identifikuje proměnné
+  - for, where, order by, return, let
+  ```XQuery
+  for $act in doc("hamlet.xml")//ACT
+   let $speakers := distinct-values($act//SPEAKER)
+   return
+     <div>
+       <h1>{ string($act/TITLE) }</h1>
+       <ul>
+       {
+         for $speaker in $speakers
+         return <li>{ $speaker }</li>
+       }
+       </ul>
+     </div>
+  ```
+- XPath
+  - jazyk používaný pro identifikaci uzlů v XML souboru.
+  - možnost vyjádřit cesty k uzlům
+  ```XPath
+  //polozka[cena/@mena='USD'].
+  ```
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 7. Datová vrstva informačního systému; existující API, rámce a implementace, bezpečnost; objektově-relační mapování.
+Datová vrstva IS odděluje aplikační logiku od databáze. Jde o třídy a funkce starající se o komunikaci s databází.
 
+Aplikační rámec (framework) je sada spolupracujících tříd a rozhraní určených pro řešení specifického problému. Třídy a komponenty představují abstrakce pojmů, rámec definuje, jak se tyto abstrakce podílejí na řešení problémů. Komponenty apl. rámce jsou znovupoužitelné. Příkladem mohou být ASP.NET (Core), Blazor, Spring Framework.
+
+**ODBC (Open DataBase Connectivity)**
+- standardizované API pro přístup k DBS. ODBC se snaží poskytnou přístup nezávislý na programovacím jazyku, DBS a OS.
+- ADO.NET - knihovna pro přístup k datům v .NET
+
+**JDBC ovladač** 
+- rozhraní pro unifikovaný přístup k datům (Oracle), inspirováno rozhraním ODBC, zprostředkování komunikace aplikace s konkrétním typem DB, implementován obvykle výrobcem databáze, dotazovací jazyk – SQL, předá se DB, ovladač jej vyhodnotí.
+- Java2EE - knihovny pro IS
+
+
+**ORM**
+- Programovací technika zpřístupňující relační či objektově-relační data pro objektové prostředí. Dovoluje práci s objektovým modelem, rychlejší vytváření aplikací. Přenositelnost mezi různými SŘBD. Nevyužívá všechny vlastnosti SŘBD (efektivita, bezpečnost apod.) Nabízí typovou kontrolu, méně chyb v SQL, jednodušší testování.
+- Entita je implementována jako třída.
+- EntityFramework (LinqToSql), Hibernate, 
+- lazy loading
+- zmínit mapování z relačních tabulek na objekty
+
+**SQL Injection**
+- Zranitelnost vznikající při nedostatečném ošetření vstupů užívaných v SQL dotazech. 
+- Řešením jsou hlavně parametrizované dotazy, uložené procedury, správně nastavená práva a kontrola vstupu.
+
+```
+SELECT * FROM User WHERE login='admin' AND pass='' OR '1'='1'; --instant login 
+```
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 8. Distribuované SŘBD, fragmentace a replikace.
+SŘBD je softwarové vybavení, které zajišťuje práci s DB, tvoří rozhraní mezi aplikací a daty. Distribuovaná DB ma data rozdělena na více počítačích. Přičemž je zachována **transparentnost**, uživatel nepozná tuto fragmentaci dat. A **autonomnost**, uživatel může s lokální databázi plně pracovat.
+
+Distribuované DB se dělí na:
+- Centralizovanou - všechny dotazy směřují do centálního uzlu s řídící jednotkou, nebezpečí při výpadku tohoto uzlu
+- Decentralizovanou - každý uzel má svou řídící jednotku, vysoké nároky na obsluhu, nutno koordinovat transakce
+- Kombinované - nejlepší, některé uzly jsou řídící
+
+**Replikace**
+- Replikací dat rozumíme uchování kopií relací v různých uzlech. 
+- Replikace zajišťuje plnou funkčnost DB i při vypadnutí uzlu. Díky tomu se distribuované databázy automaticky zálohují.
+- Nevýoda při aktualizaci dat, všechny kopie musí být aktualizované zároveň
+- zvýšuje výkon operace SELECT, snížuje výkon operací INSERT, UPDATE, DELETE
+
+**Fragmentace** 
+- rozdělení distribuované DB do více uzlů. 
+- Podle toho zda je DB rozsekána po sloupcích nebo řádcích se dělí na fragmentaci vertikální nebo horizontální.
+- každý fragment musí mít unikátní jméno
+- všechny položky musí mát v DDB unikátní jména -> slovník centrálních názvů
+
 
 
 \newpage
