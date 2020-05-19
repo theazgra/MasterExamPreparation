@@ -255,6 +255,92 @@ např. $<6$.
   - 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 5. Jazyk predikátové logiky prvního řádu. Práce s kvantifikátory a ekvivalentní transformace formulí.
+- Výroková logika analyzuje způsoby skládání jednoduchých výroků do výroků složených pomocí logických spojek (konjunkce, disjunkce, implikace, ekvivalence). 
+- Výrok je tvrzení, o kterém lze rozhodnout, zda je pravdivé, či nikoliv.
+- Úsudek - na základě pravdivosti předpokladů $P_1, P_2, \ldots, P_n$ je možno soudit, že je pravdivý i \textbf{závěr} Z.
+- Atomický výrok - nedá se rozložit na žádné menší výroky. 
+- Složený výrok je složen z atomických výroků. 
+- Výroky jsou definovány pomocí formulí. 
+- Formule je posloupnost symbolů určité abecedy. Logické spojky s:
+  - arita 1: negace; 
+  - arita 2: konjunkce, disjunkce, implikace, ekvivalence.
+- Tautologie -  Vždy pravdivé tvrzení.
+- Kontradikce -  Vždy nepravdivé tvrzení.
+- Splnitelná formule - Alespoň jedno ohodnocení kdy je formule pravdivá.
+- Abstraktní syntaktický strom - orientovaný acyklický graf.
+- Sémantický spor - případ, kdy zjistíme, že při ohodnocení s požadovanou vlastností, které hledáme by musela být daná formule současně pravdivá i nepravdivá
+- Logicky ekvivalentní formule - Obě formule mají pro všechny ohodnocení stejnou pravdivostní hodnotu
+- Literál - atomický výrok nebo jeho negace.
+
+Důležité ekvivalence:
+|  |  |  |
+| :-----: | :-----: | :-----: |
+| $\neg\neg p \iff p$ | $(p \wedge q) \wedge r \iff p \wedge (q \wedge r)$ | $p \wedge q \iff q \wedge p$ |
+| $p \wedge p \iff p$ | $(p \vee q) \vee r \iff p \vee (q \vee r)$  | $p \vee q \iff q \vee p$ |
+| $p \vee p \iff p$ | | |
+| Distributivní zákony | $p \wedge (q \vee r) \iff (p \wedge q) \vee (p \wedge r)$ | $p \vee (q \wedge r) \iff (p \vee q) \wedge (p \vee r)$ |
+| De-Morganovy zákony| $\neg(p \wedge q) \iff \neg p \vee \neg q$ | $\neg(p \vee q) \iff \neg p \wedge \neg q$ |
+| Implikace | $p \implies q \iff \neg p \vee q$ | $\neg(p \implies q) \iff p \wedge \neg q$ |
+
+Další ekvivalence
+
+|  |
+|:---: |
+| $((p \iff q) \iff r) \iff (p \iff (q \iff r))$ |
+| $(p \iff q) \iff (q \iff p)$ |
+| $(p \iff q) \iff( (p \implies q) \wedge (q \implies p))$ |
+| $(p \iff q) \iff ((p \vee \neg q) \wedge (q \vee \neg p))$ |
+
+
+
+DNF - Disjunktivní normální forma je ekvivalentní s danou formulí a mající tvar disjunkce elementárních konjunkcí 
+- $DNF(p \iff p)\iff (p \wedge p) \vee (\neg p \wedge \neg p) \iff p \vee \neg p$
+
+KNF - Konjunktivní normální forma je ekvivalentní s danou formulí a mající tvar konjunkce elementárních disjunkcí.
+- $KNF(p \iff p)\iff (\neg \vee p) \wedge (\neg p \vee p)$
+
+UNDF - Úplná disjunktivní normální forma je ekvivalentní s danou formulí a mající tvar disjunkce úplných elementárních konjunkcí.
+- $UDNF(p \iff q)\iff (p \wedge q) \vee (\neg p \wedge \neg q)$
+
+### Predikátová logika
+- Predikátová logika označuje formální odvozovací systém používaný k popisu matematických teorií a vět.
+- Predikátová logika je rozšířením výrokové logiky. Navíc umožňuje analyzovat strukturu elementárních výroků, a to až do úrovně vlastností a vztahů mezi individui
+- Individuum je prvek z nějaké množiny (univerza) a predikát je relace na této množině.
+- Univerzální kvantifikátor ($\forall$) - Do běžného jazyka lze jeho význam přeložit jako "pro každé"
+- Existenční kvantifikátor ($\exists$) - Do běžného jazyka lze jeho význam přeložit jako existuje
+- Formule predikátové logiky vyjadřují tvrzení o objektech, které mají nějaké vlastnosti a které jsou v určitých vzájemných vztazích.
+- Interpretace či interpretační struktura je konkrétní soubor těchto objektů, jejich vlastností a vztahů. 
+- Universum je soubor všech objektů v dané interpretaci. 
+  - Universem může být libovolná neprázdná množina. 
+  - Objektům z tohoto universa se říká prvky universa.
+- Valuace je přiřazení prvků universa proměnným.
+- Pravdivost formulí závisí na dané interpretaci a valuaci. Ty interpretace, ve kterých daná formule platí, se označují jako její modely.
+- V interpretacích se funkčním symbolům přiřazují pouze totální funkce, tj. funkce, jejichž hodnota je definovaná pro všechny možné hodnoty argumentů.
+- Formule v predikátové logice se skládá z: logických spojek, kvantifikátorů, pomocných symbolů (',','(',')'), proměnných a predikátových symbolů.
+- Rezoluční metoda
+  - Rezoluční metoda je jedním z algoritmů pro zjištění toho, zda daný závěr vyplývá z daných předpokladů. 
+  - Dá se použít také pro zjištění, zda je daná formule tautologie, kontradikce nebo splnitelná. 
+  - Pracuje s formulemi v KNF. Vytváří důkaz toho, že daný závěr plyne z předpokladů.  
+  - Jedná se o důkaz sporem - postupně generuje formule, které vyplývají z předpokladů. 
+  - Výpočet může skončit dvěma různými způsoby: Podaří se najít spor, tj. podaří se odvodit formuli $\bot$ - pak platí, že závěr $\psi$ logicky vyplývá z předpokladů $\psi_1,\psi_2,\ldots ,\psi_n$ a nebo se nepodaří se odvodit $\bot$ a žádné další nové formule se nedají přidat - pak závěr $\psi$ z daných předpokladů nevyplývá.
+  - Pravidla:
+    - Pořadí literálů v klauzulích není podstatné.
+    - Vícenásobné výskyty stejných literálů v téže klauzuli je možno odstranit.
+    - Pokud je nově vygenerovaná klauzule stejná, jako nějaká dříve přidaná klauzule (a liší se nanejvýš pořadím literálů), nemá smysl ji přidávat.
+    - Klauzule, které obsahují zároveň literály $p$ a $\neg p$ jsou ekvivalentní $\top$ a je možné je odstranit.
+    - Klauzule je možno používat pro aplikaci rezolučního pravidla opakovaně (s jinými klauzulemi).
+
+Příklad:
+1. $\neg j \vee p$ -- předpoklad 1
+2. $\neg j \vee d \vee r$ -- předpoklad 2
+3. $\neg d \vee \neg p$ -- předpoklad 3
+4. $j$ -- 1. klauzule z negovaného závěru
+5. $\neg r$ -- 2. klauzule z negovaného závěru
+6. $p$ -- rezoluce 1,4
+7. $d \vee r$ -- rezoluce 2,4
+8. $\neg d$ -- rezoluce 3,6
+9. $r$ -- rezoluce 7,8
+10. $\bot$ -- rezoluce 5,9, **SPOR**
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
