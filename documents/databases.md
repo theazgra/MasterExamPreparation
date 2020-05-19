@@ -31,6 +31,8 @@ Databázový systém můžeme modelovat třemi datovými modely.
 
 
 ### Datová analýza
+![ER diagram, crow-foot notation](../img/er.png "ER diagram, crow-foot notation"){ width=60% }
+
 - Zkoumá objekty realného světa, jejich vlastnosti a vztahy. Ze specifikace požadavků na IS:
   - podstatná jména -> objekty
   - slovesa -> vazby mezi objekty
@@ -38,7 +40,6 @@ Databázový systém můžeme modelovat třemi datovými modely.
 - Výsledkem je konceptuální schéma
   - ER Diagram
     - grafické znázornění objektů a vztahů mezi nimi
-    ![ER diagram, crow-foot notation](../img/er.png)
   - Lineární zápis entit
     - popisuje objekty, jejich vlastnosti a vztahy z implementačního pohledu
     - Employee (<u>Id</u>, Name, Surename, Age)
@@ -55,10 +56,12 @@ Databázový systém můžeme modelovat třemi datovými modely.
 ### Funkční analýza
 - řeší funkce systému, vyhodnocuje manipulaci s daty v systému
 - pomocí DFD (data flow diagram) analyzuje toky dat, základní funkce systému a aktéry, kteří se systémem pracují
-- ![dfd](../img/dfd.png)
 - výstupem jsou minispecifikace
 
+![dfd](../img/dfd.png "dfd"){ width=60% }
+
 **Diagram datových toků (DFD)**
+
 - je grafický nástroj pro modelování vztahů funkcí
 - Popisuje algoritmy systému, transformace dat z jedné formy do druhé. 
 - Modeluje funkce systému pomocí grafu, používá:
@@ -69,6 +72,7 @@ Databázový systém můžeme modelovat třemi datovými modely.
 
 
 **Minispecifikace** 
+
 - Podrobná analýza algoritmů elementárních funkcí, tedy procesů nejnižší úrovně DFD.
 - Používá se přirozený jazyk, tak aby byla minispecifikace nezávislá na implementaci
 - Měla by být ale strukturovaná a používat standardní programové struktury, IF, LOOP
@@ -180,12 +184,14 @@ SQL (Structured Query Language) je strukturovaný dotazovací jazyk, který je p
 - kontrolní body jsou vytvářeny např. po určitém počtu záznamů, které byly zapsány do logu a zahrnují
   - zápis obsahu vyrovnávací paměti na disk
   - zápis záznamu o kontrolním bodo do logu
-![kontrolní body](../img/controlpts.png)
+![kontrolní body](../img/controlpts.png "kontrolní body"){ width=60% }
+
  - T3 a T5 musí být zrušeny
  - T2 a T4 musí být přepracovány
  - Transakce T1 je v pořádku
 
 **Algoritmus zotavení**
+
 1. Vytvoří se 2 seznamy transakcí UNDO a REDO
 2. Do UNDO se vloží všechny transakce, které nebyly úspěšně dokončeny před posledním kontrolním bodem, REDO je prázdné.
 3. Začnou se procházet záznamy v logu, od záznamu posledního kontrolního bodu. Pokud je pro transakci T nalezen v logu COMMIT, přesune se T z UNDO do REDO seznamu.
@@ -197,6 +203,7 @@ SQL (Structured Query Language) je strukturovaný dotazovací jazyk, který je p
 
 ### Techniky zotavení
 **Odložená aktualizace (NO-UNDO/REDO)**
+
 - Neprovádí aktualizace logu ani databáze až do potvrzení transakce, mezitím jsou všechny aktualizace jsou v paměti. 
 - Po potvrzení transakce je aktualizace zaznamenána v logu a následně v DB. 
 - Pokud transakce selže, není nutné provést UNDO. 
@@ -205,18 +212,21 @@ SQL (Structured Query Language) je strukturovaný dotazovací jazyk, který je p
 - V praxi se používá, když systém provádí krátké transakce a transakce mění pouze málo položek (limit velikost paměti)
 
 **Okamžitá aktualizace (UNDO/NO-REDO)**
+
 - Aktualizace logu a databáze po každé aktualizaci transakce (nejprve log, poté databáze). 
 - Selhání před dosažením potvrzovacího bodu znamená UNDO. 
 - Do logu se ukládají původní hodnoty, což umožní po zotavení provést UNDO. 
 - Velký počet zápisů do DB, ale nedojde k přetečení vyrovnávací paměti.
 
 **Kombinovaná technika (UNDO/REDO)**
+
 - Aktualizace jsou zapsány do logu po potvrzení. Změny zapsány do DB v určitých časových intervalech - kontrolních bodech. 
 - Kontrolní body jsou vytvářeny např. po určitém počtu záznamů  (Zápis obsahu vyrovnávací paměti do DB nebo Zápis záznamu o kontrolním bodu do logu.) 
 - Záznam o kontrolním bodu obsahuje všechny transakce vykonané v době vytvoření kontrolního bodu a transakce ukončené před kontrolním bodem, které ale nebyly zapsány do DB v rámci předchozího k. bodu. 
 - V praxi nejpoužívanější technika
 
 **Metoda stínového stránkování**
+
 - Před zahájením transakce jsou původní data zálohována ve stínové tabulce
 - Při prerušení nebo selhání jsou tyto data obnovena
 - Při úspěšné transakci se uvolní záloha ve stínové tabulce
@@ -267,6 +277,7 @@ Může nastat situace kdy dvě nebo více transakce čekají na uvolnění zámk
 - Po uvolnění zámku nesmí již transakce požadovat další zámek (Fáze 2 - uvolnění).
 
 **Správa verzí**
+
 - Předpokládáme, že se nebudou transakce ovlivňovat. Vytváří se kopie a systém sleduje, která verze má být viditelná pro ostatní v závislosti na izolaci.
 - Další techniky řízení souběhu jsou Časová razítka a Validace.
 
@@ -364,12 +375,14 @@ Definuje datové struktury pro základní logické objekty a řeší uložení d
 - každý záznam v tabulce ma přiřazené unikátní číslo ROWID
 
 **Tabulka typu halda** 
+
 - Stránkované persistentní pole.
 - Záznamy nejsou fyzicky mazány, jsou pouze označeny jako smazané (pro skutečné smazání musí být proveden shrinking). 
 - Při vkládání je záznam umístěn na první volnou pozici nebo na konec pole. 
 - Neefektivní vyhledávání ($O(n)$) – nelze se spoléhat na uspořádání záznamů v tabulce. Efektivní z pohledu využití místa a operace INSERT ($*O(1)$).
 
 **Shlukování záznamů (data clustering)** 
+
 - Záznamy jsou v datovém souboru seřazeny podle zvoleného klíče, pro implementaci bývá využita nějaká varianta B-stromu. 
   - Záznamy se stejnou hodnotou atributu jsou uloženy ve stejném nebo alespoň blízkém bloku
 - Hodí se v případech, kdy je třeba získat hodnoty neklíčových atributů. 
@@ -377,6 +390,7 @@ Definuje datové struktury pro základní logické objekty a řeší uložení d
 - (Oracle: indexed organized table (IOT), SQL Server: clustered index)
 
 **Zhmotněné pohledy**
+
 - Nejedná se přímo o fyzické tabulky, ale spíše uložené výsledky dotazů
 - jsou vyhodnocovány při dotazu na data
 
@@ -462,6 +476,7 @@ STATIC FUNCTION x (a VARCHAR2, b INT) RETURN REF TAddress)
   - objektové datové typy mohou obsahovat jak data (atributy) tak i operace (metody)
 
 ### XML
+
 - obecný značkovací jazyk, standard W3C
 - Data jsou uložena v textovém XML souboru formou stromu
 - Logika a význam dat je součástí XML souboru
@@ -498,15 +513,18 @@ Datová vrstva IS odděluje aplikační logiku od databáze. Jde o třídy a fun
 Aplikační rámec (framework) je sada spolupracujících tříd a rozhraní určených pro řešení specifického problému. Třídy a komponenty představují abstrakce pojmů, rámec definuje, jak se tyto abstrakce podílejí na řešení problémů. Komponenty apl. rámce jsou znovupoužitelné. Příkladem mohou být ASP.NET (Core), Blazor, Spring Framework.
 
 **ODBC (Open DataBase Connectivity)**
+
 - standardizované API pro přístup k DBS. ODBC se snaží poskytnou přístup nezávislý na programovacím jazyku, DBS a OS.
 - ADO.NET - knihovna pro přístup k datům v .NET
 
 **JDBC ovladač** 
+
 - rozhraní pro unifikovaný přístup k datům (Oracle), inspirováno rozhraním ODBC, zprostředkování komunikace aplikace s konkrétním typem DB, implementován obvykle výrobcem databáze, dotazovací jazyk – SQL, předá se DB, ovladač jej vyhodnotí.
 - Java2EE - knihovny pro IS
 
 
 **ORM**
+
 - Programovací technika zpřístupňující relační či objektově-relační data pro objektové prostředí. Dovoluje práci s objektovým modelem, rychlejší vytváření aplikací. Přenositelnost mezi různými SŘBD. Nevyužívá všechny vlastnosti SŘBD (efektivita, bezpečnost apod.) Nabízí typovou kontrolu, méně chyb v SQL, jednodušší testování.
 - Entita je implementována jako třída.
 - EntityFramework (LinqToSql), Hibernate, 
@@ -514,6 +532,7 @@ Aplikační rámec (framework) je sada spolupracujících tříd a rozhraní ur�
 - zmínit mapování z relačních tabulek na objekty
 
 **SQL Injection**
+
 - Zranitelnost vznikající při nedostatečném ošetření vstupů užívaných v SQL dotazech. 
 - Řešením jsou hlavně parametrizované dotazy, uložené procedury, správně nastavená práva a kontrola vstupu.
 
@@ -531,12 +550,14 @@ Distribuované DB se dělí na:
 - Kombinované - nejlepší, některé uzly jsou řídící
 
 **Replikace**
+
 - Replikací dat rozumíme uchování kopií relací v různých uzlech. 
 - Replikace zajišťuje plnou funkčnost DB i při vypadnutí uzlu. Díky tomu se distribuované databázy automaticky zálohují.
 - Nevýoda při aktualizaci dat, všechny kopie musí být aktualizované zároveň
 - zvýšuje výkon operace SELECT, snížuje výkon operací INSERT, UPDATE, DELETE
 
 **Fragmentace** 
+
 - rozdělení distribuované DB do více uzlů. 
 - Podle toho zda je DB rozsekána po sloupcích nebo řádcích se dělí na fragmentaci vertikální nebo horizontální.
 - každý fragment musí mít unikátní jméno

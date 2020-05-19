@@ -9,13 +9,17 @@ Registr je malé uložiště dat v mikroprocesoru s rychlým přístupem, které
 
 Sběrnice je soustava vodičů pro přenos informací mezi více účastníky na principu jeden vysílá a ostatní přijímají. Sběrnice se podle přenášené informace dělí na datové, adresové a řídící.
 
-**CISC** – počítač se složitým souborem instrukcí
+**CISC** 
+
+- počítač se složitým souborem instrukcí
 - Bohatá instrukční sada, složené operace
 - Instrukce mají proměnlivou délku i dobu vykonání
 - Poměrně malý počet registrů – složitá instrukce může být rozdělena na více jednodušších instrukcí
 - CISC procesory umí vykonat více operací na HW úrovni než RISC procesory, nemusí tedy umět více instrukcí
 
-**RISC** – počítač s redukovaným souborem instrukcí
+**RISC** 
+
+- počítač s redukovaným souborem instrukcí
 - Malý počet instrukcí, které dovolují všechny výpočty
 - Instrukce vytvořeny pomocí obvodů, jednodušší výroba než CISC
 - Širší sběrnice, rychlejší tok dat z a do procesoru
@@ -28,6 +32,7 @@ Sběrnice je soustava vodičů pro přenos informací mezi více účastníky na
 - Mikroprocesorový řadič může být nahrazeny rychlejším obvodovým řadičem
 
 **Zřetězené zpracování instrukcí (pipelining)**
+
 - Na dosažení zřetězení je nutné rozdělit úlohu do posloupnosti dílčích úloh, z nichž každá může být vykonána samostatně
   - např. oddělit načítaní a ukládání dat z paměti od provádění výpočtu instrukce a tyto části pak mohou běžet souběžně.  
 - To znamená že musíme osamostatnit jednotlivé části sekvenčního obvodu tak, aby každému obvodu odpovídala jedna fáze zpracování instrukcí. 
@@ -44,6 +49,7 @@ Sběrnice je soustava vodičů pro přenos informací mezi více účastníky na
 - Souvisejícím problémem je přerušení.
 
 **Plnění fronty instrukcí**
+
 - Pokud se dokončí skoková instrukce, která odkazuje na jinou část kódu musejí být instrukce za ní zahozeny (problém plnění fronty intrukcí). 
 - U malého zřetězení neřešíme.
 - Používání bublin na vyprázdnění pipeline, naplnění prázdnými instrukcemi. 
@@ -71,8 +77,8 @@ Sběrnice je soustava vodičů pro přenos informací mezi více účastníky na
   - Počítač může mít i více jak jeden procesor. 
   - Podle Von Neumanova schématu mohl počítač pracovat pouze v tzv. diskrétním režimu, kdy byl do paměti počítače zaveden program, data a pak probíhal výpočet. V průběhu výpočtu již nebylo možné s počítačem dále interaktivně komunikovat. 
   - Dnes existují vstupní/ výstupní zařízení, např. pevné disky a páskové mechaniky, které umožňují vstup i výstup. Program se do paměti nemusí zavést celý, ale je možné zavést pouze jeho část a ostatní části zavádět až v případě potřeby.
-
-![neumann and hardvard](../img/neumann_harvard.png)
+ 
+![neumann and hardvard](../img/neumann_harvard.png "neumann and hardvard"){ width=60% }
 
 - ALU - aritmetickologická jednotka - jednotka provádějící veškeré aritmetické výpočty a logické operace. Obsahuje sčítačky, násobičky a komparátory.
 - Operační paměť - slouží k uchování zpracovávaného programu, zpracovávaných dat a výsledků výpočtu
@@ -130,18 +136,21 @@ Sběrnice je soustava vodičů pro přenos informací mezi více účastníky na
   - Pro zpracování počítačem však potřebujeme informaci v digitální (číselné) formě. K tomuto účelu slouží analogově–číslicové převodníky.
 
 **Střadačové (pracovní) registry**
+
 - ve struktuře procesoru jsou obvykle 1-8-16 základních pracovních registrů, jsou nejpoužívanější. 
 - Ukládají se do nich aktuálně zpracovávaná data a jsou nejčastějším operandem strojových instrukcí.
 - také se do nich nejčastěji ukládají výsledky operací. Nejsou určeny pro dlouhodobé ukládání dat.
 
 
 **Univerzální zápisníkové registry**
+
 - jsou jich desítky až stovky. Slouží pro ukládání nejčastěji používaných dat. 
 - Instrukční soubor obvykle dovoluje, aby se část strojových instrukcí prováděla přímo s těmito registry. 
 - Formát strojových instrukcí obvykle nedovoluje adresovat velký rozsah registru, proto se implementuje několik stejných skupin registru vedle sebe, s možností mezi skupinami přepínat - registrové banky.
 
 
 **Pamět dat RWM**
+
 - slouží pro ukládání rozsáhlejších nebo méně používaných dat (z těch předešlých nejméně používaný). 
 - Instrukční soubor obvykle nedovoluje s obsahem této paměti přímo manipulovat, kromě instrukcí přesunových. Těmi se data přesunou např. do pracovního registru. 
 - Některé procesory dovolují, aby data z této paměti byla použita jako druhý operand strojové instrukce, výsledek ale nelze zpět do této paměti uložit přímo.
@@ -190,6 +199,7 @@ Správa procesů řeší problematiku aktivování a deaktivování procesů pod
   - OS řídí, kdo má přístup, k jakým datům a souborům
 
 **Struktura OS podle jádra**
+
 - Monolitický OS –jádro je na jednom místě, aplikace jsou odděleny od OS a komunikují s OS pomocí systémových volání
 - Otevřené systémy – aplikaci i jádro v jednom adresním prostoru
 - MicroKernelOS – minimální chráněné jádro, ostatní OS věci běží v adresním prostoru aplikací
@@ -198,8 +208,8 @@ Správa procesů řeší problematiku aktivování a deaktivování procesů pod
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 4. Protokolová rodina TCP/IP.
 
-![tcpipvsosi](../img/iso-osi-vs-tcp-ip.gif)
-![tcpipzapouzd](../img/Tcpip_zapouzdreni.svg.png)
+![tcpipvsosi](../img/iso-osi-vs-tcp-ip.gif "tcpipvsosi"){ width=60% }
+![tcpipzapouzd](../img/Tcpip_zapouzdreni.svg.png "tcpipzapouzd"){ width=60% }
 
 ### Model ISO/OSI (*added*)
 - ISO vypracoval referenční model OSI (Open Systems Interconnection), který rozdělil práci v síti do 7 vzájemně spolupracujících vrstev.
@@ -220,6 +230,7 @@ Tato skupina protokolů je dnes určitě nejrozšířenější. Původně byla n
 Spolupráce vrstev probíhá asi takto: K navázáni spojení použije program aplikační vrstvu, od níž putuje požadavek na spojení do transportní vrstvy. Ta zorganizuje dopravu dat (data rozdělí na segmenty, naváže spojení, zkontroluje, zda byla data doručena). Vlastní přenos zajišťuje nižší -- síťová vrstva. Segmenty, které obdržela od nadřazené vrstvy, "zabalí" do datagramů a doručí vzdálenému počítač
 
 **Aplikační vrstva**
+
 - je tvořena množinou protokolů spolupracujících s jednotlivými aplikačními programy. Aplikačních protokolů je mnoho, např:
 - HTTP - internetový protokol určený pro výměnu hypertextových dokumentů ve formátu HTML
 - SMTP - Přenos emailových zpráv mezi přepravci elektronické pošty MTA (message transfer agent), zajišťuje přímé spojení mezi odesílatelem a adresátem
@@ -232,6 +243,7 @@ Spolupráce vrstev probíhá asi takto: K navázáni spojení použije program a
 - DNS - Mapování jmen počítačů na IP adresy a naopak.
 
 **Transportní vrstva** 
+
 - jádro TCP/IP, jeden ze dvou protokolů, TCP nebo UDP.
 - Protokol TCP
   - Od aplikační vrstvy přebere data, která rozdělí na segmenty, očísluje a seřadí podle toho, jak mají být postupně odeslány. 
@@ -245,6 +257,7 @@ Spolupráce vrstev probíhá asi takto: K navázáni spojení použije program a
   - Některé programy jej využívají místo protokolu TCP pro rychlý přenos, kde doručení každého paketu není podmínkou (stream videa, stream zvuku, atd.).
 
 **Síťová vrstva - Protokol IP**
+
 - Od nadřazených protokolů transportní vrstvy obdrží datové segmenty s požadavkem na odeslání. 
 - K segmentům připojí vlastní hlavičku a vytvoří IP datagram. 
 - V IP hlavičce je především IP adresa příjemce a odesílatele
@@ -335,12 +348,14 @@ Metody sdíleného přístupu ke společnému kanálu se dělí na dvě skupiny
 - Směrovací algoritmy se děli na DVA - Distance vector algoritmy a Link state algoritmy.
 
 **Statické směrování**
+
 - Směrovací tabulky v jednotlivých routerech konfigurovány ručně, odpadá režie směrovacích protokolů. 
 - Tento způsob je bezpečnější (omezení možnosti generování falešných směrovacích informací, odposlouchávání topologie). 
 - Při výpadku nutný ruční zásah a manuální oprava. 
 - Použití v malých sítích, např, intranety.
 
 **Dynamické směrování**
+
 - Automaticky reaguje na změny v sítí
 - Méně bezpečně, ale hodí se pro velké sítě. 
 - Musí být provozovány směrovací protokoly. 
@@ -412,17 +427,20 @@ Základní pojmy:
 - Nepopiratelnost (non-repudiation) - zdroj dat nemůže popřít jejich odeslání
 
 **DoS útok**
+
 - Cílem tohoto útoku je vyčerpání systémových prostředků (paměť, CPU, šířka pásma) síťového prvku nebo serveru a jeho zhroucení nebo změna požadovaného chování
 - Jednou z variant je záplava pakety SYN neboli SYN-flood (TCP). Útočník pošle posloupnost paketů s příznakem SYN cílovému počítači, ale již dále neodpovídá.
 - Pokud je útok distribuovaný bavíme se o DDoS
   - vedeno z několika stanic, botů
 
 **Firewall**
+
 - Síťové zařízení, které slouží k řízení a zabezpečení síťového provozu
 - Definuje pravidla pro komunikaci mezi síťemi
   - často IP adresy zdroje a cíle, porty
 
 **Stavový firewall** 
+
 - takový firewall, který podporuje SPI (*Stateful packet inspection*)
 - je schopen sledovat a udržovat všechny navázané TCP/UDP relace (pracuje na transportní vrstvě referenčního modelu ISO/OSI). 
 - Stavový firewall je schopen rozlišovat různé stavy paketů v rámci jednotlivých relací (spojení) a jeho úkolem je propustit pouze takové, které patří do již povolené relace (jiné jsou zamítnuty).
@@ -432,6 +450,7 @@ Základní pojmy:
 - Nejnáročnější kontrola se provádí v době nastavení spojení.
 
 **Paketové filtry**
+
 - Nejjednodušší forma kontroly, jsou přesně uvedeny povolené adresy a porty
 - ACL nejčastěji na rozhraní směrovačů, filtrace podle informací ze síťové a vyšších vrstev. 
 - Reflexivní ACL - Automaticky propouští vstupní provoz, který odpovídá povolenému provozu výstupnímu.
@@ -439,6 +458,7 @@ Základní pojmy:
 
  
 **Šifrování a autentizace**
+
 - Tajný algoritmus je nesmysl, je třeba zavést tajný klíč, jenž parametrizuje algoritmus. 
 - Symetrické algoritmy používají pouze jeden sdílený klíč, jsou méně bezpečné, ale hodně rychlé, např. DES, 3DES, AES. 
 - Asymetrické algoritmy používají pár public a private key. 
@@ -449,6 +469,7 @@ Základní pojmy:
 
 
 **VPN**
+
 - VPN realizuje přenos privátních dat přes veřejnou síť s použitím kryptovacích metod a tunelů
 - Poskytuje autentizaci, integritu dat a utajení
 - Výhodou cena, flexibilita topologie, odpadá management WAN linek
