@@ -345,7 +345,66 @@ Příklad:
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 6. Pojem relace, operace s relacemi, vlastnosti relací. Typy binárních relací. Relace ekvivalence a relace uspořádání.
+- Relace na množinách $A_1, A_2 \ldots A_n$ je libovolná podmnožina kartézského součinu $A_1 \times A_2 \times \ldots \times A_n$
+- Kartézský součin množin A a B, $A \times B$ je množina všech uspořádaných dvojic, kde první prvek je z A a druhý je z B
+  - může být i prázdná množina
+- možné zápisy:
+  - $(a,b,c) \in R_3$
+  - $R_3(a, b, c)$
+  - $aRb$ - jen pro binární relace
+- Relační systém je dvojice $(\{ A_i | i \in I \}, \{R_j | j \in J\})$
+  - $A_i$ je množina nosiču, $R_j$ je množina relací
+- Operace s relacemi - sjednocení, průnik, doplněk, inverze a skládání
+- Inverzní relace - pořadí n-tic je přehozeno
+  - $R_2 = R_1^{-1}(\forall a \in A, \forall b \in B  [(a,b)\in R_1 \rightarrow (b,a)\in R_2])$
+- Skládání relací je složení binárních relací
+  - $(\forall x \in X)(\forall z \in Z)[(x,z) \in R_3 \iff (\exist y \in Y)((x,y) \in R_1 \wedge (y,z \in R_2))]$
+- Vlastnosti binární relace $R \subseteq A \times A$:
+  - Reflexivní - $(\forall x \in A)(xRx)$
+  - Ireflexivní - $(\forall x \in A)\neg(xRx)$
+  - Symetrická - $(\forall x,y \in A)(xRy \rightarrow yRx)$
+  - Asymetrická - $(\forall x,y \in A)(xRy \rightarrow \neg yRx)$
+  - Antisymetrická - $(\forall x,y \in A)(xRy \wedge yRx \rightarrow x = y)$
+  - Tranzitivní - $(\forall x,y,z \in A)(xRy \wedge yRz \rightarrow xRz)$
+  - Úplná - $(\forall x,y \in A)(xRy \vee yRx)$
+  - Souvislá - $(\forall x,y \in A)(xRy \vee yRx \vee x = y)$
+- Reflexivní uzávěr, Tranzitivní uzávěr
+- Relace ekvivalence
+  - Relace je reflexivní, symetrická a tranzitivní
+  - Třída ekvivalence prvku a - je množina všech prvků ekvivalentních s daným prvkem a.
+  - Tolarance je relace, která je reflexivní a symetrická
+- Relace uspořádání
+  - neostré uspořádání $\leq$ je reflexivní, antisymetrická a tranzitivní
+  - ostré uspořádání $<$ je ireflexivní, asymetrické (antisymetrické) a tranzitivní
+  - obě uspořádání jsou částečné, pokud je relace souvislá tak se jedná o úplné uspořádání 
+  - Uspořádání je úplné (lineární) pokud neexistují neporovnatelné prvky.
+  - Hasseúv diagram je grafická reprezentace uspořádáné množiny
+  - Nechť $\leq$ je uspořádání na množině $A$ a nechť $M\subseteq A$ pak prvek $a$:
+    - je minimum $M$ - $(a \in M)\wedge \neg(\exist x \in M [x < a])$
+    - je maximum $M$ - $(a \in M)\wedge \neg(\exist x \in M [x > a])$
+    - je nejmenší prvek $M$ - $(a \in M)\wedge (\forall x \in M [x \geq a])$ - může být jen jeden
+    - je největší prvek $M$ - $(a \in M)\wedge \neg(\forall x \in M [x \leq a])$ - může být jen jeden
+    - Infimum množiny M (inf M) - je největší prvek $LB(M)$, největší prvek, který je však pořád menší než prvky množíny M
+    - Suprebum množiny M (sup M) - je nejmenší prvek $UB(M)$, nejmenší prvek větší než prvky množiny M.
+    - $LB(M)$ - množina dolních závor $M$ - $x \in LB(M) \iff (\forall y \in M [x \leq y])$
+    - $UB(M)$ - množina horních závor $M$ - $x \in UB(M) \iff (\forall y \in M [x \geq y])$
+  - Svaz je relační struktura, kde pro libovolné dva prvky platí
+    - $(\forall x,y \in X)(\exist inf \{x,y\} \wedge \exist sup \{x,y\})$
+  - Úplný svaz je relační struktura, kde pro libovolné dvě množiny platí
+    - $(\forall M \subseteq X)(\exist inf M \wedge \exist sup M)$
 
+### Zobrazení (funkce)
+- Binární relace $f \subseteq X\times Y (f:X \rightarrow Y)$ je zobrazení množiny X do množiny Y, platí-li:
+  - $(\forall x \in X)(\forall y_1, y_2 \in Y)[(x,y_1)\in f \wedge (x, y_2) \in f \rightarrow y_1 = y_2]$
+- Definiční obor - $D(f) = \{ x \in X | \exist y \in Y [ (x,y) \in f ] \}$
+- Obor hodnot - $H(f) = \{ y \in Y | \exist x \in X [ (x,y) \in f ] \}$
+- Parciální zobrazení - $D(f) \subset X$
+- Totální zobrazení - $D(f) = X$
+- Zobrazení z X do Y - $H(f) \subset Y$
+- Zobrazení z X na Y - $H(f) = Y$
+- Injekce - $(\forall x_1, x_2 \in X)[x_1 \neq x_2 \rightarrow f(x_1) \neq f(x_2)]$
+- Surjekce - $(\forall y \in Y)(\exist x \in X)[f(x) = y]$
+- Bijekce - Injekce i Surjekce zároveň
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 7. Pojem operace a obecný pojem algebra. Algebry s jednou a dvěma binárními operacemi.
