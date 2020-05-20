@@ -389,9 +389,9 @@ Příklad:
     - $LB(M)$ - množina dolních závor $M$ - $x \in LB(M) \iff (\forall y \in M [x \leq y])$
     - $UB(M)$ - množina horních závor $M$ - $x \in UB(M) \iff (\forall y \in M [x \geq y])$
   - Svaz je relační struktura, kde pro libovolné dva prvky platí
-    - $(\forall x,y \in X)(\exist inf \{x,y\} \wedge \exist sup \{x,y\})$
+    - $(\forall x,y \in X)(\exist \inf \{x,y\} \wedge \exist \sup \{x,y\})$
   - Úplný svaz je relační struktura, kde pro libovolné dvě množiny platí
-    - $(\forall M \subseteq X)(\exist inf M \wedge \exist sup M)$
+    - $(\forall M \subseteq X)(\exist \inf M \wedge \exist \sup M)$
 
 ### Zobrazení (funkce)
 - Binární relace $f \subseteq X\times Y (f:X \rightarrow Y)$ je zobrazení množiny X do množiny Y, platí-li:
@@ -486,9 +486,162 @@ Příklad:
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 8. FCA - formální kontext, formální koncept, konceptuální svazy. Asociační pravidla, hledání často se opakujících množin položek.
 
+### Formální kontext 
+- je uspořádaná trojice $(X,Y,I)$
+  - $X$ je množina objektů
+  - $Y$ je množina atributů
+  - $I \subset X \times Y$ binární relace mezi X a Y
+  - $(x,y) \in I$ znamená, že objekt $x$ má atribut $y$
+- objekty jsou řádky tabulky a atributy jejich sloupce
 
+|     | y1  | y2  | y3  | y4  |
+| :-: | :-: | :-: | :-: | :-: |
+|  x1 | 1   | 0   | 1   | 1   |
+|  x2 | 1   | 0   | 0   | 1   |
+|  x3 | 0   | 1   | 0   | 1   |
+|  x4 | 0   | 0   | 1   | 1   |
+|  x5 | 0   | 1   | 1   | 0   |
+- každy kontext indukuje zobrazení $\uparrow\ : 2^X \rightarrow 2^Y$
+  - $A\subseteq X | A^\uparrow = \{ y\in Y | \forall x \in A; (x,y) \in I \}$
+- každy kontext indukuje zobrazení $\downarrow\ : 2^Y \rightarrow 2^X$
+  - $B\subseteq Y | B^\downarrow = \{ x\in X | \forall y \in B; (x,y) \in I \}$
+
+### Formální koncept
+
+- Formální koncept v kontextu $(X,Y,I)$ je taková dvojice $(A,B)$, kde $A \subseteq X$, $B \subseteq Y$ a pro které platí:
+  - $A^\uparrow = B$
+  - $B^\downarrow = A$
+- Množina objektů A se nazývá *extent* (rozsah)
+- Množina atributů B se nazývá *intent* (obsah)
+- Množina všech formálních konceptů v $(X,Y,I)$ se značí jako $\mathscr{L}(X,Y,I)$
+- Zobrazení $f:2^X \rightarrow 2^Y$ a $g:2^Y \rightarrow 2^X$ tvoří Galaisovu konexi mezi X a Y, pokud pro $A,A_1,A_2 \subseteq X$ a $B,B_1,B_2 \subseteq Y$  platí:
+  - $A_1 \subseteq A_2 \rightarrow A_2^\uparrow \subseteq A_1^\uparrow$
+  - $B_1 \subseteq B_2 \rightarrow B_2^\downarrow \subseteq B_1^\downarrow$
+  - $A \subseteq g(f(A))$
+  - $B \subseteq f(g(A))$
+
+### Konceptuální svaz
+- je množina $\mathscr{L}(X,Y,I)$ spolu s relaci uspořádání $\leq$ definovanou na $\mathscr{L}(X,Y,I)$ takto:
+  - $(A_1,B_1)\leq (A_2,B_2) \iff A_1 \subseteq A_2 (\iff B_1 \subseteq B_2)$
+- V úplném konceptuálním svazu $(\mathscr{L}(X,Y,I),\leq)$ je infimum a suprémem definováno jako:
+  - $inf(A_j,B_j) = \bigwedge\limits_{j \in J}(A_j,B_j) = ( \bigcap\limits_{j \in J}A_j; ( \bigcup\limits_{j\in J} B_j )^{\downarrow\uparrow}  )$
+  - $sup(A_j,B_j) = \bigvee\limits_{j \in J}(A_j,B_j) = (( \bigcup\limits_{j\in J} A_j )^{\downarrow\uparrow};\bigcap\limits_{j \in J}B_j  )$
+- Algoritmus jedinečných průniků
+  - Vstup: Formální kontext: $(X,Y,I)$
+  - Výstup: Množina konceptů
+  1. Ke všem atributům vytvoř extent ($e_1=a_1^\downarrow,e_2=a_2^\downarrow,\ldots$)
+  2. Rozšiř o všechny jedinečné průniky extentů
+  3. Přidej původní množiny objektů X
+  4. Vypočti intenty k extentům
+
+### Asociační pravidla
+- $I$ jsou položky transakcí neboli items (atributy)
+- $A,B\subseteq I \wedge A,B \neq \emptyset$ pak je asociační pravidlo $A \rightarrow B$, kde A je antecedent a B je sukcedent
+- Množina transakčních dat na konečné množině položek $I$ je funkce $T : \{1,\ldots,n\} \rightarrow 2^I$
+- Množina $T(k)$ je k-tá transakce obsahující podmnožinu z množiny položek
+  - $T(k) = x_k^\uparrow$
+- Nechť $T : \{1,\ldots,n\} \rightarrow 2^I$ je množina transakčních dat na konečné množině položek $I$ a $K\subseteq I$. Pak podpora (*support*) množiny $K$ je daná jako relativní četnost výskytu transakcí obsahující položky z $K$
+  - $supp(K) = \frac{|K^\downarrow|}{|X|}$, $K \subseteq Y$ ve formálním kontextu $(X,Y,I)$
+- Množina položek $K \subseteq I$ je $\mu$-množina často se vyskytujících položek ($\mu$-*Frequent Item Set*) pokud je $supp(K) \geq \mu$
+- Asociační pravidlo na konečné množině položek $I$ je dvojice neprázdných disjunktních množin A,B
+- Spolehlivost pravidla $A\rightarrow B$ je číslo:
+  - $conf(A\rightarrow B) = \frac{supp(A \cup B)}{supp(A)}$
+- **Apriori algoritmus** - Hledání množiny častých položek $\mu$-FIS
+  - Každá podmnožina množiny častých položek je takémnožinou častých položek!
+  - Postup zdola nahoru: vyhledáme nejdřív všechny jednoprvkové množiny častých položek
+    - spočítáme frekvence jednotlivých položek
+  - z jednoprvkových množin vytvoříme kandidáty na dvouprvkové množiny, spočítáme jejich frekvenci, necháme jen ty, které splňují minimální frekvenci
+  - tak pokračujeme nahoru ve stromu
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 9. Metrické a topologické prostory - metriky a podobnosti.
+### Metrický prostor
+- dvojice $(\mathcal{M},d)$ kde $\mathcal{M}$ je libovolná neprázdná množina a $d$ je zobrazení $d:\mathcal{M}\times\mathcal{M} \rightarrow R$, reprezentující metriku, splňující pro $\forall x,y,z \in \mathcal{M}$:
+  - a) totožnost - $d(x,y) = 0 \iff x = y$
+  - b) symetrie - $d(x,y) = d(y,x)$
+  - c) nerovnost - $d(x,y) + d(y,z) \geq d(x,z)$
+  - d) nezápornost - $d(x,y) \geq 0$
+- Hodnota $d(x,y)$ je vzdálenost mezi x a y
+- Pseudometrika - splňuje body b,c,d, ale nesplňuje totožnost, můžou existovat různé prvky s nulovou vzdáleností
+  - $d(x,y) = |x^2 - y^2|$
+- Ultrametrika - splňuje body a,b,c ale navíc platí:
+  - $d(x,z) \leq max\{ d(x,y), d(y,z) \}$
+  - ultrametrický prostor
+- Nepodobnost - splňuje a,b zobrazení od podobnosti
+- **Diskrétní prostor** $(X,\rho)$, má pouze určitý počet vzdáleností, např. 0 a 1
+  - pokud je $X\neq\emptyset$
+  - a $\rho$ = 0 pro x=y, jinak 1
+- Příklady metrid pro $(R^n,d)$
+  - $d_p(x,y) = \sqrt[p]{\sum_{i=1}^n(x_i - y_i)^2}$ - Minkovského metrika pro $p \geq 1$
+  - $p = 1$ Mannhatenovská metrika
+  - $p = 2$ Euklidovská metrika
+- Čebyševovská metrika
+  - $d_č(x,y) = \max\limits_{\forall i}\{ | x_i - y_i | \}$
+- Jaccardova vzdálenost
+  - $d_J(x,y) = \frac{ \sum_{i=1}^n \max(x_i,y_i) - \sum_{i=1}^n \min(x_i,y_i) }{ \sum_{i=1}^n \max(x_i,y_i) }$
+- Metriky nad abecedou
+  - Levensteinova editační vzdálenost - minimální počet operací vkládání, mazání a přepisu
+  - LCS *Longest Common Sequence* - minimální počet operací vkládání, mazání
+  - Hammingova vzdálenost - pokud jsou oba texty stejně dlouhé, počet odlišných pozic
+- Pro každé dvě množiny $A,B \subseteq (\mathcal{M},d)$ definujeme jejich vzdálenost jako:
+  - $dist(A,B) = \inf\{ d(x,y); x \in A \wedge y \in B \}$
+  - Je-li $\mathcal{M}$ konečné pak $dist(A,B) = \min\{ d(x,y); x \in A \wedge y \in B \}$
+- Průměr množiny $A \subseteq (\mathcal{M},d)$ je $diam(A)$:
+  - $A = \emptyset \iff diam(A) = 0$
+  - $A \neq \emptyset\iff diam(A) = \sup\{ d(x,y); x,y \in A \}$
+- Je-li $A \subseteq (\mathcal{M},d)$ a poloměr $0 \leq r \leq \infty$:
+  - $B(x,r) = \{ y \in \mathcal{M}; d(x,y) < r \}$  otevřená koule
+  - $K(x,r) = \{ y \in \mathcal{M}; d(x,y) \leq r \}$  uzavřená koule
+  - $S(x,r) = \{ y \in \mathcal{M}; d(x,y) = r \}$  sféra
+- V metrickém prostoru $(\mathcal{M},d)$ posloupnost $\{x_n\}$ konverguje k bodu $x \in (\mathcal{M},d)$ (má za limitu bod x), jestliže $d(x_n,x) \rightarrow 0$ [$\lim\limits_{n\rightarrow\infty}d(x_n,x) = 0$]
+- Okolí bodu $x \in (\mathcal{M},d)$ je každá množina obsahující otevřenou kouli $B_r(x) = \{ y \in \mathcal{M}; d(x,y) < r \}$ pro jakékoliv $r > 0$
+- Podmnožina $A$ metrického prostoru $(\mathcal{M},d)$ se nazývá otevřená, jestliže každý bod z $A$ má celé okolí ležící v $A$
+  - tj. žádná posloupnost z $\mathcal{M}\setminus A$ nekonverguje k bodu z $A$
+- Podmnožina $A$ metrického prostoru $(\mathcal{M},d)$ se nazývá uzavřená, jestliže její doplněk $\mathcal{M}\setminus A$ je otevřený
+- Pravidla pro bod $x$ a množinu $A$:
+  - Vnitřní bod množiny - $\exist r > 0; B(x,r) \subset A \quad( A\cap B(x,r) = B(x,r) )$
+  - Vnitřek množiny $A$ je množina všech vnitřních bodů $A$
+  - Vnější bod množiny - $\exist r > 0; B(x,r) \subset \mathcal{M}\setminus A \quad( A\cap B(x,r) = \emptyset )$
+  - Uzávěr množiny $A$ je množina všech bodů z $\mathcal{M}$, které mají neprázdný průnik v okolí libovolného bodu z $A$
+  - Hraniční bod množiny - $\forall r > 0; A \cap B(x,r) \neq \emptyset \wedge (\mathcal{M}\setminus A)\cap B(x,r) \neq \emptyset$
+  - Hranice množiny $A$ je množina všech hraničních bodů z množiny $A$
+    - Uzávěr bez vnitřku
+  - Hramadný bod množiny - konečné množiny jej nemají
+    - $\forall r > 0; A \cap (B(x,r)\setminus\{x\})=\emptyset$
+  - Izolovaný bod množiny - každý bod konečné množiny je izolovaným bodem
+    - $\exist r > 0; A \cap B(x,r) = \{x\}$
+
+### Podobnost
+- ve vektorovém prostoru $V$ nad tělesem $R$ je zobrazení:
+  - $s:V\times V\rightarrow R$ splňující pro $\forall x,y \in V$ body:
+    - nezápornost - $s(x,y) \geq 0$
+    - totožnost - $s(x,y) \leq s(x,x)$ a $s(x,y) = s(y,x) \iff x=y$
+    - symetrii - $s(x,y) = s(y,x)$
+  - kosínova podobnost $s_c(x,y) = \frac{x \cdot y}{||x||_2 \cdot ||y||_2}$
+    - $||x||_2 = \sqrt{x_1^2 + x_2^2+\ldots + x_n^2}$
+  - Jaccardova podobnost množin
+    - $X,Y\subseteq P(A), s_J(X,Y) = \frac{|X\cap Y|}{|X\cup Y|}$
+  - Diceova podobnost
+    - - $X,Y\subseteq P(A), s_J(X,Y) = \frac{2|X\cap Y|}{|X| + |Y|}$
+- **Nepodobnost** je obrácená podobnost
+  - $d_s(x,y) = 1 - s(x,y)$
+
+### Topologický prostor
+- Na množině $X$ je daná topologie $\mathcal{T}$ pomocí otevřených množin, je-li dán systém $\mathcal{T} \subseteq 2^X$, splňující:
+  - a) $\emptyset, X \in \mathcal{T}$
+  - b) $\forall A,B \in \mathcal{T}; A \cap B \in \mathcal{T}$
+  - c) $\forall A,B \in \mathcal{T}; A \cup B \in \mathcal{T}$
+    - $X$ je uzavřeno na sjednocení i průnik
+- Dvojice $(X, \mathcal{T})$ tvoří topologický prostor
+- Každý metrický prostor je i topologický prostor, né naopak
+- Uzávěr množiny $A \subseteq X$ z topologického prostoru $(X, \mathcal{T})$ je definován pomocí uzávěrových množin:
+  - $cl(A) = \bigcap\{ U \in \mathcal{T}; A \subseteq U \}$
+- Vnitřek množiny $A \subseteq X$ z topologického prostoru $(X, \mathcal{T})$ je definován pomocí uzávěrových množin:
+  - $int(A) = \bigcup\{ U \subseteq \mathcal{T}; U \subseteq A \}$
+- Hranice $A \subseteq X$ v topologickém prostoru $(X, \mathcal{T})$ je:
+  - $bd(A) = cl(A) \setminus int(A)$
+- Pokud topologický prostor nelze rozdělit na dvě disjunktní neprádzné podmnožiny množiny $X$ tak se jedná o **souvislý topologický prostor**
+  - jediné obojetné podmnožiny T.P. jsou $\emptyset$ a $X$
+- Komponenta neprázdného T.P. je maximální souvislá podmnožina z $X$
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
