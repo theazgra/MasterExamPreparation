@@ -699,10 +699,139 @@ Příklad:
   - funguje jako K-means ale volí realné objekty jako jádra
   - používá Mannhatenovskou vzdálenost
 
+### Kvalita shlukování
+- Vnitřní míra kvality - např. SSE od těžiště (centroidu)
+- Vnější míra kvality - srovnává dosažený výsledek se správným rozdělením objektů
+- Dále se dá hodnotit např. pomocí Silhoutte indexu, který měří podobnost objektu ke svému shluku, nebo Dunn indexu
+
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 11. Náhodná veličina. Základní typy náhodných veličin. Funkce určující rozdělení náhodných veličin.
+Teorie pravděpodobnosti je matematická disciplína popisující zákonitosti týkající se náhodných jevů, tj. jevů, které se mohou ale nemusí stát. Hledá pravděpodobnost určitých výsledků (náhodných jevů), známe-li základní soubor (populaci)
+- Náhodný pokus - každý děj, jehož výsledek není předem jednoznačně určen podmínkami, za kterých probíhá
+  - náhodný pokus je teoreticky neomezeně krát opakovatelný
+  - *hod kostkou, zjíštění životnosti žárovky*
+- Elementární jev $\omega$ - jeden výsledek náhodného pokusu
+- Základní prostor $\Omega$ - množina všech elementárních jevů
+- Náhodný jev - tvrzení o výsledku náhodného pokusu, podmnožina $\Omega$
+  - o pravdivosti tvrzení lze rozhodnout až po ukončení pokusu
+  - *padne šestka, žárovka vydrží 5 let*
+- Náhodná veličina - číselné vyjádření výsledku náhodného pokusu
 
+### Pravděpodobnost
+- Pravděpodobnost je číselné vyjádření toho, že při náhodném pokusu daný jev nastane
+- klasická definice pravděpodobnosti je založena na $n$ různých ale rovnocených výsledcích náhodného pokusu
+  - $P(A) = \frac{m}{n}$, $m$ je počet výsledků přiznivých jevu $A$
+- Geometrická pravděpodobnost - zobecnění pro případ, kdy počet všech možných výsledků náhodného pokusu je nespočetný
+  - Například pro plochu
+  - $P(A) = \frac{|A|}{|\Omega|}$
+- Kolmogorův axiomatický systém - definuje pojem pravděpodobnost a její vlastnosti, ale neříká jak jí určit
+  1. Každému jevu $A$ je přiřazena nezáporná pravděpodobnost $P(A)$
+  2. Pravděpodobnost jistého jevu je rovna 1
+  3. Pravděpodobnost, že nastane některý z navzájem vylučujících se jevů, je rovna součtu jejich pravděpodobností
+- Podmíněná pravděpodobnost - pravděpodobnost jevu, za předpokladu, že nastal jiný určitý jev
+  - $P(A|B) = \frac{P(A \cap B)}{P(B)}$, $P(B) \neq 0$, pravd. jevu $A$ jestliže nastane jev $B$
+  - Pokud platí $P(A \cap B) = P(A) \cdot \P(B)$ tak jsou jevy $A$ a $B$ nezávislé
+- Další vlastnosti pravděpodobnosti:
+  1. $0 \leq P(A) \leq 1$
+  2. $P(\emptyset) = 0$
+  3. $P(A') = 1 - P(A)$
+  4. $A \subset B \rightarrow P(A) \leq P(B)$
+  5. $P(B-A) = P(B) - P(A \cap B)$
+     - $A \subset B \rightarrow P(B - A) = P(B) - P(A)$
+  6. $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+     - $A \cap B = \emptyset \rightarrow P(A \cup B) = P(A) + P(B)$
+
+### Náhodná veličina (NV)
+- výsledek náhodného pokusu vyjádřený realným číslem je hodnota NV
+- příklady NV: doba do poruchy žárovky, počet vadných výrobků mezi tisíci, roční spotřeba energie české domácnosti
+- Náhodná veličina $X$ je reálná funkce $X : \Omega \rightarrow \mathcal{R}$, taková, že pro každé reálné $x$ je množina $\{ \omega \in \Omega | X(\omega) < x \}$ náhodným jevem
+- Dískrétní NV DNV - může nabývát spočetně mnoha hodnot
+- Spojitá NV SNV - nespočetně hodnot, hodnoty v intervalu
+- Rozdělení pravděpodobnosti NV - předpis, který jednoznačně určuje všechny pravděpodobnosti typu $P(X\in M)$, kde $M \subset \mathcal{R}$
+  - Distribuční funkce - DNV i SNV
+  - Pravděpodobnostní funkce - DNV
+  - Hustota pravděpodobnosti - SNV
+- Rozdělení NV - předpis, který umožňuje určit pravděpodobnost, že NV $X$ nabývá hodnoty z libovolné podmnožiny $\mathcal{R}$
+- **Distribuční funkce** - Funkce $F(x)$ je pravděpodobnost, že NV $X$ bude menší než dané realné číslo $x$
+  - $F(x) = P(X < x)$
+  - Fce, která každému realnámu číslu přiřazuje pravděpodobnost, že NV bude menší než toto reálné číslo
+  - Jednoznačně určuje rozdělení NV
+  - Vlastnosti $F(x)$:
+    - Nabývá hodnot z intervalu $\langle0;1\rangle$
+    - neklesající
+    - zleva spojitá (pravý bod vždy patří do intervalu)
+    - má nejvýše spočetně mnoho bodu nespojitosti
+    - začíná v 0 a končí v 1, definováno pomocí limitů
+
+### Dískrétní náhodná veličina DNV
+- nabývá pouze hodnot z nejaké konečné či spočetné množiny
+- **Pravděpodobnostní funkce** je funkce $P(X = x_i) = P(x_i)$ náhodné veličiny $X$
+  - může být zadána předpisem, tabulkou nebo grafem
+- Distribuční funkce DNV lze vyjádřit pomocí pravděpodobnostní fce jako
+  - $F(x) = \sum\limits_{x_i < x}P(x_i)$
+  - tj. jako součet pravdepodobností tech $x_i$, která jsou menší než $x$
+  - je to schodovitá funkce, která je nespojitá v bodech, v nichž je pravděpodobností funkce nenulová
+
+### Spojitá náhodná veličina SNV
+- muže nabýt všech hodnot z určitého intervalu
+- většinou cokoliv s časem
+- Pravděpodobnostní funkce ve všech bodech SNV je **nulová**
+- SNV je charakterizovaná hustotou pravděpodobnosti
+- **Hustota pravděpodobnosti** $f(x)$ SNV je reálná nezáporná funkce taková, že:
+  - $F(x) = \int\limits_{-\infty}^x f(t) \ dt$, pro $-\infty < x < \infty$
+  - platí: $f(x) = \frac{dF(x)}{dx}$
+  - Vlastnosti:
+    1. Nezáporná funkce
+    2. Plocha pod křivkou hustoty pravděpodobnosti je rovna 1
+    3. Začíná v 0 a končí v 1
+
+### Číselné charakteristiky NV
+- popisují určité aspekty NV, které se dají popsat jedním číslem
+- Obecný moment $r$-tého řádů ($\mu_r nebo E(X^r)$ pro $r = 1,2,\ldots$)
+  - DNV - $\mu_r = \sum\limits_i x_i^r \cdot P(x_i)$
+  - SNV - $\mu_r = \int\limits_{-\infty}^\infty x^r \cdot f(x) dx$
+  - pokud $r = 1$ pak se jedná o střední hodnotu, neboli populační průměr
+    - je to průměrná očekávaná hodnota NV $X$, hodnoty NV $X$ kolem ní kolísají
+    - platí: $E(aX+b) = aE(X) + b$
+    - Střední hodnota součtu náhodných veličin je rovna součtu jednotlivých středních hodnot.
+- Centrální moment $r$-tého řádu ($\mu_r' = E[X - E(X)]^r$ pro $r = 1,2,\ldots$)
+  - DNV - $\mu_r' = \sum\limits_i [x_i - E(X)]^r \cdot P(x_i)$
+  - SNV - $\mu_r' = \int\limits_{-\infty}^\infty [x - E(X)]^r \cdot f(x) dx$
+  - pokud $r = 2$ pak se jedná o rozptyl
+    - Často se počítá jako: $D(X) = E(X^2) - [E(X)]^2$
+    - Míra variability dat kolem střední hodnoty
+    - Jednotka rozptylu je kvadrát jednotky NV!
+    - platí: $D(aX + b) = a^2\cdot D(X)$
+    - pro nezávislé NV je rozptyl součinu roven součinu jednotlivých rozptylů
+    - Směrodatná odchylka je odmocnina rozptylu: $\sigma = \sqrt{D(X)}$
+  - Šikmost je mírou symetrie daného rozdělení pravděpodobnosti
+    - $\alpha_3 = \frac{\mu_3}{\sigma^3}$
+  - Špičatost je mírou koncentrace hodnot NV kolem střední hodnoty
+    - $\alpha_4 = \frac{\mu_4}{\sigma^4}$
+  - Kvantily se určují pro SNV jako:
+    - $\forall p \in \langle 0;1 \rangle : F(x_p) = p$
+    - Kvantilová funkce je inverzní funkci distribuční
+    - $p$-kvantil ($100_p\% kvantil$) je číslo pro které platí: $P(X < x_p) = p$
+    - je-li $X$ NV polisující platy v ČR a $x_{0,3} = 12000$ pak víme, že 30% lidí v ČR ma plat menší jak 12 000Kč.
+      - Kvartily - dolní kvartil $x_{0,25}$, medián $x_{0,5}$, horní kvartil $x_{0,75}$
+      - Decily - $x_{0,1}$, $x_{0,2}$
+      - Percentily - $x_{0,01}$, $x_{0,02}$
+  - Modus $x^\wedge$ - typická hodnota NV
+    - DNV - hodnota, která nabývá NV s největší pravděpodobností
+    - SNV - hodnota v niž hustota pravděpodobnosti nabývá svého maximu
+  - Variační koeficient $\gamma$
+    - $\gamma = \frac{\sigma}{|\mu|}$
+    - je to směrodatná odchylka v procentech střední hodnoty
+    - hodnota větší jak 50% značí silně rozptýlený soubor
+
+### Čebyševova nerovnost
+$\forall k > 0: P(\mu - k\sigma < x < \mu + k\sigma) > 1 - \frac{1}{k^2}$
+| k   | Pravděpodobnost |
+| --: | --------------: |
+| 1   | > 0.0           |
+| 2   | > 0.75          |
+| 3   | > 0.89          |
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 12. Vybraná rozdělení diskrétní a spojité náhodné veličiny - binomické, hypergeometrické, negativně binomické, Poissonovo, exponenciální, Weibullovo, normální rozdělení.
