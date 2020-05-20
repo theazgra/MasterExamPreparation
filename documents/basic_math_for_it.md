@@ -408,7 +408,80 @@ Příklad:
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 7. Pojem operace a obecný pojem algebra. Algebry s jednou a dvěma binárními operacemi.
+- Algebra je dvojice množiny nosiču a mnižiny operací
+  - $(\{ A_i | i \in I \}, \{ w_j | j \in J \} )$
+  - příklady: $(N,+), (2^M, \{ \cup, \cap \})$
+- Operace je zobrazení kartézského součinu jedních množin do kartézského součinu jiných množin.
+  - operace je $n$-ární, zobrazení z kartézského součinu $n$ množin
+  - jako funkce, viz předchozí kapitola
+- Nechť $*$ je binární operace na množině $A$, vlastnosti alg. struktur:
+  - UZ Uzavřenost - $(\forall x, y \in A)(\exist z \in A)(x*y = z)$
+  - AS Asociativita - $(\forall x, y, z \in A)[ (x*y)*z = x*(y*z) ]$
+  - EN Existence nulového prvku - $(\exist n \in A)(\forall x \in A)(n * x = x * n = n)$
+  - EJ Existence jednotkového prvku - $(\exist e \in A)(\forall x \in A)(e * x = x * e = x)$
+  - IN Existence inverzního prvku - $(\forall x \in A)(\exist x^{-1} \in A)( x * x^{-1} = x^{-1} * x = e )$
+  - KOM Komutativita - $(\forall x,y \in A)(x * y = y * x)$
+  - Idenpotentnost - $(\forall x \in A)(x * x = x)$, např. $0 \wedge 0 = 0$, $1 \wedge 1 = 1$
+- Vzhledem k jedné binární operaci na množině A, existuje nejvýše jeden nulový a jednotkový prvek
+  - Jestliže je operace asociativní a existuje jednotkový prvek, pak pro každý prvek A existuje nejvýše jeden inverzní prvek
+-  Nechť $*,\circ$ jsou dvě binární operace na množině A. Říkáme, že operace * je distributivní vzhledem k operaci $\circ$, jestliže platí:
+   - $(\forall a,b,c \in A)[ (a \circ b) * c = (a*c) \circ (b*c) ]$ - pravý distributivní zákon - DIp
+   - $(\forall a,b,c \in A)[ a * ( b\circ c) = (a*b) \circ (a*c) ]$ - levý distributivní zákon - DIl
+ - Algebra $(A', \{\omega,\ldots \})$ je podalgebrou algebry $(A, \{\omega,\ldots \})$, jestliže:
+   - $\emptyset \neq A' \subseteq A$
+   - $A'$ je uzavřená vzhledem ke všem operacím algebry
+ - Homomorfismus - zobrazení, které převádí jednu algebraickou strukturu na jinou stejného typu
+   - obraz výsledku operace se rovná výsledku operace provedené s obrazy argumentů
+   - Pokud existuje zobrazení které je dokáže převést i zpátky, pak se jedná o izomorfismus
 
+### Algebra s jednou binární operací - Grupoid
+- Grupoid je algebraická struktura s jednou operací a množina A je vůči této operaci uzavřena
+  - Konečný grupoid, je grupoid na konečné množině A a dá se vyjádřit pomocí Cayleyovy tabulky
+  - řádky i sloupce jsou prvky množiny, v tabulce je výsledek operace
+  - Řád prvku $a$ grupy $G$ je nejmenší přirozené číslo takové, že platí $a^n = e$
+    - pokud neexistuje konečné n, pak je prvek a nekonečného řádu
+  - Řád grupy je počet prvků grupy
+- Algebraické struktury - nižší dědí z vyšší
+- Grupoid - UZ
+- Pologrupa - UZ,ASOC
+- Monoid - UZ,ASOC,EJ
+- Grupa - UZ,ASOC,EJ,IN
+- Abelova grupa - UZ,ASOC,EJ,IN,KOM
+
+
+### Algebry s dvěma binárními operacemi
+- Svaz je algebra $(L, \cup, \cap)$ s dvěma operacemi, spojení a průsek a platí:
+  - Univerzalita a jednoznačnost
+    - $(\forall x,y \in L)(\exist! z \in L)(x \cup y = z)$
+    - $(\forall x,y \in L)(\exist! z \in L)(x \cap y = z)$
+  - Asociativita
+    - $(\forall x,y,z \in L)[(x \cup y) \cup z = x \cup ( y \cup z)]$
+    - $(\forall x,y,z \in L)[(x \cap y) \cap z = x \cap ( y \cap z)]$
+  - Komutativita
+    - $(\forall x,y \in L)[(x \cup y) = ( y \cup x)]$
+    - $(\forall x,y \in L)[(x \cap y) = ( y \cap x)]$
+  - Absorbce
+    - $(\forall x,y \in L)[x \cup (x \cap y) = x]$
+    - $(\forall x,y \in L)[x \cap (x \cup y) = x]$
+- Operace spojední a průsek jsou vzhledem k uspořádání $\leq$ suprémem a infímem
+  - $x \cap y = inf\{ x,y \}$
+  - $x \cup y = sup\{ x,y \}$
+- Okruh $(A,+,\cdot)$ je algebra s dvěmi operacemi pro které musí platit:
+  - $(A,+)$ - je Abelova grupa
+  - $(A,\cdot)$ - je pologrupa
+  - obě operace splňují distributivní zákony
+  - pokud je $(A,\cdot)$ monoid, pak je okruh unitární
+  - asociativní okruh, komutatnivní okruh, okruh s jednotkovým prvkem
+    - vždy přidaná daná vlastnost 
+  - Nulový okruh $(0,+,\cdot)$ obsahuje pouze nulu
+  - Dělitelé nuly jsou takové nenulové prvky orkuhu jejíchž součin je 0
+  - Obor je okruh, kde neexistují dělitelé nuly
+  - Obor integrity je komutativní obor
+  - Okruh je oborem integrity když v něm lze krátit nulou
+  - Těleso je asociativní okruh, jehož nenulové prvky tvoří grupu vzhledem k násobení.
+    - tj. $(A \setminus \{0\} ,\cdot)$ - je grupa
+    - neobsahuje dělitelé nuly
+  - Pole je komutativní těleso
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 8. FCA - formální kontext, formální koncept, konceptuální svazy. Asociační pravidla, hledání často se opakujících množin položek.
