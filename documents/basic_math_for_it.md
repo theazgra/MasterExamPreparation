@@ -645,7 +645,59 @@ Příklad:
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
-## 10. Shlukování.
+## 10. Shlukování
+- Shluková analýza je vícerozmerná statistická metoda, která se používá ke klasifikaci objektu. 
+- Slouží k trídení jednotek do skupin (shluku) tak, aby si jednotky náležící do stejné skupiny byly podobnejší než objekty z ostatních skupin.
+- Shlukování – proces seskupování dat do skupin na základe podobnosti.
+- Shluk – množina maximálne si podobných v rámci shluku a maximálne odlišných mezi shluky.
+- Podobnost mezi objekty se stanoví na základe vzdálenosti (nekteré z metrik zmínených výše – Manhattan, Euklidovská, Minkowského, Cevyševova (Maximova)).
+- Metody shlukování mužeme klasifikovat do dvou základních kategorií hierarchické a nehierarchické metody.
+- Shlukování se dá dělit také podle toho jaké shluky vytváří
+  - Ostré shluky - objekt patří právě do jednoho shluku
+  - Soft, Překrývající se shluky - objekt může patřit do více shluků 
+
+###  Hierarchické shlukování
+- Divizivní přístup - vycházíme z jednoho shluku, který postupně dělíme
+- Aglomerativní přístup - vycházíme z jednotlivých objektů, které postupně spojujeme
+- Toto shlukování je dobře interpretovatelné a není třeba znát počet shluků dopředu
+- nevýhodou je, že v každém kroku řeší pouze lokálně nejlepší řešení
+- Nevýhodou techto metod je, že mohou vzniknout nejednoznacnosti už na zacátku shlukování, které se projeví až pozdeji ve velkých shlucích. Predchozí kroky není možné zmenit.
+- Metody Aglomerativní: 
+  - Single linkage (nearest neighbor)
+    - Vzdálenost shluku je určena vzdáleností dvou nejbližších prvku z ruzných shluků. 
+    - Použití této metody vede k tomu, že jsou objekty taženy k sobe, výsledkem jsou dlouhé řetězy menších shluku.
+  - Complete linkage (furthest neighbor)
+    - Vzdálenost shluku je určena naopak vzdáleností dvou nejvzdálenejších prvku z ruzných shluku. 
+    - FUnguje dobře, obvykle tvoří poměrné kompaktní shluky
+  - Average linkage (prumerná vazba)
+    - Vzdálenost shluku je určena jako průměr vzdáleností všech páru objektu z ruzných shluku. 
+    - Muže být ve vážené i nevážené podobě. Nejčastěji používaná míra pro vzdálenost.
+  - Centroidní metoda
+    - používá se euklidovská vzdálenost centroidu, neboli těžišť shluků
+    - Dochází ke sloučení shluků s nejmenší vzdálenosti mezi těžišťi
+    - Může být taky pomocí mediánůW
+  - Wardova metoda 
+    - metoda založena na ztrátě informací, která vzniká pri shlukování.
+    - Kritériem pro shlukování je celkový součet druhých mocnin odchylek každého objektu od težište shluku, do kterého náleží. 
+    - Hodí pro práci s objekty, které mají stejný rozměr promenných.
+- Metody Divizivní
+  - Jsou náročné a moc se nevyužívají
+
+###  Nehierarchické shlukování
+- Uživatel předem stanovuje finální počet shluků
+- K-Means
+  - minimalizuje průměrnou vzdálenost mezi prvky téhož shluku
+  - Postup:
+    1. Urči $k$
+    2. Náhodně vyber $k$ jader
+    3. Přiřaď všechny objekty k nejbližšímu jádru
+    4. V rámci shluku přepočítej jádro jako průměr všech objektů
+    5. Opakuj kroky 3. a 4. dokud se shluky mění
+ - jednoduchý intuitivní algoritmus
+ - nevýhodou je náhodná inicializace, nevhodné pro zašuměná data a kategorická data
+- K-Medoidů
+  - funguje jako K-means ale volí realné objekty jako jádra
+  - používá Mannhatenovskou vzdálenost
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
