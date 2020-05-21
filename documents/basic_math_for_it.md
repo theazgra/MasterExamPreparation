@@ -1007,6 +1007,138 @@ Popisná statistika zjištuje a sumarizuje informace, zpracovává je ve forme g
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 14. Metody statistické indukce. Intervalové odhady. Princip testování hypotéz.
+Statistická indukce je soubor metod, které dovolují stanovit vlastnosti celku (základního souboru) na základě pozorování jeho části (náhodného výběru).
+
+Základní soubor je množina všech teoreticky možných objektů (napr. jedinců) v uvažované situaci - statistický soubor, který je vymezen cílem výzkumu a pro který vyvozujeme závěry výzkumného šetrení
+- Charakterizuje se parametrem, což je napr. výška, váha, IQ, atp.
+- Má konečný nebo nekonečný (hypotetický) rozsah, který je dán $n$
+
+Výběrový soubor je část populace vybrané na základe předem stanovených kritérii resp. pravidel (podmnožina základního souboru).
+- O náhodném výberu uvažujeme, když splňuje dve základní vlastnosti:
+  1. pravděpodobnost zařazení do vzorku je pro všechny statistické jednotky populace nenulová
+  2. statistické jednotky jsou do vzorku vybrané nezávisle jedna od druhé
+- O reprezentativním výberu uvažujeme, když výberový soubor dobře odráží strukturu celého zkoumaného souboru.
+
+Statistické usuzování znamená zobecnování z výberových statistik na parametry rozdělení.
+- Abychom mohli provést statistické usuzování, musíme mít nejakou teorii, jež popisuje náhodné chování sledovaných proměnných.
+- Existují dva typy výběrových chyb: náhodné výběrové chyby a systematické chyby. 
+- Získáním náhodného výběru zmenšujeme systematickou chybu a získáváme podklad pro odhad náhodné výběrové chyby.
+- Výběrová rozdělení statistik jsou teoretická pravděpodobnostní rozdělení, která popisují vztah mezi výběrovou statistikou a populací.
+- Směrodatná odchylka výběrového rozdělení statistiky (odhad parametru) se nazývá směrodatná chyba. Odhaduje náhodnou výběrovou chybu vypočítané statistiky (odhadu parametru).
+- Jak roste velikost výběru, výběrová chyba a směrodatná chyba se zmenšují.
+- Směrodatná chyba se používá k získání intervalového odhadu parametru i k testování hypotéz o parametrech rozdělení.
+
+
+|   |   |  |   |   |   |
+| - | - | - | - | - | - |
+| Základní soubor (populace)  | střední hodnota medián            | rozptyl           | Směrodatná odchylka           | Pravděpodobnost   |
+| Výběrový soubor (výběr)     | výběrový průměr výběrový medián   | Výběrový rozptyl  | Výběrová směrodatná odchylka  | Relativní četnost |
+
+- Parametry populace jsou konstantní hodnoty
+- Parametry výběru jsou NV
+
+**Slabý zákon velkých čísel** - s rostoucím rozsahem výběru se průměr blíží ke střední hodnotě.
+
+**Centrální limitní věta** - jsou-li $X_i$ nezávislé NV s konečným rozptylem, pak výběrový průměr má při dostatečně velkém počtu pozorování přibližně normální rozdělení, ať už $X_i$ pocházejí z libovolného rozdělení.
+
+### Základní metody statistické indukce
+- Pro odhad parametru populace používáme bodové a intervalové odhady
+- Bodový odhad - Odhaduje parametr populace jediným číslem
+- Intervalový odhad - Odhadujeme parametr populace intervalem, do kterého tento parametr spadá, s určitou velkou pravděpodobností
+- Testování hypotéz - umožňuje posoudit, zda experimentálně záskaná data, nepopírají předpoklad, který jsme před provedeném testování učinili
+
+### Intervalové odhady
+- V praktických aplikacích často určujeme odhad príslušného parametru pomocí intervalového odhadu
+- Odhad je reprezentován intervalem $\langle T_D;T_H \rangle$, v němž hledaný parametr leží s předem určenou pravděpodobností, kterou označujeme $(1 - \alpha)$
+- Interval spolehlivosti pro parametr $\Theta$ se spolehlivostí $(1 - \alpha)$, kde $\alpha \in \langle 0;1 \rangle$, je taková dvojice statistik $(T_D,T_H)$, že:
+  - $P(T_D \leq \Theta \leq T_H) = 1 - \alpha$
+
+![Intervalový odhad](../img/intodhad.png "Intervalový odhad"){ width=60% }
+
+- Intervalový odhad $\langle T_D;T_H \rangle$ je jednou z realizací intervalu spolehlivosti
+- $(1-\alpha)$ - spolehlivost odhadu
+- $\alpha$ - hladina významnosti
+- Požadavky na interval spolehlivosti:
+  - Co nejvetší spolehlivost odhadu.
+  - Co nejmenší šírka intervalu spolehlivost. (s rostoucí spolehlivostí se zvetšuje šírka intervalového odhadu a tím klesá významnost takto získané informace. S rostoucím rozsahem výberu se šírka intervalového odhadu snižuje.)
+- Typy intervalů spolehlivosti:
+  - Jednostranné intervaly spolehlivosti - je udávána pouze dolní mez $T_D$ nebo horní mez $T_H$
+    - $P(\Theta \geq T_D) = 1-\alpha$ - levostranný interval spolehlivosti
+    - $P(\Theta \leq T_H) = 1-\alpha$ - pravostranný interval spolehlivosti
+  - Oboustranné intervaly spolehlivosti
+    - Většinou se podmínky: $P(\Theta < T_D) = P(\Theta > T_H) = \frac{\alpha}{2}$
+    - ty zaručují: $P(T_D \leq \Theta \leq T_H) = 1 - \alpha$
+- Co to znamená, že spolehlivost odhadu je $(1-\alpha)$? – Simulace 100 intervalových odhadu (obrázek níže) strední hodnoty (spolehlivost 0.95) získaných na základe opakovaných výberu o rozsahu 30 z populace se strední hodnotou 100. 6 intervalu ze 100 neobsahuje skutecnou strední hodnou
+- Jak najít intervalový odhad parametru $\Theta$
+  1. Zvolíme vhodnou výberovou charakteristiku T(X), jejíž rozdělení známe.
+  2. $P(x_{\frac{\alpha}{2}} \leq T(X) \leq x_{1-\frac{\alpha}{2}}) = 1 - \alpha$
+  3. $P(T(X) \leq x_{1-\alpha}) = 1 - \alpha$
+  4. $P(T(X) \geq x_\alpha) = 1 - \alpha$
+
+![Intervalový odhad simulace](../img/simulaceodhadu.png "Intervalový odhad simulace"){ width=60% }
+
+### Testování hypotéz
+Statistická hypotéza je výrok (tvrzení) o rozdělení pozorované náhodné veličiny zakládající se na předchozí zkušenosti, na rozboru dosavadních znalostí nebo na pouhé domněnce.
+- Parametrická hypotéza - pojednává o parametrech rozdělení NV 
+  - v rámci jedné populace - střední hodnota, medián, rozptyl
+  - v rámci dvou populací - srovnávací testy
+  - v rámci více populací - srovnávací testy - ANOVA, Kruskalův-Wallisův test
+- Neparametrická hypotéza - pojednává o jiných vlastnostech NV (typ rozdělení, nezávislost výběru)
+- Nulová hypotéza $H_0$ - tvrzení, že sledovaný efekt je nulový, bývá vyjádřena rovností mezi testovaným parametrem $\theta$ a jeho očekávanou hodnotou $\theta_0$ 
+  - resp. neexistuje závislost, že data mají určitý typ rozdělení
+  - $H_0: \theta = \theta_0$
+- Alternativní hypotéza $H_A$ - popírá tvrzení dané nulovou hypotézou, obvykle to co chceme dokázat
+  - $H_0: \theta = \theta_1$
+  - $H_0: \theta \neq \theta$
+  - $H_0: \theta < \theta$
+  - $H_0: \theta > \theta$
+- Klasický přístup při testování hypotéz:
+  1. Formulace $H_0$ a $H_A$
+  2. Zvolíme tzv. testovací statistiku, tj. výběrová charakteristika, jejíž rozdělení závisí na testovaném parametru $\theta$.
+     - Rozdělení testované statistiky za předpokladu platnosti nulové hypotézy nazýváme nulové rozděleni
+  3. Stanovení hladiny významnosti testu $\alpha$
+  4. **Ověříme předpoklady testu**
+  5. Určíme kritický obor $W^*$, množina v niž se za předpokladu platnosti $H_0$ hodnoty testované statistiky vyskytují s velmi malou pravděpodobností
+     - Doplňkem k $W^*$ je obor přijetí $V^*$
+     - Hranice mezi kritickým oborem a oborem přijetí se nazývá kritická hodnota testu a označuje se $t_{krit}$
+  6. Na základě konkrétní realizace výběru určíme pozorovanou hodnotu $x_{OBS}$ testované statistiky
+  7. Padne-li $x_{OBS}$ do kritického oboru $W^*$, zamítáme hypotézu $H_0$ ve prospěch $H_A$.
+     - Padne-li $x_{OBS}$ do oboru přijetí $V^*$, hypotézu $H_0$ nezamítáme.
+- **Čistý test významnosti** - výsledek testu nám dovolí rozhodnout na jaké hladině významnosti můžeme $H_0$ zamítnout
+  1. Formulace $H_0$ a $H_A$
+  2. Volba testové statistiky (testového kritéria) $T(X)$
+  3. Ověření předpokladu testu
+  4. Výpočet pozorované hodnoty $x_{OBS}$ testové statistiky $T(X)$
+  5. Výpočet $p$-hodnoty
+     - $p$-hodnota je nejnižší hladina významnosti, na niž můžeme nulovou hypotézu zamítnout
+     - $(H_A : \theta < \theta_0) \rightarrow p = F_0(x_{OBS})$
+     - $(H_A : \theta > \theta_0) \rightarrow p = 1 - F_0(x_{OBS})$
+     - $(H_A : \theta \neq \theta_0) \rightarrow p = 2 \min\{F_0(x_{OBS};1-F_0(x_{OBS}\}$
+     - tyto definice lze použít, když je nulové rozdělení symetrické
+  6. Rozhodnutí na základě $p$-hodnoty
+     - P-hodnota nám ríká jaká je minimální hladina významnosti, na níž bychom při daném výběrovém souboru mohli nulovou hypotézu zamítnout
+     - je-li $p$-hodnota = 0,006, pak nulovou hypotézu $H_0$ mužeme zamítnout na hladinách významnosti 0,006 a vyšších.
+     - nulovou hypotézu $H_0$ mužeme zamítnout se spolehlivostí nejvýše 0,994.
+     - Čím menší je $p$-hodnota, tím silnější je výpověď náhodného výběru proti $H_0$
+     - Typická hladina významnosti, není li jinak určena, $\alpha = 0,05$
+
+
+| $p$-hodnota   | Rozhodnutí                        |
+| ------------- | --------------------------------- |
+| $p < \alpha$  | Zamítáme $H_0$ ve prospěch $H_A$  |
+| $p > \alpha$  | Nezamítáme $H_0$                  |
+
+![výsledky testování hypotéz](../img/chybytest.png "výsledky testování hypotéz"){ width=60% }
+
+### Jednovýběrové testy
+![jednovyberove](../img/jednovyberove.png "jednovyberove"){ width=60% }
+
+### Dvojvýběrové testy
+![dvouvyberove](../img/dvojvyberove.png "dvouvyberove"){ width=60% }
+
+### Vícevýběrové testy
+![vicevyberove](../img/vicevyberove.png "cidevyberove"){ width=60% }
+
 
 
 \newpage
