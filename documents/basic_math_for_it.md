@@ -244,7 +244,7 @@ např. $<6$.
 
 ### NP-úplné problémy
 - Skupina nejtěžších NPTIME problémů. Problém je NP-úplný, když je NP-těžky a náleží do třídy NP. 
-  - Problém Q nazveme NP-těžkým, pokud každý problém ve třídě NP lze na problém Q polynomiálně převést, tedy pokud platí ∀P ∈ NPTIME : P ⊳ Q.
+  - Problém Q nazveme NP-těžkým, pokud každý problém ve třídě NP lze na problém Q polynomiálně převést, tedy pokud platí $\forall P \in NPTIME : P \rhd Q$.
 - Problém Q nazveme NP-úplným, pokud je NP-těžký a náleží do třídy NP
 - Pokud by byl nalezen polynomiální deterministický algoritmus pro nějakou NP-úplnou úlohu, znamenalo by to, že všechny nedeterministicky polynomiální problémy jsou řešitelné v polynomiálním čase (tedy že NP = P). 
 - Příklady problémů
@@ -358,7 +358,7 @@ Příklad:
 - Inverzní relace - pořadí n-tic je přehozeno
   - $R_2 = R_1^{-1}(\forall a \in A, \forall b \in B  [(a,b)\in R_1 \rightarrow (b,a)\in R_2])$
 - Skládání relací je složení binárních relací
-  - $(\forall x \in X)(\forall z \in Z)[(x,z) \in R_3 \iff (\exist y \in Y)((x,y) \in R_1 \wedge (y,z \in R_2))]$
+  <!-- - $(\forall x \in X)(\forall z \in Z)((x,z) \in R_3 \iff (\exist y \in Y)((x,y) \in R_1 \wedge (y,z \in R_2)))$ -->
 - Vlastnosti binární relace $R \subseteq A \times A$:
   - Reflexivní - $(\forall x \in A)(xRx)$
   - Ireflexivní - $(\forall x \in A)\neg(xRx)$
@@ -932,6 +932,77 @@ $\forall k > 0: P(\mu - k\sigma < x < \mu + k\sigma) > 1 - \frac{1}{k^2}$
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 13. Popisná statistika. Číselné charakteristiky a vizualizace kategoriálních a kvantitativních proměnných.
+Statistika je teoretická disciplína, která se zabýva metodami sběru a analýzy dat.
+
+Popisná statistika zjištuje a sumarizuje informace, zpracovává je ve forme grafu a tabulek a vypočítává jejich číselné charakteristiky jako průměr, rozptyl percentily, rozpětí a pod.
+- Populace - soubor prvků, o kterých chceme statistickými metodami něco vypovídat
+- Výběr - část dané populace, která má sloužit k odvození závěrů platných pro celou populaci
+- Statistická jednotka - prvek populace
+- Statistický znak - měřitelná charakteristika statistické jednotky
+- Proměnné (statistické znaky) se dělí na:
+  - Kvalitativní proměnná (kategoriální, slovní)
+    - Podle počtu kategorií - dichotomická (jen 2 varianty) nebo množná proměnná (více jak 2 varianty)
+    - Podle možnosti uspořádání kategorií - nominální nebo ordinální (lze uspořádat)
+  - Kvantitativní proměnná (numerická, číselna)
+    - Diskrétní proměnná - konečná nebo spočetná
+    - Spojitá proměnná
+
+### Statistické charakteristiky kategoriálních (kvalitativních) proměnných
+- dva základní typy, nominální a ordinální
+- Nominální proměnná - různé, ale rovnocené kategorie, nelzou uspořádat
+  - Četnost $n_i$ - počet výskytů dané varianty kategoriální proměnné
+  - Relativní četnost $p_i$ - často udavaná v procentech
+  - Modus - název varianty s největší četností, typický reprezentat souboru, je li víc než jeden tak se neurčuje
+  - Používají se histogramy a výsečové (koláčové grafy)
+- Ordinální proměnná - různé slovní varianty, které mají přirozené uspořádání
+  - používají se stejné charakteristiky jako u nominální + další 2
+  - Kumulativní četnost $m_i$ - počet hodnot proměnné, které nabývají varianty nižší nebo rovné $i$-té variantě
+  - Kumulativní relativní $F_i$ - jakou část souboru nabývají varianty nižší nebo rovné $i$-té variantě
+  - Stejne grafy + 
+  - Lorenzova křivka
+    - polygon kumulativních četností (Covid 19 všude)
+  - Paretův graf
+    - sloučení histogramu proměnné seřazené podle četnosti výskytu (od největší) a Lorenzovy křivky
+  - Paretův princip - 80% následků pramení z 20% příčin
+  - Paretova analýza – postup vedoucí k nalezení životne duležité menšiny
+
+### Statistické charakteristiky numerických proměnných
+- Míry polohy - určující typické rozložení hodnot proměnné
+- Míry variability - určující variabilitu (rozptyl) hodnot kolem své typické polohy (hodnoty)
+- Průměry proměnných - představují průměrnou nebo typickou hodnotu výběrového souboru
+  - Aritmetický průměr $\overline{x}$, může být i vážený
+  - Harmonický průměr - Pro výpočet průměru v přápadech, kdy proměnná má charakter části z celku (úlohy o společné práci)
+  - Geometrický průměr - Pracujeme-li s kladnou proměnnou představující relativní změny (růstové, cenové indexy)
+- Modus
+  - diskrétní proměnná - hodnota nejčetnější varianty
+  - spojitá proměnná - hodnota, kolem které je největší koncentrace hodnot proměnné
+- Výběrové kvantily - charakterizují polohu jednotlivých hodnot v rámci proměnné
+  - Kvartily, Decily, Percentily viz v předchozí kapitole
+- Interkvartilové rozpětí $IQR = x_{0,75} - x_{0,25}$
+  - jedná se o míru variability
+- Empirická dsitribuční funkce F(x) pro kvantitativní proměnnou
+- Výběrový rozptyl $s^2$ - je dán podílem součtu kvadrátu odchylek jednotlivých hodnot od průměru a rozsahu souboru sníženého o jedničku
+  - jednotka je kvadrátem originální jednotky
+- Výběrová směrodatná odchylka $s$ - kladná odmocnina výběrového rozptylu
+- Variační koeficient
+- Identifikace odlehlých pozorování - hodnoty, které se mimořádně liší od ostatních hodnot a tím ovlivňují výběrové charakteristiky
+  - Vnitřní hradby - $x_i$ je odlehlé pozorování když: 
+    - $x_i < (x_{0,25} - 1,5IQR) \vee x_i > (x_{0,75} + 1,5IQR)$
+  - $z$-souřadnice - $x_i$ je odlehlé pozorování když $|z| > 3$, hodnota je od průměru vzdálena více jak $3s$
+    - $z = \frac{x_i - \overline{x}}{s}$
+  - Vnější hradby - určují extrémní pozorování
+    - $x_i < (x_{0,25} - 3IQR) \vee x_i > (x_{0,75} + 3IQR)$
+- Výběrová šikmost $a$ - vyjadřuje asymetrii rozložení hodnot proměnné kolem jejího průměru
+  - $a < 0$ - u proměnné převažují hodnoty větší jak průměr, negativně zešikmené, roste zleva
+  - $a = 0$ - hodnoty proměnné jsou kolem jejího průměru rozloženy symetricky
+  - $a > 0$ - u proměnné převažují hodnoty menší jak průměr, pozitivně zešikmené, klesá zleva
+- Výběrová Špičatost $b$ - vyjadřuje koncentraci hodnot proměnné kolem jejího průměru
+  - $b < 0$ - ploché rozdělení proměnné
+  - $b = 0$ - špičatost odpovídá normálnímu rozdělení
+  - $b > 0$ - špičaté rozdělení proměnné
+- Krabicový graf
+
+![Krabicový graf](../img/boxplot.png "Krabicový graf"){ width=60% }
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
