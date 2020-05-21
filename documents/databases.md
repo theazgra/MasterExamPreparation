@@ -3,6 +3,7 @@
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 1. Modelování databázových systémů, konceptuální modelování, datová analýza, funkční analýza; nástroje a modely.
 Základní pojmy v databázích:
+
 - SŘBD - Systém řízení báze dat
 - Entita - objekt reálného světa, jehož vlastnosti chceme evidovat, instance entitního typu
 - Typ entity - množina objektů stejného typu charakterizována názvem typu a seznamem atributů
@@ -18,6 +19,7 @@ Základní pojmy v databázích:
 - Dynamická analýza - časová následnost operací, stavy databáze a IS
 
 Databázový systém můžeme modelovat třemi datovými modely.
+
 1. Konceptuální model
    - modeluje realitu na logickou úroveň DB
    - je výsledkem datové analýzy
@@ -130,6 +132,7 @@ ELSE
 
 ### SQL
 SQL (Structured Query Language) je strukturovaný dotazovací jazyk, který je používán pro práci s daty v relačních databázích
+
 - JDD - Jazyk pro definici dat (`CREATE/ALTER/DROP TABLE, SCHEMA, INDEX`)
 - JMD - Jazyk pro manipulaci s daty (`SELECT,FROM,GROUP BY, ORDER BY, HAVING, WHERE, INSERT, DELETE, UPDATE, CREATE VIEW`)
 - Možnost definice přístupových práv (`GRANT, REVOKE`)
@@ -181,6 +184,7 @@ SQL (Structured Query Language) je strukturovaný dotazovací jazyk, který je p
 - REDO - transakce byla provedena, ale změny nebyly z vyrovnávací paměti přeneseny, musí být přepracována.
 
 **Kontrolní body**
+
 - kontrolní body jsou vytvářeny např. po určitém počtu záznamů, které byly zapsány do logu a zahrnují
   - zápis obsahu vyrovnávací paměti na disk
   - zápis záznamu o kontrolním bodo do logu
@@ -250,22 +254,26 @@ SQL (Structured Query Language) je strukturovaný dotazovací jazyk, který je p
 
 ### Zamykání
 Využívá většina DBS. Předpokládá se, že transakce se budou ovlivňovat. Systém spravuje jednu kopii dat a transakcím přiřazuje zámky. Pokud tedy chce transakce provádět operace nad daty potřebuje získat zámek, udělující ji přístup a zákaz všem ostatním transakcím. Typy zámku:
+
 - Výlučný zámek - zámek pro zápis - $X$
 - Sdílený zámek - zámek pro čtení - $S$
 
 Pokud transakce $A$ drží výlučný zámek $X$ na entici $t$, pak požadavek paralelní transakce $B$ na zámek libovolného typu na stejnou entici není proveden okamžitě, až po uvolnění zámku $X$ transakcí $A$.
 
 Pokud transakce $A$ drží sdílený zámek $S$ na entici $t$, pak pokud:
+
 - paralelní transakce $B$, požaduje výlučný zámek $X$, tak tomuto požadavku není vyhověno ihned.
 - paralelní transakce $B$, požaduje sdílený zámek $S$, tak tomuto požadavku je vyhověno a obě transakce mají $S$ zámek.
 
 Zámky jsou většinou přidělovány implicitně pomocí zamykacího protokolu. Uzamykací protokol probíhá následovně:
+
 - Transakce chce získat přístup k entici, požádá o sdílený zámek S na tuto entici. 
 - Transakce, která chce aktualizovat (UPDATE, INSERT, DELETE) musí požádat o výlučný zámek $X$.
 - Pokud stejná transakce již drží zámek $S$, tak je změněn na $X$. Pokud zámek nemůže být udělen tak transakce přejde do stavu čekání. 
 - Čeká dokud není zámek uvolněn. Transakce čekají ve frontě. Výlučné i sdílené zámky jsou uvolněny na konci transakce.
 
 Může nastat situace kdy dvě nebo více transakce čekají na uvolnění zámků držených jinou transakcí *deadlock*, ten se dá řešit těmito způsoby:
+
 - Detekce uváznutí - nastavení časových limitů čekání, překročení limitu znamená deadlock
 - Detekce cykly v grafu *wait-for*. Zaznamená se, které transakce na sebe čekají, jedna je vybrána a zrušena *ROLLBACKem*, následně je přepracována nebo vyhozena výjimka.
 - Prevence pomocí časových razítek - Každé transakci se přidělí časové razítko startu, pokud $A$ požaduje zámek na entici, která je již uzavřena a zámek drží $B$ tak 2 možnosti:
@@ -302,7 +310,9 @@ Může nastat situace kdy dvě nebo více transakce čekají na uvolnění zámk
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 4. Procedurální rozšíření SQL, PL/SQL, T-SQL, triggery, funkce, procedury, kurzory, hromadné operace.
 Procedurální rozšíření kombinují procedurální logiku a SQL, což minimalizuje množství přenášených dat. Kód může být sdílen mezi aplikacemi. Nezávislost na OS platformě (ne mezi DBS).
+
 Krom základních SQL příkazů, obsahuje PL/SQL a T-SQL také triggery, funkce, procedůry a kurzory.
+
 - Vázané proměnné umožňují cachevání proměnných při mnohonásobném vykonávání příkazu
 
 ### PL/SQL
@@ -320,6 +330,7 @@ Dynamické SQL umožňuje sestavit a volat jakýkoliv SQL příkaz na jaký má 
   - v T/SQL se musí kurzor ručně alokovat i uvolňovat
 
 Typické rysy:
+
 - Typy řádku nebo atributu,  `%type` a `%rowtype`
 - Deklarace proměnných v declare bloku nebo as/is bloku v procedurách
 - CREATE OR REPLACE – pro vytvoření nebo update procedury/funkce/triggeru/view
@@ -336,6 +347,7 @@ Typické rysy:
 
 ### T-SQL
 Typické rysy:
+
 - Nemá Operátor `%type` a `%rowtype`
 - Proměnné deklarované pomocí klíčového slova DECLARE, a @ před názvem, hodnota se nastaví buď v SELECT nebo pomocí SET
 - Jediný cyklus WHILE
@@ -354,6 +366,7 @@ Typické rysy:
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 5. Základní fyzická implementace databázových systémů: tabulky a indexy; plán vykonávání dotazů.
 Definuje datové struktury pro základní logické objekty a řeší uložení dat na nejnižší úrovni. 
+
 - Tabulky
 - Indexy
 - Materializované pohledy
@@ -450,6 +463,7 @@ Objektový datový model jsou data uložená v objektové strukture. Jde větši
 Všechny trvalé informace jsou stále v tabulkách, ale některé položky mohou mít bohatší datovou strukturu, nazývanou abstraktní datové typy (ADT). ADT je datový typ, který vznikne zkombinováním základních datových typů. Podpora ADT je atraktivní, protože operace a funkce asociované s novými datovými typy mohou být použity k indexování, ukládání a získávání záznamů na základě obsahu nového datového typu. ORDB jsou nadmnožinou RDB a pokud nevyužijeme žádné objektové rozšíření jsou ekvivalentní SQL2. Proto má omezenou podporu dědičnosti, polymorfismu, referencí a integrace s programovacím jazykem.
 
 OOSŘBD umožňují používat uživatelské typy, dědičnost, metody tříd, rozlišují pojmy instance a ukazatel na instanci. 
+
 ```
 CREATE OR REPLACE TYPE TAddress AS OBJECT(
   street VARCHAR2(30), 
@@ -476,7 +490,6 @@ STATIC FUNCTION x (a VARCHAR2, b INT) RETURN REF TAddress)
   - objektové datové typy mohou obsahovat jak data (atributy) tak i operace (metody)
 
 ### XML
-
 - obecný značkovací jazyk, standard W3C
 - Data jsou uložena v textovém XML souboru formou stromu
 - Logika a význam dat je součástí XML souboru
@@ -545,6 +558,7 @@ SELECT * FROM User WHERE login='admin' AND pass='' OR '1'='1'; --instant login
 SŘBD je softwarové vybavení, které zajišťuje práci s DB, tvoří rozhraní mezi aplikací a daty. Distribuovaná DB ma data rozdělena na více počítačích. Přičemž je zachována **transparentnost**, uživatel nepozná tuto fragmentaci dat. A **autonomnost**, uživatel může s lokální databázi plně pracovat.
 
 Distribuované DB se dělí na:
+
 - Centralizovanou - všechny dotazy směřují do centálního uzlu s řídící jednotkou, nebezpečí při výpadku tohoto uzlu
 - Decentralizovanou - každý uzel má svou řídící jednotku, vysoké nároky na obsluhu, nutno koordinovat transakce
 - Kombinované - nejlepší, některé uzly jsou řídící

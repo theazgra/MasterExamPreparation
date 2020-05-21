@@ -13,6 +13,7 @@
 
 ### Vyspělostní úrovně:
 Úroveň definice a využití softwarového procesu je hodnocena dle stupnice SEI (Software Engineering Institute) 1 - 5 vyjadřující vyspělost firmy či organizace z daného hlediska. Tento model hodnocení vyspělosti a schopností dodavatele softwarového produktu se nazývá CMM (Capability Maturity Model) a jeho jednotlivé úrovně lze stručně charakterizovat asi takto:
+
  - Počáteční (Initial) - firma nemá definován softwarový proces a každý projekt je řešen případ od případu (ad hoc).
  - Opakovatelná (Repeatable) - firma identifikovala v jednotlivých projektech opakovatelné postupy a tyto je schopna reprodukovat v každém novém projektu.
  - Definovaná (Defined) - softwarový proces je definován (a dokumentován) na základě integrace dříve identifikovaných opakovatelných kroků.
@@ -23,20 +24,25 @@
 Základem téměř všech modelů softwarového procesu se stal vodopádový model. Tento vodopádový model vychází z rozdělení životního cyklu softwarového díla na čtyři základní fáze: analýza požadavků a jejich specifikace, návrh softwarového systému, implementace a na konec testování a udržování vytvořeného produktu.  Princip vodopádu spočívá v tom, že následující množina činností spjatá s danou fází nemůže započít dříve, než skončí předchozí.  Jinými slovy řečeno, výsledky předchozí fáze 'vtékají' jako vstupy do fáze následující. Model je možno v různých modifikacích a rozšířeních nalézt ve většině současných přístupů.
 
 **Nedostatky vodopádového modelu**
+
 - Prodleva mezi zadáním projektu a vytvořením spustitelného systému je příliš dlouhá.
 - Výsledek závisí na úplném a korektním zadaní požadavků kladených na výsledný produkt.
 - Nelze odhalit výslednou kvalitu produktu danou splněním všech požadavků, dokud není výsledný softwarový systém hotov.
 
 **Inkrementální vodopádový model** 
+
 - Modifikace vodopádového modelu, snažící se odstranit jeho nevýhody. Finální projekt je rozdělen na dílčí verte. Do novějších verzí je postupně přidávána další funkčnost systému a až poslední verze obsahuje plnohodnotný systém. Jednotlivé verze, se vyvíjejí vodopádovým modelem, ale čas na jejich realizaci je menší a můžeme sledovat vývoj systému.
 
 **Spirálový model**
+
 - Jako inkrementální, s tím, že mezi jednotlivé verze byly vloženy další procesy, jako  např. zhodnocení verze z pohledu finálního systému, či přidávní nových požadavků zákazníka.
 
 ### RUP
 Proces RUP definuje disciplinovaný přístup k přiřazování úkolů a zodpovědností v rámci vývojové organizace. Cílem je zajistit vytvoření produktu vysoké kvality požadované zákazníkem v rámci predikovatelného rozpočtu a časového rozvrhu.
 
  Oproti vodopádovému modelu se liší v těchto základních principech:
+
+
  - softwarový produkt je vyvíjen iteračním způsobem v cyklech
    - na konci každé iterace je spustitelný kód
  - Systém je postupně vyvíjen ve verzích, které lze průběžně ověřovat se zadavatelem
@@ -61,6 +67,8 @@ Jazyk UML *Unified Modeling Language* je v softwarovém inženýrství grafický
 
 ### Use-Case diagram
 Zabýva se aktéry, vztahy mezi nimi a přístupy aktérů k systému
+
+
 - Aktér - Entita využívající systém. Přistupuje k případům užití. *Panáček*
 - Případ užití - Znázorňuje funkci systému. *Ovál*
 - Relace -  Vazby a vztahy mezi aktéry a případy užití
@@ -89,6 +97,7 @@ Zabýva se aktéry, vztahy mezi nimi a přístupy aktérů k systému
 Návrh implementace je druhá fáze vývoje SW. Jde o abstrakci zdrojového kódu, která bude sloužit jako hlavní dokument programátorům v další, implementační fázi. Tento model dále upřesňuje model analýzy ve světle skutečného implementačního prostředí. Pojem implementační prostředí v podstatě vyjadřuje možnost namapovat navržené softwarové komponenty obsažené v modelu analýzy na architekturu systému určeného k provozu vyvíjené aplikace s maximálním možným využitím služeb již existujících softwarových komponent. 
  
  Postup včlenění implementačního prostředí do vyvíjené aplikace je dán následující posloupností činností:
+
  - definice systémové architektury,
  - identifikace návrhových vzorů a možnosti znovupoužití tzv. rámcových řešení,
  - definice softwarových komponent a jejich znovupoužití.
@@ -180,12 +189,14 @@ Z uvedené tabulky vyplývá, že jediné, co nelze přímo odvodit z diagramů 
 Správa paměti je soubor metod, které OS nebo runtime daného programovacího jazyku využívá pro přidělování a uvolňování paměti. Většina moderních jazyků používá zejména automatické správy paměti: C\#, Haskell, Java, JavaScript.
 
 Výhody automatické správy paměti jsou následující:
+
 - Programátor se může věnovat řešení skutečného problému
 - Rozhraní modulů jsou přehlednější - není třeba řešit problém zodpovědnosti za uvolnění paměti pro objekty vytvořené různými moduly
 - Nastává menší množství chyb spojených s přístupem do paměti
 - Správa paměti je často mnohem efektivnější - i dont think so!
 
 Nevýhody: 
+
 - Paměť může být zachována jen proto, že je dostupná, i když není dále využita.
 - Automatická správa paměti není k dispozici ve starších, ale často používaných jazycích.
 - Nároky na výkon
@@ -201,12 +212,14 @@ GC je obvykle součástí běhového prostředí daného jazyka. Má za úkol au
 
 
 **Mark & Sweep** (jeho varianta použitá v GC .NET.)
+
 - Algoritmus nastaví všem objektům v paměti speciální příznak `navštíven` na hodnotu `ne`. 
 - Poté projde všechny objekty, ke kterým se lze dostat a nastaví jim hodnotur příznaku `navštíven` na `ano`.
 - všechny objekty s příznakem `navštíven` majícím hodnotu `ne` jsou odpad - a mohou být uvolněny z paměti. 
 - Tato metoda má několik nevýhod, při garbage collectionu je přerušen běh programu. To znamená,že se programy pravidelně zmrznou, takže je nemožné pracovat s aplikacemi používající reálný čas.
 
 **Java GC** používá 4 algoritmy, kromě M&S i 
+
 - **Reference counting** - objekt vytvořen - counter =1, uložení reference na objekt c+1, změna hodnoty objektu, konec funkce, která s ním pracovala c-1, if c==0 - GC smaže
 - **Generační algoritmus** - buď se mnoho objektů se stane odpadem krátce po svém vzniku  nebo jen malé procento referencí ve 'starších' objektech ukazuje na objekty mladší. Rozdělení paměti do generací.
 - **Copying collector** - Tento algoritmus nejprve rozdělí prostor na haldě na dvě části, kdy jedna je aktivní a s druhou se nepracuje. Vždy můžeme alokovat objekty v celkové velikosti, která je poloviční velikost haldy. Pokud se při alokaci nevejdeme do místa na části haldy, je potřeba provést úklid. Ten spočívá v prohození aktivní a neaktivní části. Do nově aktivní části se překopírují živé objekty ze staré, již neaktivní, části. Mrtvé objekty nekopírujeme, ale při dalším prohození aktivní a neaktivní části je jednoduše přepíšeme.

@@ -158,6 +158,7 @@ Sběrnice je soustava vodičů pro přenos informací mezi více účastníky na
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 3. Struktura OS a jeho návaznost na technické vybavení počítače.
 Hlavní úkoly OS:
+
 - Organizuje přístup a zdroje počítače (procesorový čas, přístup k datům a do paměti)
 - Fyzicky zajištuji čtení a zápis dat
 - Komunikuje s uživatelem a na základě jeho pokynů vykonává jeho akce
@@ -166,6 +167,7 @@ Hlavní úkoly OS:
 - Eviduje využívání systémových zdrojů
 
 OS je většinou tvořen těmito součásti:
+
 - Jádro-Kernel – po zavedení OS do paměti řídí činnost počítače, poskytuje procesům procesorový čas a řeší správu prostředků
 - Ovladače – podprogramy pro ovládání zařízení standardním způsobem
 - Příkazový procesor – program, který umožňuje řídit OS a programy pomocí textové konzole

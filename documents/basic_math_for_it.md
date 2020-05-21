@@ -358,7 +358,7 @@ Příklad:
 - Inverzní relace - pořadí n-tic je přehozeno
   - $R_2 = R_1^{-1}(\forall a \in A, \forall b \in B  [(a,b)\in R_1 \rightarrow (b,a)\in R_2])$
 - Skládání relací je složení binárních relací
-  <!-- - $(\forall x \in X)(\forall z \in Z)((x,z) \in R_3 \iff (\exist y \in Y)((x,y) \in R_1 \wedge (y,z \in R_2)))$ -->
+  - $(\forall x \in X)(\forall z \in Z)((x,z) \in R_3 \iff (\exists y \in Y)((x,y) \in R_1 \wedge (y,z \in R_2)))$
 - Vlastnosti binární relace $R \subseteq A \times A$:
   - Reflexivní - $(\forall x \in A)(xRx)$
   - Ireflexivní - $(\forall x \in A)\neg(xRx)$
@@ -380,30 +380,30 @@ Příklad:
   - Uspořádání je úplné (lineární) pokud neexistují neporovnatelné prvky.
   - Hasseúv diagram je grafická reprezentace uspořádáné množiny
   - Nechť $\leq$ je uspořádání na množině $A$ a nechť $M\subseteq A$ pak prvek $a$:
-    - je minimum $M$ - $(a \in M)\wedge \neg(\exist x \in M [x < a])$
-    - je maximum $M$ - $(a \in M)\wedge \neg(\exist x \in M [x > a])$
+    - je minimum $M$ - $(a \in M)\wedge \neg(\exists x \in M [x < a])$
+    - je maximum $M$ - $(a \in M)\wedge \neg(\exists x \in M [x > a])$
     - je nejmenší prvek $M$ - $(a \in M)\wedge (\forall x \in M [x \geq a])$ - může být jen jeden
     - je největší prvek $M$ - $(a \in M)\wedge \neg(\forall x \in M [x \leq a])$ - může být jen jeden
-    - Infimum množiny M (inf M) - je největší prvek $LB(M)$, největší prvek, který je však pořád menší než prvky množíny M
-    - Suprebum množiny M (sup M) - je nejmenší prvek $UB(M)$, nejmenší prvek větší než prvky množiny M.
+    - Infimum množiny M ($\inf M$) - je největší prvek $LB(M)$, největší prvek, který je však pořád menší než prvky množíny M
+    - Suprebum množiny M ($\sup M$) - je nejmenší prvek $UB(M)$, nejmenší prvek větší než prvky množiny M.
     - $LB(M)$ - množina dolních závor $M$ - $x \in LB(M) \iff (\forall y \in M [x \leq y])$
     - $UB(M)$ - množina horních závor $M$ - $x \in UB(M) \iff (\forall y \in M [x \geq y])$
   - Svaz je relační struktura, kde pro libovolné dva prvky platí
-    - $(\forall x,y \in X)(\exist \inf \{x,y\} \wedge \exist \sup \{x,y\})$
+    - $(\forall x,y \in X)(\exists \inf \{x,y\} \wedge \exists \sup \{x,y\})$
   - Úplný svaz je relační struktura, kde pro libovolné dvě množiny platí
-    - $(\forall M \subseteq X)(\exist \inf M \wedge \exist \sup M)$
+    - $(\forall M \subseteq X)(\exists \inf M \wedge \exists \sup M)$
 
 ### Zobrazení (funkce)
 - Binární relace $f \subseteq X\times Y (f:X \rightarrow Y)$ je zobrazení množiny X do množiny Y, platí-li:
   - $(\forall x \in X)(\forall y_1, y_2 \in Y)[(x,y_1)\in f \wedge (x, y_2) \in f \rightarrow y_1 = y_2]$
-- Definiční obor - $D(f) = \{ x \in X | \exist y \in Y [ (x,y) \in f ] \}$
-- Obor hodnot - $H(f) = \{ y \in Y | \exist x \in X [ (x,y) \in f ] \}$
+- Definiční obor - $D(f) = \{ x \in X | \exists y \in Y [ (x,y) \in f ] \}$
+- Obor hodnot - $H(f) = \{ y \in Y | \exists x \in X [ (x,y) \in f ] \}$
 - Parciální zobrazení - $D(f) \subset X$
 - Totální zobrazení - $D(f) = X$
 - Zobrazení z X do Y - $H(f) \subset Y$
 - Zobrazení z X na Y - $H(f) = Y$
 - Injekce - $(\forall x_1, x_2 \in X)[x_1 \neq x_2 \rightarrow f(x_1) \neq f(x_2)]$
-- Surjekce - $(\forall y \in Y)(\exist x \in X)[f(x) = y]$
+- Surjekce - $(\forall y \in Y)(\exists x \in X)[f(x) = y]$
 - Bijekce - Injekce i Surjekce zároveň
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
@@ -415,11 +415,11 @@ Příklad:
   - operace je $n$-ární, zobrazení z kartézského součinu $n$ množin
   - jako funkce, viz předchozí kapitola
 - Nechť $*$ je binární operace na množině $A$, vlastnosti alg. struktur:
-  - UZ Uzavřenost - $(\forall x, y \in A)(\exist z \in A)(x*y = z)$
+  - UZ Uzavřenost - $(\forall x, y \in A)(\exists z \in A)(x*y = z)$
   - AS Asociativita - $(\forall x, y, z \in A)[ (x*y)*z = x*(y*z) ]$
-  - EN Existence nulového prvku - $(\exist n \in A)(\forall x \in A)(n * x = x * n = n)$
-  - EJ Existence jednotkového prvku - $(\exist e \in A)(\forall x \in A)(e * x = x * e = x)$
-  - IN Existence inverzního prvku - $(\forall x \in A)(\exist x^{-1} \in A)( x * x^{-1} = x^{-1} * x = e )$
+  - EN Existence nulového prvku - $(\exists n \in A)(\forall x \in A)(n * x = x * n = n)$
+  - EJ Existence jednotkového prvku - $(\exists e \in A)(\forall x \in A)(e * x = x * e = x)$
+  - IN Existence inverzního prvku - $(\forall x \in A)(\exists x^{-1} \in A)( x * x^{-1} = x^{-1} * x = e )$
   - KOM Komutativita - $(\forall x,y \in A)(x * y = y * x)$
   - Idenpotentnost - $(\forall x \in A)(x * x = x)$, např. $0 \wedge 0 = 0$, $1 \wedge 1 = 1$
 - Vzhledem k jedné binární operaci na množině A, existuje nejvýše jeden nulový a jednotkový prvek
@@ -452,8 +452,8 @@ Příklad:
 ### Algebry s dvěma binárními operacemi
 - Svaz je algebra $(L, \cup, \cap)$ s dvěma operacemi, spojení a průsek a platí:
   - Univerzalita a jednoznačnost
-    - $(\forall x,y \in L)(\exist! z \in L)(x \cup y = z)$
-    - $(\forall x,y \in L)(\exist! z \in L)(x \cap y = z)$
+    - $(\forall x,y \in L)(\exists! z \in L)(x \cup y = z)$
+    - $(\forall x,y \in L)(\exists! z \in L)(x \cap y = z)$
   - Asociativita
     - $(\forall x,y,z \in L)[(x \cup y) \cup z = x \cup ( y \cup z)]$
     - $(\forall x,y,z \in L)[(x \cap y) \cap z = x \cap ( y \cap z)]$
@@ -464,8 +464,8 @@ Příklad:
     - $(\forall x,y \in L)[x \cup (x \cap y) = x]$
     - $(\forall x,y \in L)[x \cap (x \cup y) = x]$
 - Operace spojední a průsek jsou vzhledem k uspořádání $\leq$ suprémem a infímem
-  - $x \cap y = inf\{ x,y \}$
-  - $x \cup y = sup\{ x,y \}$
+  - $x \cap y = \inf\{ x,y \}$
+  - $x \cup y = \sup\{ x,y \}$
 - Okruh $(A,+,\cdot)$ je algebra s dvěmi operacemi pro které musí platit:
   - $(A,+)$ - je Abelova grupa
   - $(A,\cdot)$ - je pologrupa
@@ -513,7 +513,7 @@ Příklad:
   - $B^\downarrow = A$
 - Množina objektů A se nazývá *extent* (rozsah)
 - Množina atributů B se nazývá *intent* (obsah)
-- Množina všech formálních konceptů v $(X,Y,I)$ se značí jako $\mathscr{L}(X,Y,I)$
+- Množina všech formálních konceptů v $(X,Y,I)$ se značí jako $\mathcal{L}(X,Y,I)$
 - Zobrazení $f:2^X \rightarrow 2^Y$ a $g:2^Y \rightarrow 2^X$ tvoří Galaisovu konexi mezi X a Y, pokud pro $A,A_1,A_2 \subseteq X$ a $B,B_1,B_2 \subseteq Y$  platí:
   - $A_1 \subseteq A_2 \rightarrow A_2^\uparrow \subseteq A_1^\uparrow$
   - $B_1 \subseteq B_2 \rightarrow B_2^\downarrow \subseteq B_1^\downarrow$
@@ -521,11 +521,11 @@ Příklad:
   - $B \subseteq f(g(A))$
 
 ### Konceptuální svaz
-- je množina $\mathscr{L}(X,Y,I)$ spolu s relaci uspořádání $\leq$ definovanou na $\mathscr{L}(X,Y,I)$ takto:
+- je množina $\mathcal{L}(X,Y,I)$ spolu s relaci uspořádání $\leq$ definovanou na $\mathcal{L}(X,Y,I)$ takto:
   - $(A_1,B_1)\leq (A_2,B_2) \iff A_1 \subseteq A_2 (\iff B_1 \subseteq B_2)$
-- V úplném konceptuálním svazu $(\mathscr{L}(X,Y,I),\leq)$ je infimum a suprémem definováno jako:
-  - $inf(A_j,B_j) = \bigwedge\limits_{j \in J}(A_j,B_j) = ( \bigcap\limits_{j \in J}A_j; ( \bigcup\limits_{j\in J} B_j )^{\downarrow\uparrow}  )$
-  - $sup(A_j,B_j) = \bigvee\limits_{j \in J}(A_j,B_j) = (( \bigcup\limits_{j\in J} A_j )^{\downarrow\uparrow};\bigcap\limits_{j \in J}B_j  )$
+- V úplném konceptuálním svazu $(\mathcal{L}(X,Y,I),\leq)$ je infimum a suprémem definováno jako:
+  - $\inf(A_j,B_j) = \bigwedge\limits_{j \in J}(A_j,B_j) = ( \bigcap\limits_{j \in J}A_j; ( \bigcup\limits_{j\in J} B_j )^{\downarrow\uparrow}  )$
+  - $\sup(A_j,B_j) = \bigvee\limits_{j \in J}(A_j,B_j) = (( \bigcup\limits_{j\in J} A_j )^{\downarrow\uparrow};\bigcap\limits_{j \in J}B_j  )$
 - Algoritmus jedinečných průniků
   - Vstup: Formální kontext: $(X,Y,I)$
   - Výstup: Množina konceptů
@@ -575,7 +575,7 @@ Příklad:
   - $p = 1$ Mannhatenovská metrika
   - $p = 2$ Euklidovská metrika
 - Čebyševovská metrika
-  - $d_č(x,y) = \max\limits_{\forall i}\{ | x_i - y_i | \}$
+  - $d_c(x,y) = \max\limits_{\forall i}\{|x_i - y_i|\}$
 - Jaccardova vzdálenost
   - $d_J(x,y) = \frac{ \sum_{i=1}^n \max(x_i,y_i) - \sum_{i=1}^n \min(x_i,y_i) }{ \sum_{i=1}^n \max(x_i,y_i) }$
 - Metriky nad abecedou
@@ -598,9 +598,9 @@ Příklad:
   - tj. žádná posloupnost z $\mathcal{M}\setminus A$ nekonverguje k bodu z $A$
 - Podmnožina $A$ metrického prostoru $(\mathcal{M},d)$ se nazývá uzavřená, jestliže její doplněk $\mathcal{M}\setminus A$ je otevřený
 - Pravidla pro bod $x$ a množinu $A$:
-  - Vnitřní bod množiny - $\exist r > 0; B(x,r) \subset A \quad( A\cap B(x,r) = B(x,r) )$
+  - Vnitřní bod množiny - $\exists r > 0; B(x,r) \subset A \quad( A\cap B(x,r) = B(x,r) )$
   - Vnitřek množiny $A$ je množina všech vnitřních bodů $A$
-  - Vnější bod množiny - $\exist r > 0; B(x,r) \subset \mathcal{M}\setminus A \quad( A\cap B(x,r) = \emptyset )$
+  - Vnější bod množiny - $\exists r > 0; B(x,r) \subset \mathcal{M}\setminus A \quad( A\cap B(x,r) = \emptyset )$
   - Uzávěr množiny $A$ je množina všech bodů z $\mathcal{M}$, které mají neprázdný průnik v okolí libovolného bodu z $A$
   - Hraniční bod množiny - $\forall r > 0; A \cap B(x,r) \neq \emptyset \wedge (\mathcal{M}\setminus A)\cap B(x,r) \neq \emptyset$
   - Hranice množiny $A$ je množina všech hraničních bodů z množiny $A$
@@ -608,7 +608,7 @@ Příklad:
   - Hramadný bod množiny - konečné množiny jej nemají
     - $\forall r > 0; A \cap (B(x,r)\setminus\{x\})=\emptyset$
   - Izolovaný bod množiny - každý bod konečné množiny je izolovaným bodem
-    - $\exist r > 0; A \cap B(x,r) = \{x\}$
+    - $\exists r > 0; A \cap B(x,r) = \{x\}$
 
 ### Podobnost
 - ve vektorovém prostoru $V$ nad tělesem $R$ je zobrazení:
@@ -708,6 +708,7 @@ Příklad:
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 11. Náhodná veličina. Základní typy náhodných veličin. Funkce určující rozdělení náhodných veličin.
 Teorie pravděpodobnosti je matematická disciplína popisující zákonitosti týkající se náhodných jevů, tj. jevů, které se mohou ale nemusí stát. Hledá pravděpodobnost určitých výsledků (náhodných jevů), známe-li základní soubor (populaci)
+
 - Náhodný pokus - každý děj, jehož výsledek není předem jednoznačně určen podmínkami, za kterých probíhá
   - náhodný pokus je teoreticky neomezeně krát opakovatelný
   - *hod kostkou, zjíštění životnosti žárovky*
@@ -935,6 +936,8 @@ $\forall k > 0: P(\mu - k\sigma < x < \mu + k\sigma) > 1 - \frac{1}{k^2}$
 Statistika je teoretická disciplína, která se zabýva metodami sběru a analýzy dat.
 
 Popisná statistika zjištuje a sumarizuje informace, zpracovává je ve forme grafu a tabulek a vypočítává jejich číselné charakteristiky jako průměr, rozptyl percentily, rozpětí a pod.
+
+
 - Populace - soubor prvků, o kterých chceme statistickými metodami něco vypovídat
 - Výběr - část dané populace, která má sloužit k odvození závěrů platných pro celou populaci
 - Statistická jednotka - prvek populace
@@ -946,6 +949,7 @@ Popisná statistika zjištuje a sumarizuje informace, zpracovává je ve forme g
   - Kvantitativní proměnná (numerická, číselna)
     - Diskrétní proměnná - konečná nebo spočetná
     - Spojitá proměnná
+
 
 ### Statistické charakteristiky kategoriálních (kvalitativních) proměnných
 - dva základní typy, nominální a ordinální
@@ -1010,16 +1014,19 @@ Popisná statistika zjištuje a sumarizuje informace, zpracovává je ve forme g
 Statistická indukce je soubor metod, které dovolují stanovit vlastnosti celku (základního souboru) na základě pozorování jeho části (náhodného výběru).
 
 Základní soubor je množina všech teoreticky možných objektů (napr. jedinců) v uvažované situaci - statistický soubor, který je vymezen cílem výzkumu a pro který vyvozujeme závěry výzkumného šetrení
+
 - Charakterizuje se parametrem, což je napr. výška, váha, IQ, atp.
 - Má konečný nebo nekonečný (hypotetický) rozsah, který je dán $n$
 
 Výběrový soubor je část populace vybrané na základe předem stanovených kritérii resp. pravidel (podmnožina základního souboru).
+
 - O náhodném výberu uvažujeme, když splňuje dve základní vlastnosti:
   1. pravděpodobnost zařazení do vzorku je pro všechny statistické jednotky populace nenulová
   2. statistické jednotky jsou do vzorku vybrané nezávisle jedna od druhé
 - O reprezentativním výberu uvažujeme, když výberový soubor dobře odráží strukturu celého zkoumaného souboru.
 
 Statistické usuzování znamená zobecnování z výberových statistik na parametry rozdělení.
+
 - Abychom mohli provést statistické usuzování, musíme mít nejakou teorii, jež popisuje náhodné chování sledovaných proměnných.
 - Existují dva typy výběrových chyb: náhodné výběrové chyby a systematické chyby. 
 - Získáním náhodného výběru zmenšujeme systematickou chybu a získáváme podklad pro odhad náhodné výběrové chyby.
@@ -1079,6 +1086,7 @@ Statistické usuzování znamená zobecnování z výberových statistik na para
 
 ### Testování hypotéz
 Statistická hypotéza je výrok (tvrzení) o rozdělení pozorované náhodné veličiny zakládající se na předchozí zkušenosti, na rozboru dosavadních znalostí nebo na pouhé domněnce.
+
 - Parametrická hypotéza - pojednává o parametrech rozdělení NV 
   - v rámci jedné populace - střední hodnota, medián, rozptyl
   - v rámci dvou populací - srovnávací testy
