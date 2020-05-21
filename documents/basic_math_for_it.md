@@ -835,7 +835,100 @@ $\forall k > 0: P(\mu - k\sigma < x < \mu + k\sigma) > 1 - \frac{1}{k^2}$
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 12. Vybraná rozdělení diskrétní a spojité náhodné veličiny - binomické, hypergeometrické, negativně binomické, Poissonovo, exponenciální, Weibullovo, normální rozdělení.
+### Rozdělení DNV
+- Bernoulliho pokusy - Posloupnost nezávislých pokusů mající pouze dva možný výsledky, úspěch či neúspěch
+  - Pravděpodobnost úspěchu $\pi$, neúspěchu $1 - \pi$
+- Alternativní rozdělení - $X$ je počet výskytů daného jevu (úspěchu) v jednom pokusu
+  - $X \thicksim A(p)$, $p$ je pravděpodobnost daného jevu
+  - $P(X = 1) = p$
+  - $P(X = 0) = 1 - p$
+- Binomické rozdělení - $X$ je počet úspěchů v $n$ Bernoulliho pokusech
+  - $X \thicksim Bi(n, p)$
+  - $P(X = k) = \binom{n}{k} p^k (1 - p)^{n-k}$
+  - $E(X) = n\cdot p$
+  - $D(X) = n \cdot p (1 - p)$
+- Hypergeometrické rozdělení - $X$ je počet prvků se sledovanou vlastností ve výběru $n$ prvků
+  - $X \thicksim H(N,M,n)$
+  - $N$ rozsah základního souboru, $M$ počet prvků s požadovanou vlastností, $n$ rozsah výběru
+  - Hypergeometrické rozdělení je základním pravděpodobnostním rozdělením při výběru bez vracení.
+  - Pro závislé pokusy
+  - $P(X = k) = \frac{\binom{M}{k} \binom{N-M}{n-k} }{\binom{N}{n}}$
+  - $E(X) = n\cdot \frac{M}{N}$
+  - je-li $\frac{n}{N} < 0,05$ lze hypergeometrické rozdělení aproximovat binomickým $Bi(n,\frac{M}{N})$
+- Geometrické rozdělení - $X$ je počet Bernoulliho pokusů do prvního výskytu úspěchu, včetně něj
+  - $X \thicksim G(p)$
+  - $P(X = n) = p\cdot(1 - p)^{n-1}$
+  - $E(X) = \frac{1}{p}$
+  - $D(X) = \frac{1-p}{p^2}$
+  - Speciální případ Pascalova rozdělení
+  - **POZOR**: Někde definováno jako: počet neúspěchů před prvním úspěchem
+- Negativně binomické (Pascalovo) rozdělení - $X$ je počet Bernoulliho pokusů do $k$-tého výskytu úspěchu, včetně $k$-tého výskytu
+  - $X \thicksim NB(k, p)$
+  - $P(X = n) = \binom{n-1}{k-1}p^k(1-p)^{n-k}$
+  - $E(X) = \frac{k}{p}$
+  - $D(X) = \frac{k(1-p)}{p^2}$
+- Poissonův proces - počet náhodných událostí v nějakém pevném časovém intervalu. Poissonův proces je speciálním případem bodového procesu
+  - Registrujeme počet událostí $N(s,t)$ v časovém intervalu $\langle s;s+t \rangle$
+  - Rychlost výskytu událostí $\lambda$ je parametrem Poissonova procesu
+    - hustota výskytu události na ploše, resp. v objemu
+  - Lze definovat v libovolné prostorové oblasti, čase, prostoru (plocha, objem)
+  - Vlastnosti procesu:
+    - Ordinální - pravděpodobnost výskytu více než jedné události v limitně krátkém časovém intervalu $(t \rightarrow 0)$ je nulová. Řídké jevy.
+    - Stacionární - rychlost výskytu událostí je konstantní v průběhu celého intervalu
+    - Beznásledný - pravděpodobnost výskytu události není závislá na čase, který uplynul od minulé události
+  - $X$ je počet výskytů událostí v časovém intervalu délky $t$
+    - *$X$ je počet výskytů událostí na ploše $t$ (v objemu $t$)*
+  - $X \thicksim Po(\lambda t)$
+  - $P(X = k) = \frac{(\lambda t)^k e^{-\lambda t}}{k!}$
+  - $E(X) = D(X) = \lambda t$
 
+### Rozdělení SNV
+- Rovnoměrné rozdělení - $X$ NV s rovnoměrným rozdělením na intervalu $(a;b)$
+  - $X \thicksim R(a;b)$
+  - hustota pravděpodobnosti je konstantní na daném intervalu $(a;b)$
+  - $f(x) = \frac{1}{b-a} \iff x \in (a;b)$
+    - jinak 0
+  - $E(X) = \frac{a+b}{2}$
+  - $D(X) = \frac{(a-b)^2}{12}$
+  - *Doba čekání na tramvaj, která jezdí pravidelně*
+- Intenzita poruch - Riziková funkce
+  - Modelujeme-li dobu do výskytu události (životnost, dobu do poruchy, dobu do relapsu (návratu onemocnení),apod.)
+  - $\lambda t = \frac{f(t)}{1 - F(t)}$
+  - Dělí se do tří oblastí, tvar vany
+    - Období časných poruch - intentiza poruch postupně klesá
+    - Období stabilního života - intentiza poruch je stabilní
+    - Období stárnutí - intentiza poruch postupně roste
+- Exponenciální rozdělení - $X$ je délka časových intervalů mezi událostmi v Poissonovém procesu
+  - Umí modelovat pouze dobu do poruchy v období stabilního života
+  - $X \thicksim Exp(\lambda)$
+  - $f(t) = \lambda e^{-\lambda t} \iff t > 0$
+  - $f(t) = 0 \iff t \leq 0$
+  - $E(X) = \frac{1}{\lambda}$
+  - $D(X) = \frac{1}{\lambda^2}$
+  - *Délka do poruchy zařízení, doba od jedné dopravní nehody k druhé*
+- Weibullovo rozdělení - $X$ je délka časových intervalů mezi událostmi v Poissonové procesu
+  - $X \thicksim W(\Theta,\beta)$
+  - $\Theta > 0$ - parametr měřítka, $\Theta = \frac{1}{\lambda}$
+  - $\beta > 0$ - parametr tvaru, ovlivňuje tvar intenzity poruch
+    - Období časných poruch - $\beta < 1$
+    - Období stabilního života - $\beta = 1$
+    - Období stárnutí - $\beta > 1$
+  - zobecnění exponenciálního rozdělení, umí modelovat dobu do poruchy ve všech třech intervalech Rizikové funkce
+- Normální rozdělení
+  - vhodné k popisu NV, kterou lze interpretovat jako aditivní výsledek mnoha nepatrných a vzájemně nezávislých faktorů
+  - popisuje NV, jejichž hustoty se symetricky shlukují kolem střední hodnoty a vytváří tak charakteristický tvar hustoty pravděpodobnosti, Gaussovu křivku
+  - Normální rozdělení je řízeno střední hodnotou $\mu$ a rozptylem $\sigma^2$
+    - $X \thicksim N(\mu, \sigma^2)$
+    - $f(x) = \frac{1}{\sigma\sqrt{2p}}\cdot e^{\frac{x-\sigma}{\sqrt{2}\sigma}}$, pro $-\infty < x < \infty$
+    - $E(X) = \mu$
+    - $D(X) = \sigma^2$
+- Normované (standardizované) normální rozdělení
+  - Speciální typ normálního rozdělení kde $\mu = 0$ a $\sigma^2 = 1$
+  - $Z \thicksim N(0,1)$
+  - Význam normovaného normálního rozdělení spočívá zejména v tom, že jeho distribuční funkce je tabelována
+  - Hustota pravděpodobnosti $\varphi$ je sudá funkce
+    - $\varphi(z) = \varphi(-z)$
+    - $\varphi(z) = 1 - \varphi(-z)$
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 13. Popisná statistika. Číselné charakteristiky a vizualizace kategoriálních a kvantitativních proměnných.
