@@ -258,61 +258,61 @@
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 24. Paralelní redukce a paralelní scan: principy fungování ve vybrané technologii a příklady užití
 ### Redukce
-- Jedna z nejvyužívanějších paralelních operací vůbec
-- Redukce postupně kombinuje všechny elementy kolekce na jedno číslo. Kombinací často rozumíme součet.
+- Jedna z nejvyužívanějších paralelních operací pro zpracování velkého počtu vstupních dat
+  - na pořádí zpracování elementů nezáleží
+  - rozdělení vstupních dat do menších bloků, které zpracovávají různé vlákna
+  - Redukční stromy jsou využity k sesumírování výsledků bloků
+- Redukce postupně kombinuje všechny elementy kolekce na jedno číslo. 
+  - Kombinací může být: součet, násobek, max, min, uživatelsky definovaná operace, která je:
+    - asociativní a kumutativní
+    - má definován jednotkový (neutrální) prvek (0 pro sčítání, 1 pro násobení)
+- Paralelní redukce pomocí redukčních stromů provede $N-1$ operací v $\log_2(N)$ krocích (iteracích)
 - Postupně jsou vždy 2 elementy kolekce velikosti $n$ zkombinovány, toto se opakuje dokud nemáme jeden finální element
 - Využívá se v mnoha algoritmech pro vypočítání chyby a vyhodnocení terminální podmínky v iteračních algoritmech
   - Genetické algoritmy, Buńkové algoritmy, Násobení matic, Zpracování obrazu
+  - Hadoop MapReduce
 
-![Paralelní redukce](../img/parallelreduction.gif "Paralelní redukce"){ width=60% }
+![Paralelní redukce](../img/parallel_reduction.png "Paralelní redukce"){ width=60% }
 
-- V jednom paralelním kroku můžeme slučovat více než pouze 2 elementy, na obrázku to jsou v první úrovni 4
-  - zaleží kolik chceme kroku (průchodů) redukce, zde to jsou 2
 - Volba délky sériového bloku zavisí na vlastnostech výpočetní jednoty, registry, velikost cache
+- Po každé iteraci je polovina vláken již neaktivních
 - Paralelni redukce je zabudována v OpenMP, MPI, a často se dělá v CUDE
 
-<!-- https://en.wikipedia.org/wiki/Prefix_sum -->
-### Scan
-- taky nazývaný jako *Prefix-Sum*
-- Inkluzivní scan bere v potaz aktuální vstupní hodnotu spolu s výsledkem předchozí iterace
-- Exkluzivní scan nebere v potaz aktuální vstupní hodnotu
-
-```cs
-int foo(int, int) { ... }
-...
-int[] a = ...;
-int[] b = ...;
-a[0] = b[0];
-for (int i = 1; i < n; i++) {
-    a[i] = foo(a[i-1], b[i]);
-}
-
-```
-
-![Seriový scan](../img/serial_scan.gif "Seriový scan"){ width=60% }
-
-- Každá iterace cyklu závisí na výsledku předchozí iterace
-- SCAN algoritmus dostává na vstupu pole délky $n$ a výsledkem algoritmu je znovu pole délky $n$
-  - každý prvek na indexu $i$ výsledného pole, je redukcí všech prvků vstupního pole do pozice $i$
-  - redukce je specifikována kombnační funkcí, zde např. `foo`
-- Jelikož je funkce `foo` asociativní (`foo(a, foo(b, c)) = foo(foo(a, b), c)`), může být tento algoritmus paralelizován
-  - Paralelní scan počítá s tím, že tato funkce je asociativní, jinak by se nejednalo o paralelní scan a funkce by nešla paralelizovat
-- Díky asociativitě této operace můžou být operace přeuspořádány podle 3 různých přístupů (1. je seriový)
-- Sérivoý přístup provede kombinaci jen $O(n)$ krát, tedy méně krát, ale naivní paralelní přístup bude rychlejší
-- Paralelní scan neškáluje lineárně s počtem jader
+### Paralelní sken
+- Taky nazývaný jako *Prefix-Sum*
+- Paralelní sken dostává na vstupu pole délky $N$ $[x_0,x_1,\ldots,x_N]$ a asociativní operátor $\oplus$. Výsledkem algoritmu je pole $[x_0,(x_0\oplus x_1),(x_0\oplus x_1 \oplus x_2),\ldots,(x_0 \oplus \ldots \oplus x_{N-1})]$ 
+  - Příkladem asociativní operace může být například sčítání
+- Inkluzivní sken, oproti exkluzivnímu, bere v potaz aktuální vstupní hodnotu spolu s výsledkem předchozí iterace
+- Využití paralelního skenu:
+  - RadixSort, QuickSort, Histogramy, Stromové operace, Lexikální analýza, Porovnávání řetězců
 - Implementován v OpenMP, MPI, C++, Rust
-- První přístup vidíme na obrázku níže. Pro každý výsledný element je vytvořen redukční strom a duplicitní redukce jsou sloučeny.
-  - Kombinující funkce je provedena $O(n\log n)$ krát (work complexity, počet provedených operací)
-  - Nejdelší cesta přes graf je *step complexity* zde je $O(\log n)$
-  - Tento přístup má kratší nejdejší cestu grafem, dovoluje více paralelismu ale není efektivní v rámci provedené práce
-- Druhý přístup na posledním obrázku
-  - delší nejdelší cesta ale je více efektivní v rámci provedené práce
-  1. Vypočti součet po sobě jdoucích párů, tak, že první element páru ma sudý index. $z_0 = x_0 + x_1, z_1 = x_2 + x_3, \ldots$
-  2. Rekurzivně vypočti prefixovou sumu $w_0, w_1, \ldots$ sekvence $z_0, z_1, \ldots$
-  3. Každý element výsledné sekvence je součet až dvou prvků sekvencí $x,z,w$, $y_0=x_0, y_1 = z_0, y_2 = z_0 = x_2, y_3 = w_0$
+- Sériové řešení se složitostí $O(N)$
+```c
+y[0] = x[0]
+for (int i = 1; i < N; i++)
+  y[i] = y[i-1] + x[i] 
+```
+- Každá iterace cyklu závisí na výsledku předchozí iterace
 
-TODO !!!
+![Scan reduce](../img/parallel_scan_1.png "Scan reduce O(n log n)"){ width=60% }
 
-![Scan reduce](../img/scan_reduce.gif "Scan reduce O(n log n)"){ width=60% }
+- První paralelní přístup - založen na paralelní redukci, složitost $O(N \cdot log(N))$
+  - Neefektivní přístup - každý strom redukce provede $O(N)$ operací
+  1. Načteme pole do sdílené paměti
+  2. Cyklus s $\log_2(N)$ iteracemi - počáteční `stride` = 1
+     - V každé iterace jsou aktivní vlákna (indexy vláken) `stride` až $N-1$
+     - Vlákno $i$ sečte element $i$ s elementem ($i$-`stride`)
+     - Nutno zdvojnásobit velikost sdílené paměti
+  3. Výsledek je ve sdílené paměti, ze které jej zkopírujem
+  - Je třeba bariérové synchronizace mezi iteracemi, aby nedošlo k přepsání vstupu jiného vlákna
+- Vylepšený paralelní přístup - založený na vyrovnaných stromech
+  - strom slouží pouze pro představu toho, co dělají vlákna v každé iteraci
+  - Průchod dolů od listů ke kořenu, vytvoří vnitřní uzly s částečnými součty. Kořen stromu obsahuje součet všech elementů - Redukční krok s $\log_2(N)$ iteracemi
+  - Průchod nahoru od kořene, vytvoří *sken* z částečných součtů - Poredukční krok s $\log_2(N)-1$ kroky
+  - Celková složitost $O(N)$
 
-![Vylepšený Scan reduce](../img/scan_reduce_imp.gif "Vylepšený Scan reduce O(n)"){ width=60% }
+![Krok redukce](../img/parallel_scan_2_reduction_step.png "Krok redukce"){ width=60% }
+
+![Post scan](../img/parallel_scan_2_postscan_step.png "Post scan"){ width=60% }
+
+![Parallel Scan Result](../img/parallel_scan_2_result.png "Parallel Scan Result"){ width=60% }
