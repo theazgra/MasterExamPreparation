@@ -311,24 +311,10 @@ Web lze chápat jako speciální případ DIS s neznámým počtem dokumentů. P
     - Váha autority je vypočtena jako součet vah rozcestníků, které odkazují na danou autoritu
     - Váha rozcestníku je definována jako součet normalizovaných vah autorit na které rozcestník odkazuje
     - Algoritmus je řešen iterativně.
-
-
- 
- 
- 
-
-    Authority update: Update each node's authority score to be equal to the sum of the hub scores of each node that points to it. That is, a node is given a high authority score by being linked from pages that are recognized as Hubs for information.
-    Hub update: Update each node's hub score to be equal to the sum of the authority scores of each node that it points to. That is, a node is given a high hub score by linking to nodes that are considered to be authorities on the subject.
-
-The Hub score and Authority score for a node is calculated with the following algorithm:
-
-    Start with each node having a hub score and authority score of 1.
-    Run the authority update rule
-    Run the hub update rule
-    Normalize the values by dividing each Hub score by square root of the sum of the squares of all Hub scores, and dividing each Authority score by square root of the sum of the squares of all Authority scores.
-    Repeat from the second step as necessary.
-
-
+    - Každý uzel ma na začátku váhu autority i rozcestníků rovno 1
+    - Provede se aktualizace váhy autority
+    - Provede se aktualizace váhy rozcestníků
+    - Provede se normalizace obou vah a cyklus se opakujes
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 22. Paralelní výpočty a platformy: Flynnova taxonomie, SIMD, MIMD, SPMD. Datový a task paralelismus. Procesy a vlákna.
