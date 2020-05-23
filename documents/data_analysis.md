@@ -107,8 +107,18 @@ Důvody proč vyhledávat vzorky v textu:
   - Vzorky jsou vyhledávány pomocí DKA
   - Regulární výraz se dá převést na NKA, který se dá převést na DKA
 
+### Přibližné vyhledávání
+- Využití přibližného vyhledávání při detekci překlepů v textu, oprava překlepů
+- Hammingova metrika - minimální počet operací REPLACE nutných k převedení jednoho slova na jiné
+- Levensteinova metrika - minimální počet operací REPLACE, INSERT, DELETE nutných k převedení jednoho slova na jiné
+- Překlepy se detekují porovnáváním znak po znaku - pomocí NKA, kde každá další vrstva znamená chybu navíc
+  - Přechod zprava doleva - shoda znaku
+  - Diagonální přechod - operace nahrazení
+  - Přechod dolů - operace vložení
+  - Diagonální přechod $\varepsilon$ - operace smazání
+
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
-## 19. Dokumentografické informační systémy (DIS) (modely DIS - booleovský, vektorový, rozšířený booleovský; lexikální analýza, stemming a lematizace, stop slova, konstrukce indexů, vyhodnocení dotazu, relevance, přesnost, úplnost, F-míra).
+## 19. Dokumentografické informační systémy (DIS)
 - Faktografický IS - Zpracování informací s definovanou vnitřní strukturou (nejčastěji v podobě tabulek)
 - Dokumentografický IS (DIS) - Zpracování informací v podobě textu v přirozeném jazyce bez pevné vnitřní struktury
 - Model práce s DIS: 
@@ -315,6 +325,18 @@ Web lze chápat jako speciální případ DIS s neznámým počtem dokumentů. P
     - Provede se aktualizace váhy autority
     - Provede se aktualizace váhy rozcestníků
     - Provede se normalizace obou vah a cyklus se opakujes
+
+### Metavyhledávání
+- Metavyhledávací systém zjednodušeně umožňuje vyhledávání ve více vyhledávacích nástrojích nebo adresářích současně.
+- Nemají vlastní databáze, katalogy a data.
+- Dotazy uživatelů posílají do jednotlivých databází, které je automaticky a simultánně vyhodnotí a poté mu prezentují celkové výsledky vyhledání najednou. 
+- Výhody:
+  - Uniformní práce s více vyhledavači najednou
+  - Eliminace duplicit z více zdrojů
+  - Paralelní vyhodnocení dotazu z pohledu uživatele
+- Nevýhody:
+  - Restrikce vyhledávacích možností
+  - Né vždy vrácí relevantní výsledky
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 22. Paralelní výpočty a platformy: Flynnova taxonomie, SIMD, MIMD, SPMD. Datový a task paralelismus. Procesy a vlákna.
