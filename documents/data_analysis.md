@@ -204,7 +204,10 @@
 ## 9. Vyhodnocení klasifikačních algoritmů (chybovost, přesnost, pokrytí, f-metrika)
 - Vstupní dataset je náhodně rozdělen na trénovací, testovací a někdy i validační množiny
 - Trénovací část sloučí k vytvoření klasifikačního modelu, který je testován testovacím datasetem
+- Validační dataset je použit pro úpravu parametrů modelu
 - Křižová validace - přístup pro výpočet hodnoty (odchylky) očekávaného výkonu (přesnosti)
+- Holdout - rozdělení datasetu, rozdělení může být provedeno několikrát
+  - Nutno rozdělit tak, ať je distribuce tříd rovnoměrná
 - $k$-fold Cross-Validation
   - Rozdělí dataset $D$ na $k$ stejně velkých podmnožin $D_1,D_2,\ldots,D_k$
   - Postupně je provedeno $k$ iterací, kde je vždy jedna podmnožina $D_i$ testovací a zbylé jsou trénovací
@@ -212,6 +215,46 @@
   - Očekávaný výkon:
     - $\mu_\theta = \frac{1}{k}\sum\limits_{i=1}^k \theta_i$
     - $\sigma_\theta^2 = \frac{1}{k}\sum\limits_{i=1}^k (\theta_i - \mu_\theta)^2$
+- Bootstrap - vytvoření několika náhodných vzorků z datasetu
+  - Z více náhodných vzorků o velikosti $n$ se snažíme získat informace o celkové populaci
+  - objekty se mohou objevit ve více vzorcích
+  - Model se trénuje z několika náhodných vzorků s duplikáty
+  - Celková přesnost je vypočtena na datasetu
+  - Odhad přesnosti je velmi optimistický kvůli prolínání trénovací a testovací sady
+  - Pravděpodobnost že vzorek není vybrán do vzorku $(1 − \frac{1}{n})$
+- Vyhodnocení klasifikátoru produkující label
+  - Přesnost - relativní četnost správných predikcí (predikovaný label = GT)
+  - Cost-sensitive přesnost - různé případy jsou různě ohodnoceny
+    - Každá třída má svou cenu za mispredikci, některé třídy více penalizují výsledek
+- Vyhodnocení klasifikátoru produkující pravděpodobnosti
+  - Flexibilnější vyhodnocení modelu
+  - $S(t)$ - objekty predikované jako pozitivní
+  - Určitá hranice threshold $t$ rozhodující mezi dvěmi kategoriemi - správná hranice není známa a závisí na datech
+    - Agresivní (velké) $t$ - algoritmus může vynechat *true positive* a *false negative*
+    - Relaxed $t$ - algoritmus produkuje mnoho *false positive* (*false negative*)
+  - Přesnost je definována jako procento *true positive* + *false positive* = $S(t)$, které jsou opravdu *true positive*
+    - $\textit{Precision}(t) = 100\frac{|S(t) \cap G|}{|S(t)|}= 100\frac{|TP|}{|TP+FP|}$
+  - Pokrytí, Paměť, Recall - procento *true positive*, které byly detekovány jako pozitivní
+    - $\textit{Recall}(t) = 100\frac{|S(t) \cap G|}{|G|} = 100\frac{|TP|}{|TP+FN|}$
+  - $F_1$ míra kombinuje jak přesnost tak pokrytí
+    - $F_1 = 2 \frac{P(t) \cdot R(t)}{P(t) + R(t)}$, nejlepší hodnota je 1
+  - ROC křivka - graf, který popisuje kvalitu binárního klasifikátoru v závislosti na nastavení jeho klasifikačního prahu
+    - říká nám, jak moc dobře dokáže model rozlišovat mezi různými třídami
+    - *True-Positive Rate* $TPR$ se rovná *Recall*
+    - *False-Pegative Rate* je procento špatně detekovaných pozitivů, ze všech GT negativů $FPR(t) = 100\frac{|S(t) - G|}{|D - G|}$
+    - $FPR$ je na X ose a $TPR$ je na Y ose
+    - Čím blíže je křivka ose Y (levý horní roh) tím je test přesnější
+    - Větší plocha pod křivkou AUC - lepší predikce true positive
+  - Matice záměn - Řádky jsou predikované hodnoty a Sloupce jsou správné hodnoty
+
+|             |      | Správna   | hodnota   |
+| :-------:   | :--: | :-------: | :-------: |
+|             |   | 1 | 0 |
+| Predikovaná | 1 | True Positive   | False Positive T1 Error
+| Hodnota     | 0 | False Negative T2 Error  | True Negative
+
+
+![ROC](../img/roc.png "ROC"){ width=60% }
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 10. Regrese (lineární a nelineární regrese, regresní stromy, metody vyhodnocení kvality modelu)Typy sítí. Graf a matice sousednosti jako reprezentace sítě.
