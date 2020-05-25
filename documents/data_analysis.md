@@ -194,11 +194,113 @@
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 7. Support Vector Machines (princip, algoritmus, kernel trick).
+- Binární klasifikace numerických dat
+  - kategoriální data mohou být použita po binarizaci
+  - Výsledkem je jeden z labelů -1 nebo 1
+  - 2 kategorie jsou rozděleny nadrovinou (hyperplane)
+    - Nadrovinou se v geometrii rozumí pro daný prostor dimenze $n$ jakýkoliv jeho podprostor dimenze $n-1$.
+- Klasifikace více tříd:
+  - Metoda jeden proti všem - jedna třída je odlišována od všech ostatních tříd, je potřeba SVM klasifikátor pro každou třídu
+  - Metoda jeden proti jednomu - Jedno SVM pro každý pár tříd, výsledná třída je ta, která byla nejvíce klasifikovaná ve všech SVM
+- Existuje nekonečně mnoho způsobů jak rozdělit body podle nadroviny
+  - Cílem je maximalizovat minimální vzdálenost mezi body dvou tříd, 
 
+![SVM](../img/svm.png "SVM"){ width=60% }
+
+- K rozdělující nadrovině se vytvoří dvě rovnoběžné hraniční nadroviny, tak, že se dotýkají bodů z obou kategorií
+  - Cílem je maximalizovat délku kolmice mezi těmito nadrovinami
+  - Bodům na těchto rovinách se říká *Support Vectors*
+    - Objekty, které se nejhůře klasifikují
+    - Přímo ovlivňují volbu hraničních nadrovin
+  - Vzdálenost mezi těmito dvěma nadrovinami je *margin*
+  - Rozdělovací nadrovina je přesně mezi těmito dvěmi rovinami
+- Algoritmus:
+  - $n$ je počet bodů v trénovací sadě $D$
+  - $i$-tý bod $(X_i, y_i)$, kde $X_i$ je $d$-dimenzionální vektor a $y_i$ je třída -1 nebo 1
+    - $\overline{W}\cdot\overline{X} + b = 0$
+  - $\overline{W}=(w_1,\ldots,w_d)$ je $d$-dimenzionální vektor obsahující směr normál (přímka kolmá na daný podprostor) nadroviny
+  - $b$ je skalár *bias*
+  - 
+  - Body obou tříd musí ležet na opačných stranách nadroviny
+    - $\overline{W}\cdot\overline{X_i} + b \geq 0 \quad \forall i : Y_i = +1$
+    - $\overline{W}\cdot\overline{X_i} + b \leq 0 \quad \forall i : Y_i = -1$
+    - $y_i(\overline{W}\cdot\overline{X_i}+b)\geq +1$
+    - $y_i(\overline{W}\cdot\overline{X_i}+b) - 1\geq 0$
+  - Cílem je maximalizovat vzdálenost mezi dvěma rovnoběžnými nadrovinami
+    - $\frac{2}{||\overline{W}||} = \frac{2}{\sqrt{\sum_{i=1}^d W_i^2}}$
+  - Nebo minimalizovat:
+    - $\frac{||\overline{W}||^2}{2}$
+  - Maximalizace prostoru mezi okrajovými nadprostory je řešena přes Lagrangeovy multiplikátory a po úpravách závisí pouze na skalárním součinu podpůrných vektorů obou tříd
+- Pro neseparabilní data existuje *soft margin*
+  - Představena panalizace pro body porušující *margin*
+  - $\overline{W}\cdot\overline{X_i} + b \geq 0  - \xi_i \quad \forall i : Y_i = +1$
+  - $\overline{W}\cdot\overline{X_i} + b \leq 0  + \xi_i \quad \forall i : Y_i = -1$
+  - $\forall i : \xi \geq 0$
+  - $\frac{||\overline{W}||^2}{2} + C\sum_{i=0}^n\xi_i$
+  - Parametr $C$ kontroluje dovolenou chybu během trénovaní, větší $C$ je větší trest, takže menší chyba
+
+### Kernelový trik
+- Nelineární rozdělení - v realných případech se nedají data rozdělit pomocí přímky
+- Využití Coverova teorému, který říká, že data, těžko rozdělitelná ve své dimenzi bude možna lehčí rozdělit v dimezi vyšší
+- Řešením ve vyšším prostoru se mění skalární součin, kde je na elemenety součinu nejdříve aplikovaná mapovací funkce $\phi$
+- Trik je v tom, že aby jsme nalezli nadrovinu, nejlépe rozdělující body, ve vyšším prostoru, nemusíme vypočítat transformavané vektory, jelikož se vyskytují pouze ve skalárním součinu
+- Místo toho se může použít *Kernelová* funkce, která je definovaná jako skalární součin dvou transformovaných vektorů
+- Mapování: $\phi : \mathcal{R}^n \rightarrow \mathcal{R}^m, m \geq n$
+- $K(x,z) = \phi(x) \cdot \phi(z)$, kde $x$ a $z$ jsou Kernelové funkce, kernely
+- Proces mapování do vyšší dimenze se nazývá Kernel trik
+- Typy kernelů:
+  - Lineární
+  - Polynomiální
+  - Gaussian
+  - RBF kernel
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 8. Neuronové sítě (základní princip, metody učení, aktivační funkce).
-
+- Model algoritmus navržený podle nervového systému člověka
+- Systém se skládá z neuronů
+  - Tyto neurony dostavají vstupní signál, které vnitří operací převádějí na výstupní signál
+- Celkový výpočet je ovlivňován váhou neuronu a aktivačními funkcemi
+- Proces učení postupně upravuje tyto váhy. Váha neuronu je analogická síle synapse.
+- Architektury NN:
+  - Jednovrstvé - Perceptron
+    - Vstupní vrstva ma neuron pro každý vstupní atribut a pouze posílá hodnoty výstupnímu neurono
+    - Spojení mezi vstupními neurony a výstupním neuronem je vážené
+    - Výstupní neuron vypočítá výslednou hodnotu
+  - Vícevrstvé (Hluboké NN)
+    - Přidávají vnitřní skryté vrstvy
+    - Vnitřní vrstvy se mohou skládat z různých typů vrstev
+    - Výstupy jedné vrstvy jsou posílány do následující vrstvy, přes plně propojené konexe
+  - Konvoluční NN
+  - Rekurentní NN
+- Učení probíhá na trénovací sadě, kterou se síť snaží detekovat. Na základě výsledku detekce je poslán feedback sítí zpětně, čímž dochází k úpravě vah neuronů
+  - Spolu s váhami existuje taky bias $b$ pro aktivační funkce, ten je také postupně updatován
+  - Update probíhá podle chyby, která vznikla ve finální vrstvě, což je rozdíl mezi predikovanou a skutečnou hodnotou
+  - *learning rate* - parametr, který řídí rychlost učení, jak moc měnit váhy spojení
+    - často postupně klesá
+  - Epocha - jeden celý průchod (dopředný i zpětný) celé trénovací sady
+  - Batch - Podmnožina trénovací sady, které je poslána síti
+  - Back propagation - funkce předavají feedback předcházející funkci
+    - Dopředná fáze - Vstupní hodnoty procházejí sítí přes vážené spojení, na konci je výstup srovnán se správnou hodnotou a je vypočtena chyba
+    - Zpětná fáze - Pomocí chyby jsou zpětným průchodem upravovány váhy spojení a bias aktivačních funkcí. Samotná úprava závisí na chybě a váze spojení.
+  - Gradient descent, Stochastic Gradient Descent
+- Aktivační funkce:
+  - Ostrá nelinearita - excituje neuron (1) když vstupní hodnota překoná určitý práh, jinak 0
+  - Sigmoid - nekonečný počet výstupů, všechny v rozmezí od 0 do 1. vhodná pro klasifikaci více než dvou tříd.
+    - velké zpomalení učení - na obou koncích křivky je reakce y na změnu x velmi malá,
+  - ReLU
+    - často v CNN, Její výstup je v rozmezí od 0 do $\infty$. 
+    - ReLu oproti Sigmoidě a TanH sníží počet aktivací v celé síti, neboť hodnoty $\leq 0$ neexcitují neuron, který by mohl excitovat další neurony.
+    - Jednoduchý výpočet
+  - TanH - Hyperbolický tangens je velmi podobný sigmoidě, také nabízí nekonečný počet výstupů, ale v rozmezí od -1 do 1,
+- Neuronové sítě mohou aproximovat skoro jakoukoliv funkci, díky jejich architektuře a modularitě, lepší jak SVM
+- Konvoluční neuronové sítě - využívají konvolučních vrstev
+  - Konvoluční neuron, filter, je určitý kernel, který skenuje obrázek a dává na výsledek mapu příznaků, reprezentující např. nějaký tvar
+  - Různé velikosti kernelů, padding, stride
+  - Sumsabpling, postupné zmenšování vstupních dat
+- Rekurentní NN - oproti standardním NN se zde signál z výstupu šíří zpět na její vstup
+  - Možnost pracovat se vstupem jako se sekvencí
+  - 
+  - je schopna se učit dlouhodobé závislosti, tedy případy, kdy jeaktuální výstup závislý na velmi vzdáleném dřívějším vstupu.
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 9. Vyhodnocení klasifikačních algoritmů (chybovost, přesnost, pokrytí, f-metrika)
@@ -221,7 +323,7 @@
   - Model se trénuje z několika náhodných vzorků s duplikáty
   - Celková přesnost je vypočtena na datasetu
   - Odhad přesnosti je velmi optimistický kvůli prolínání trénovací a testovací sady
-  - Pravděpodobnost že vzorek není vybrán do vzorku $(1 − \frac{1}{n})$
+  - Pravděpodobnost že vzorek není vybrán do vzorku $(1 - \frac{1}{n})$
 - Vyhodnocení klasifikátoru produkující label
   - Přesnost - relativní četnost správných predikcí (predikovaný label = GT)
   - Cost-sensitive přesnost - různé případy jsou různě ohodnoceny
