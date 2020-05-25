@@ -2,3 +2,4 @@
 *.dvi
 *.gz
 sources/
+make_single.bat

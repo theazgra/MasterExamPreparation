@@ -1,12 +1,133 @@
 # Analýza a zpracování dat
 
-
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
-## 1. Druhy dat, předzpracování dat, vlastnosti dat. Výběr atributů (zdůvodnění, princip, entriopie, Gini index, …)
+## 1. Druhy dat, předzpracování dat, vlastnosti dat. Výběr atributů (zdůvodnění, princip, entriopie, Gini index, ...)
+- Data s labely - Máme k dipozici trénovací data, ke kterým známe GT (Ground Truth), hodnotu atributu, který chceme predikovat - Supervised learning
+  - Klasifikace, Regrese
+- Data bez labelů - Data nemají žádný předem známy atribut - Unsupervised learning
+  - Asociační pravidla, Shlukování
+- Personální informace - data o lidech, je třeba anonymizovat a pracovat s nima bezpečně
+- Koncept - věc kterou se cheme naučit, jednou z metod - klasifikace, regrese, shlukování nebo asociativní pravidla
+- Vzhledem k typu proměnné se atributy dělí na 3 základní typy:
+  - Kategoriální, Diskrétní - nominální, binární a ordinální proměnné
+    - Kategoriální - Hodnoty atributu jsou omezeny množinou možných hodnot
+    - Nominální - Hodnoty se nedají seřadit, lze určit pouze rovnost. Speciálním typem je binární proměnná (0 nebo 1)
+    - Ordinální - Hodnoty se dají seřadit ve smysluplném pořadí
+  - Numerické, Spojité - celočíselné, intervalové nebo škálované hodnoty
+    - Numerický - celé nebo realné číslo
+    - Intervalový - Známe pořadí hodnot i přesné rozdíly mezi dvěmi hodnotami. Nemají pravou nulovou hodnotu. Teplota °C
+    - Škálový - Známe pořadí hodnot i přesné rozdíly mezi dvěmi hodnotami. Mají pravou nulovou hodnotu. Nulová hodnota značí absenci měření. Teplota K
+  - Ignorované - atribut je k ničemu
+- Předzpracování, čištění dat
+  - Převod dat do formy, která může být analyzována, často náročnější než samotná analýza
+  - Odstranění šumu, uprava hodnot atributů, normalizace hodnot
+  - Normalizace do intervalu nebo standardní normalizace na $z$-skóre
+    - $x_i' = \frac{x_i - \min_i\{x_i\}}{\max_i\{x_i\}-\min_i\{x_i\}}$
+    - $x_i' = \frac{x_i - \mu}{\sigma}$
+  - Šum jsou instance v datech, které jsou špatně změřeny
+  - Chybějící data - pro určité instance chyby hodnoty některých atributů, řešení:
+    - Odstranění těchto instancí
+    - Nahrazení chybějící hodnoty nejčetnější nebo průměrnou hodnotou
+  - Redukce počtu atributů - né všechny atributy přispívají stejnou mírou k analýze, delší analýza
+    - Redukce dimenze, Feature reduction
+- Redukce dimenze - forma předzpracování dat
+  - Mnohodimenzionální data jsou problémová - mnoho atributů je zašuměných, některé atributy spolu velmi korelují (jsou tedy skoro duplicitní)
+  - Redukce dimenze je optimální mapování do nižší dimenze
+  - Každá nová dimenze je lineární/nelineární kombinací originálních atributů
+  - PCA (*Principal Component Analysis*) - cílem je zrotovat data tak, aby jsme zachovali co nejvíc odchylky dat v malém množství dimenzí
+  - SVD je zobecněním PCA, redukce na vybraný počet dimenzí, viz MATD
+-
 
+### Výběr atributů
+- Filter modely - přesné matematické kritéria pro ohodnocení podmnožin atributů
+  - $V_i$ jsou hodnoty daného atributu
+  - $p_j$ je část bodů (relativní četnost) obsahující hodnotu atributu $V_i$, patřící do třídy $j$ ze všech $k$ možných tříd
+  - $n$ počet objektů, $n_i$ počet objektů s hodnotou atributu $V_i$
+  - Gini Index - míra pravděpodobnosti, že náhodně zvolený objekt z trénovací množiny, bude zařazen do špatné třídy, pokud bude zařazen podle hodnot zvolených atributů (podmnožina atributů)
+    - 0 když budou všechny objekty správně zařazeny, 1 pro náhodnou klasifikaci
+    - Hodnota pro hodnotu atributu - $G(V_i) = 1 - \sum\limits_{j=1}^k p_j^2$, 
+    - Hodnota pro atribut - $G = \frac{1}{n} \sum\limits_{i=1}^r n_i G(V_i)$
+  - Entropie - míra nejistoty v trénovací sadě, způsobena výskytem více možných klasifikací
+    - Entropie měří míru získané informace při zafixování hodnoty atributu
+    - Při dělení rozhodovacích stromu se často volí atribut, který minimalizuje hodnotu entropie
+    - $E(V_i) = -\sum\limits_{j=1}^k p_j \log_2 p_j$
+    - $E = \frac{1}{n} \sum\limits_{i=1}^r n_i E(V_i)$
+  - Fisher score - pro numerické atributy
+- Wrapper modely - model je vyhodnocen na každé podmnožině atributů
+  - Různé modely klasifikátorů jsou přesnější s jinými množinami atributů
+  - Wrapper modely dostanou na vstupu specifický model a pro něj optimalizují výběr atributů
+  - Iterativně vylepšíju množinu atributů přidáváním dalších atributů
+    - Začínají s prázdnou množinou $F = \emptyset$
+    - Přidají 1 nebo 2 atributy do $F$, vyhodnotí model a rozhodnou se jestli tyto atributy nechat v $F$
+- Embedded modely - informace získána v modelu je využita k eliminaci irelevantních atributů
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 2. Hledání častých vzorů v datech (základní principy, metody, varianty, implementace).
+
+### Dolování častých vzorů
+- Cílem je nalézt asociace mezi skupinami položek
+- Nalezené množiny položek se označují jako FIS (*Frequent ItemSets* viz MPZZ)
+
+- Snaha nalézt jen důlěžité vzory, vzor je důležitý pokud je častý, platí aspoň pro 20% řádků, transakcí
+- Transakce $T = \{T_1, T_2,\ldots,T_n\}$, transakce $T_i = \{u_{i1},u_{i,},\ldots,u_{in} \}$, položek $U = \{u_1,u_2,\ldots,u_n\}$
+  - Množina položek, itemset - podmnožina $U$
+  - $k$-množina položek, $k$-itemset - množina přesně $k$ položek z $U$
+- Podpora mnižiny položek $supp(I)$ je definována jako relativní četnost transakcí, které obsahují $I$ jako podmnožinu
+- Dolování FIS - Nalezení všech množin položek, které se vyskytují v množině transakcí, s hodnotou `support` větší nebo rovno `minsup`
+- Podpora podmnožiny položek $J$ množiny položek $I$ je alespoň tak velká jako podpora $I$ $sup(J) \geq sup(I) : \forall J \subseteq I$
+  - Každá podmnožina časté množiny položek je taky častá
+  - Maximální FIS - FIS který nemá žádný superset jako FIS, největší možný FIS
+- Brute Force vyhledávání FIS
+  - přístup je velmi výpočetně náročný, extrémní množství kombinací, $2^n$ pro $n$ binárních atributů
+  - Nutnost u všech kontrolovat `support`
+- Vylepšená varianta Brute Force
+  1. Vygeneruj postupně kombinace položek s rostoucí délkou, začíná na délce 1
+     - Generování nesmí vytvářet duplicity a nejlépe generovat v lexikografickém pořadí
+  2. Využij pravidla, že "Každá podmnožina časté množiny položek je taky častá"
+  3. Dále ignoruj ty množiny, které nedosahují `minsup`
+  4. Pokračuj generováním delších množin
+- Algoritmus Apriori viz MPZZ
+- Efektivní počítání supportu, využívá se HashTree pro detekci množiny položek v transakci
+  - Všechny metdy využívají lexikografického uspořádání
+  - Všichni kandidáti (množiny položek) jsou v listech
+  - Vnitřní uzly jsou Hashovací tabulky, definují cestu z kořene do listu
+  - Jedna úroveň stromu odpovídá jedné položce kandidáta
+- Enumeration Tree definován na množině FIS
+  - Každý uzel ve stromu reprezentuje jeden FIS, Kořen je prázdná množina
+  - Jedna se o strukturu Trie, Prefixový strom, potomci uzly jsou řazeny lexikograficky
+  - Potomek je lexikograficky až za předkem
+- Tree Projection - obecný framework pro databázovou projekci na množiny položek
+  - Založeno zase na principu: Pokud transakce neobsahuje množinu položek, která koresponduje na FIS v Enumeration Tree, tak transakce je nerelevantní a její potomci jsou taky nerelevantní
+- Vertical Counting Methods - transponované transakční databáze
+  - Větší paměťové nároky, rychlejší díky implicitnímu seznamu transakcí
+  - Výpočet support se odkazuje na délku transakčího seznamu
+  - Slučování je operace vkládání seznamu s lineární složitostí
+  - Algoritmy: Partition, Monet, Eclat, VIPER
+- Pearsnův koeficient korelace dvou položek $i$ a $j$
+  - Výsledek 1 značí maximální korelaci a -1 maximální negativní korelaci
+- Jak zpracovat jiné typy atributů (nutné znát doménu problému):
+  - Numerické - rozdělit do podintervalů (uniformní nebo podle pravděpodobnosti výskytu)
+  - Kategoriální - Binarizace do více sloupců, Sloučneí podobných kategorií
+- Aplikace dolování vzorů:
+  - Klasifikace - nalezení asociačních pravidel
+  - Detekce outlierů (odlehlých pozorování) - nalezení transakcí, které nejsou pokryty žádným vzorem
+  - Analýza webových logů
+  - Bioinformatika - gene-expression data
+  - Kolaborativní filtrování a doporučování - shlukování uživatelů podle jejich chování
+
+### Asociační pravidla
+- Pravidla v datech, jestliže je slunečno tak se hraje (`if outlook = sunny then play = yes`)
+  - $X \rightarrow Y$
+- Mnoho pravidel, nutná redukce pomocí metrik podpory a důvěry.
+- $supp = \frac{r}{N}$
+- $conf(X \rightarrow Y) = \frac{sup(X \cup Y)}{sup(X)}$
+- Pravidlo je asociační jestliže:
+  - Podpora $X \cup Y$ je alespoň `minsup`
+  - Důvěrihodnost (conf) pravidla $X \rightarrow Y$ je alespoň `minconf`
+- Generování pravidel:
+  1. Fáze - vygenerování všech FIS s `minsup`
+  2. Fáze - vygenerování všech asociačních pravidel s alespoň `minconf`
+     - pro každý FIS vygeneruj všechny možné kombinace $X$ a $Y$ a vypočti důvěrihodnost
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
@@ -19,10 +140,56 @@
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 5. Rozhodovací stromy (princip, algoritmus, metriky pro vhodnou volbu hodnot dělících atributů, prořezávání).
+- Rozhodovací strom je vytvořen pomocí dělení se na hodnotě atributu - hierarchické rozhodování
+- Uzel reprezentuje rozdělení datasetu (split criterion), které je založeno na hodnotě jednoho nebo více atributů
+- Cílem je vybrat takové rozdělení, které minimalizuje promíchání tříd v každé větvi stromu, tedy maximalizuje separaci různých tříd potomků
+  - Binární atribut - 2 větve
+  - Kategoriální atribut s $r$ hodnotami - $r$ větví
+  - Numerický atribut - Rozdělení do podintervalů, nebo zvolení jedné hodnoty (náhodné nebo testování všech) a použití $< \vee \leq$ relace
+  - Využívá se Gini indexu, Entropie nebo Error Rate
+- Error Rate - $Err(S) = 1 - p$, kde $p$ je relativní četnost bodů, patřících do dominantní třídy množiny $S$
+  - pro $r$ větví - $Err(S \rightarrow S_1,S_2,\ldots,S_r) \sum\limits_{i=1}^r \frac{|S_i|}{|S|}(1 - p)$
+- Uzly jsou rekurzivně děleny, až do terminující podmínky
+  - Čistý uzel - pouze jedna třída v uzlu - overfitting
+  - Minimální počet objektů v uzlu
+- Prořezávání stromu
+  - Část trénovacího datasetu se oddělí pro prořezávání
+  - Uzel je odstraněn, jestliže jeho odstranění zvýší přesnost klasifikace
+  - Iterativní odstraňování listů
+- Algoritmus TDIDT (Top-Down Inductuion of Decision Trees)
+  - Jestliže všechny instance trénovací sady patří do jedné kategorie tak ji vrať tuto kategorii, jinak
+  - Vyber atribut $A$, na kterém bude provedeno dělení (ve stejné větvi není nikdy vybrán stejný atribut)
+  - Rozděl všechny instance trénovací sady podle hodnoty daného atributu $A$
+  - Vrať strom, kde každá unikátní hodnota atributu $A$ je reprezentována svou větví
+  - Strom je dále rekurzivně budován
+  - Nevýhody algoritmu:
+    - Dvě instance stejných hodnot nemohou být v různých kategoriích
+    - Nijak nespecifikuej výběr atributu $A$
+- Klasifikační nebo regresní lesy
+  - Využití více různých stromů, kde výsledky jsou kombinovány nebo zvolen ten nejlepší
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 6. Pravděpodobnostní klasifikace (Bayesovský teorém, naivní Bayesovský teorém).
+- Klasifikace - rozdělení objektů do exkluzivních kategorií, kterým se říká třídy. Každý objekt musí patřít do právě jedné třídy.
+  - Výstupem klasifikace je buď přímo daný label pro objekt nebo pravděpodobnosti zařazení do různých tříd
+- Využívá se trénovací a testovací dataset
+- Bayesův teorém pro výpočet podmíněné pravděpodobnosti že platí hypotéza H, pokud pozorujeme evidenci E má podobu: 
+  - $P(H|E) = \frac{P(E|H)P(H)}{P(E)}$
+  - Využití, když je těžké získat pravděpodobnost $P(D|E)$ ale ostantí pravděpodobnosti jsou jednoduché
+- Naivní bayesovský klasifikátor vychází z předpokladu, že jednotlivé atributy jsou nezávislé při určování třídy
+  - $c$ je určitá třída, jejiž pravděpodobnost chceme znát
+  - $\overline{A}$ je $d$-dimenzionální instance objektu $\overline{A} = (a_1,\ldots,a_d)$, realný objekt datasetu
+  - $\overline{X}$ je $d$-dimenzionální náhodná proměná objektu $\overline{X} = (X_1,\ldots,X_d)$, náhodný vektor
+  - Cílem je odhadnout pravděpodobnost $P(C = c | X_1 = a_1,\ldots,X_d = a_d) = \frac{P(X_1 = a_1,\ldots,X_d = a_d | C = c)P(C = c)}{P(X_1 = a_1,\ldots,X_d = a_d)}$
+  - Čitatel je nezávislý na třídě a může být vynechán, jelikož předpokládáme nezávilost mužeme řict, že:
+  - $P(X_1 = a_1,\ldots,X_d = a_d | C = c) = \prod_{j=1}^d P(X_j=a_j | C = c)$
+  - a tedy:
+  - $P(C = c | X_1 = a_1,\ldots,X_d = a_d) = P(C = c)\prod_{j=1}^d P(X_j=a_j | C = c)$
+- Nevýhodou je, že umí pracovat pouze s Kategoriálními atributy a pravděpodobnost je dána relativní četností
+  - Diskretizace nebo binarizace numerických hodnot
+- Naivní předpoklad je většinou nepravdivý v datech realného světa
+  - komplexnější odhady jsou méně přesné ve vyšších dimenzích
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
@@ -35,7 +202,16 @@
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 9. Vyhodnocení klasifikačních algoritmů (chybovost, přesnost, pokrytí, f-metrika)
-
+- Vstupní dataset je náhodně rozdělen na trénovací, testovací a někdy i validační množiny
+- Trénovací část sloučí k vytvoření klasifikačního modelu, který je testován testovacím datasetem
+- Křižová validace - přístup pro výpočet hodnoty (odchylky) očekávaného výkonu (přesnosti)
+- $k$-fold Cross-Validation
+  - Rozdělí dataset $D$ na $k$ stejně velkých podmnožin $D_1,D_2,\ldots,D_k$
+  - Postupně je provedeno $k$ iterací, kde je vždy jedna podmnožina $D_i$ testovací a zbylé jsou trénovací
+  - Otestováním $D_i$ dostáváme míru $\theta_i$
+  - Očekávaný výkon:
+    - $\mu_\theta = \frac{1}{k}\sum\limits_{i=1}^k \theta_i$
+    - $\sigma_\theta^2 = \frac{1}{k}\sum\limits_{i=1}^k (\theta_i - \mu_\theta)^2$
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 10. Regrese (lineární a nelineární regrese, regresní stromy, metody vyhodnocení kvality modelu)Typy sítí. Graf a matice sousednosti jako reprezentace sítě.
