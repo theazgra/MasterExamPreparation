@@ -131,12 +131,173 @@
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
+
 ## 3. Shlukovací metody (shlukování pomocí reprezentantů, hierarchické shlukování).
+- Shlukování - Seskupování objektů, které jsou si podobné a jsou nepodobné objektům v jiných shlucích
+- Podobnost se často měrí pomocí vzdálenosti mezi objekty
+- Aplikace shlukování - shlukování zákazníků, shlukování zemí, shlukování chyb
+  - Sumarizace dat, segmentace zákazníků, analýza sociálních sítí
+- Geomterický střed (Centroid) - průměrná hodnota všechh objektů ve shluku, průměr hodnot ve všech dimenzích
+- Cílem je minimalizovat vzdálenost objektů od středu shluku, do kteréhé patří
+  - $SSE(\mathcal{C}) = \sum\limits_{i=1}^k\sum\limits_{x_j\in C_i} || x_j - \mu_i ||^2$ pro $k$ shluků
+- Vzdálenost mezi objekty je většinou Euklidovská vzdálenost, obecně viz MPZZ (*Minkovského metrika*)
+- Místo vzdálenosti se taky dá počítat podobnost, např. kosinova podobnost $\cos(X,Y) = \frac{X \cdot Y}{||X||\cdot||Y||}$
+- $k$-Means
+  - Každý objekt náleží právě do jednoho shluku
+  - Vstupem je počet shluků $k$
+  - Algoritmus:
+    1. Nastav $k$
+    2. Vyber $k$ náhodných objektů jako centra shluku
+    3. Přiřaď každý objekt do shluku, ke kterému je nejblíž (nejblíže k centroidu)
+    4. Přepočti centroidy shluků
+    5. Opakuj kroky 3. a 4. dokud se mění shluky
+ - Kvůli náhodnému výběru se $k$-Means spouští několikrát a vybírá se nejlepší výsledek
+ - Může konvergovat k lokálnímu minimu
+ - Vhodné pro kulové shluky
+- $k$-Medians
+  - Používá Manhattenovskou vzdánelost
+  - Centroidem v každém shluku je median v každé dimenzi
+- $k$-Medoids
+  - Centroidy jsou nejstřednější body ve shluky, nejedná se tedy o "umělý" bod
+  - Začátek jako $k$-Means/Median, přepočítávání podle:
+    - Pro každý pár - (medoid, objekt) - vypočti cenu záměny těchto dvou bodů, pokud je to nejmenší cena tak si ji zapamatuj
+    - Pokud změna zlepší kvalitu shlukování tak ji proveď jinak ukonči algoritmus
+- Hierarchické shlukování
+  - Aglomerativní - Každý objekt je vlastním shlukem, postupně jsou shluky spojovány
+    1. Přiřaď každý objekt svému shluku a vypočti vzdálenosti mezi shluky
+    2. Spoj dva nejbližší shluky v jeden
+    3. Přepočti vzdálenost nového shluku od ostatních
+    4. Opakuj kroky 2. a 3, dokud nedostaneme jeden shluk
+  - Divizivní - Začínáme jedním velkým shlukem, který je postupně rozdělován
+  - Shlukování můžeme zastavit když už neplatí nějaká podmínka pro shluky
+  - Vzdálenost se často řeší matici vzdáleností
+  - Dendogram je graf znozorňující postupné spojování shluků, můžeme se v něm rozhodnout kde shlukování zastavíme
+- Vzdálenosti mezi shluky
+  - Single-Linkage - Nejkratší vzdálenost mezi dvěma shluky (objekty ve shlucích)
+  - Complete-Linkage - Nejdelší vzdálenost mezi dvěma shluky (objekty ve shlucích)
+  - Average-Linkage - Průměrná vzdálenost mezi dvěma shluky (objekty ve shlucích)
+  - Closest centroid - nejbližší centroidy. Používá se v Aglomerativním shlukování, shluky s nejbližšími centroidy jsou sloučeny.
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 4. Shlukování na základě hustoty, validace shluků), pokročilé metody shlukování (CLARANS, BIRCH, CURE).
 
+### Shlukování na základě hustoty - parametry $p$ a $\tau$
+- Cílem je identifikovat husté (*jemno-zrné*) oblasti v datech, reprezentující shluky
+  - tvar a počet shluků nejsou předem definovány
+  - dá se uvažovat za dvojúrovňové hierarchické shlukování
+- Algoritmy založené na mřížce
+  - data jsou rozdělena do $p$ intervalů (obvykle stejné velikosti), pro $d$ dimenzí uvažujeme $p^d$ hyperkrychli
+  - Práhová hodnota hustoty $\tau$ - minimální počet bodů v hyperkrychli, určuje počet hustých hyperkrychlí
+  - Shluky jsou vytvořeny z propojených oblastí
+    - Oblasti v mřížce jsou spojeny pokud sdílí stranu nebo roh
+  - Cílem je nalézt oblasti spojené hustými podoblastmi (hyperkrychle)
+    - Spojení se dá nalézt pomocí BFS nebo DFS
+  - Malé $p$ - smíchání bodů z více shluků, Velké $p$ hodně prázdných, nehustých oblastí
+  - Malé $\tau$ - Mnoho hustých oblastí, Velké $\tau$ - málo shluků
+  - Vhodné pro shluky s konzistentní hustotou
+- DBSCAN
+  - Oblast je sférická s poloměrem $\epsilon$
+  - Body jsou rozděleny do 3 kategorií:
+    - Jádrový Core bod - bod s alespoň $\tau$ body ve sféře o poloměru $\epsilon$
+    - Hraniční bod - bod s méně než $\tau$ body ve sféře o poloměru $\epsilon$, v této sféře má ale jádrový bod
+    - Šumový bod - bod, který není jádrový ani hraniční
+  - Algoritmus:
+    1. Nalezni jádrové, hraniční a šumové body
+    2. Vytvoř souvislý graf z jádrových bodů
+       1. Každý uzel odpovídá jádrovému bodu
+       2. Jestliže je vzdálenost mezi jádrovými body menší jak $\epsilon$ vytoř mezi nimi hranu
+    3. Identifikuj spojené komponenty grafu
+    4. Okrajové body jsou připojeny k nejbližšímu shluku
+    5. Propojené komponenty jsou shluky, šumové body jsou outlieři
+ - Lepší shlukování při výskytu šumu
+ - Hladší obrys shluku
+- DENCLUE
+  - Využítí kernelové, jádrové funkce
+  - Kernelový odhad se využívá k vytváření hladkého profilu distribuce hustoty
+  - Každé lokální maximum hustoty se chová jako attractor
+  - Všechny ostatní body jsou přiřazeny k aktraktovům pomocí Hill Climbing algoritmu, vytvoření shluků
+  - Attractors s hustotou méně než $\tau$ jsou zahozeny, ostatní jsou shluky
+  - Spoj shluky, spojené cestou s hustotou alespoň $\tau$
+
+### Validace shluků
+- Vnitřní validace - vhodná když neznáme externí kritéria shluků
+  - většina kritérií jsou zaujaty k nějakému algoritmu
+  - používají se většinou k ohodnocení více běhu stejného algoritmu
+  - Suma kvadratické vzdálenosti bodů od centroidu pro všechny shluky
+  - Poměr vzdálenosti ve shluku ku vzdálenostem mimo shluk - menší poměr $\frac{\textit{Intra}}{\textit{Inter}}$ je lepší
+    - $P$ páry bodů stejného shluku
+    - $Q$ páry bodů, nepatřící do stejného shluku
+    - $\textit{Intra} = \frac{1}{|P|} \sum\limits_{(X_i,X_j) \in P} dist(X_i,X_j)$
+    - $\textit{Inter} = \frac{1}{|Q|} \sum\limits_{(X_i,X_j) \in Q} dist(X_i,X_j)$
+  - koeficient Siluety - porovnáná podobné vzdálenosti
+    - Hodnoty od -1 do 1. Hodnoty blízko 1 znamenají doře rozdělené shluky, Negativní hodnoty znamenají promíchané shluky
+    - $\textit{Dmin}_i^{out}$ - minimální průměrná vzdálenost bodu $X_i$ ke všem ostatním shlukům
+    - $\textit{Davg}_i^{in}$ - Průměrná vzdálenost bodu ke všem ostatním bodům v rámci shluku $X_i$
+    - $S_I = \frac{\textit{Dmin}_i^{out} - \textit{Davg}_i^{in}}{\max\{ \textit{Dmin}_i^{out}, \textit{Davg}_i^{in} \}}$
+    - Celkový koeficient je průměrem koeficientů všech bodů
+- Vnější validace - dá se použít když známe Ground Truth
+  - Známe správné rozdělení shluků, tedy třídy jednotlivých objektů
+  - Jestliže je počet tříd a shluků stejný, můžeme použít Matici záměn
+  - Čistota shluků - shluky by měli obsahovat objekty pouze jedné třídy
+  - Gini index
+  - Entropie
+
+### Pokročilé modely shlukování
+- CLARA
+  - Škálovatelná implementace $k$-medoidů
+  - Založeno na PAM (*Partitioning Around Medoids*) - rozdělení okolí medoidů
+    - Všechny kombinace dvojic jsou vyzkoušeny pro záměnu jak bylo popsáno výše
+    - Složitost $O(k(n-k))$, $O(kn^2d)$ pro $d$ dimenzí
+  - CLARA vyzkouší jen několik dvojic, aby omezila velkou výpočetní náročnost
+  - Je zvolen vzorkovací koeficient $f \ll 1$
+  - Body, které nejsou součástí náhodného vzorku, jsou přiřazeny nejbližšímu medoidu
+  - Vzorkování probíhá opakovaně vzorkami stejné velikosti $f \cdot n$
+  - Ze všech shlukování je vybráno to nejlepší
+  - Složitost jedné iterace: $O(k \cdot f^2 \cdot n^2 \cdot d + k \cdot (n-k))$
+- CLARANS - *Clustering Large Applications based on Randomized Search*
+  - Řeší problém CLARA, když v žádném vzorku není dobrý výběr medoidů
+  - Algoritmus pracuje s celým datasetem
+  - Algoritmus iterativně zkouší vyměňovat medoidy s nemedoidy
+    - Kvalita výměna je vyhodnocena ihned
+    - Při zlepšení je výměna provedena, jinak je inkrementován čítač neúspěšných výměn
+  - Lokálně optimální řešení je nalezeno, když je dosaženo určitého počtu neúspěchů
+  - Toto hledání lokálního optima je opakovano *MaxLocal* krát
+    - V každé iterace je vyhodnocena kvalita shlukování
+  - Oproti CLARA prohledá větší prostor
+- BIRCH - *The Balanced Iterative Reducing and Clustering using Hierarchies*
+  - Kombinace divizivního přístupu a $k$-means
+  - Používá se CF-Tree
+    - Výškově balancovaná datova struktura pro organizace shluků
+    - Každý uzel ma faktor rozdělení nejvíce $B$
+  - Každý uzel obsahuje souhrn nejvíce $B$ podshluků
+  - Informace o shluku je uložena v CF vektoru (*Cluster Feature Vector*)
+    - SS - vektor kvadratických součtů bodů ve shluku
+    - LS - vektor lineárních součtů bodů ve shluku
+    - $m$ - počet bodů ve shluku
+    - Každý CF může být reprezentován lineárním součtem CF jednotlivých bodů
+    - CF předka je součet CF jeho potomků
+    - CF sloučeného shluku může být vypočteno součtem CF
+    - Z CF se dají vypočítat důležité vlastnosti shluku (poloměr, centroid)
+    - Každý list má práhovou hodnotu průměru $T$, která reguluje granularitu shlukování, výšku stromu a agregovaný počet shluků v listech
+    - Hodnota $T$ je závislá na velikosti datasetu
+    - Menší $T$ - větší počet jemnězrných shluků
+    - Přidání do stromu je shora dolů, Nejbližší centroid je použit v každé úrovni stromu, CF jsou postupně aktualizovány
+    - Bod je přidán do shluku v listu, pokud neporušuje podmínku průměru $T$, jinak je vytvořen nový shluk s tímto jedním bodem
+
+
+![BIRCH](../img/birch.png "BIRCH"){ width=60% }
+
+
+- CURE - *Clustering Using REpresentatives*
+  - Algoritmus:
+    1. Vytvoř náhodný vzorek $s$ datasetu $D$ o velikosti $n$
+    2. Rozděl vzorek $s$ na $p$ částí velikosti $\frac{n}{p}$
+    3. Každou část seshlukuj zvlášt na $k$ shluků pomocí aglomerativního shlukování. Výsledkem je $k\cdot p$ shluků ve všech částech.
+    4. Proveď aglomerativní shlukování na $k\cdot p$ shlucích za výsledku $k$ shluků
+    5. Přiřaď všechny body, které nebyly vybrány v rámci vzorku, ke shluku s nejbližším reprezentantem (centroid)
+ - Příliš alé shluky jsou eliminovány jako outlieři
+ - Vzdálenosti mezi shluky se měří pomocí vzdálenosti mezi reprezentanty (centroid)
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 5. Rozhodovací stromy (princip, algoritmus, metriky pro vhodnou volbu hodnot dělících atributů, prořezávání).
