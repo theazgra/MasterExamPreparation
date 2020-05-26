@@ -179,8 +179,8 @@
   - Využití, když je těžké získat pravděpodobnost $P(D|E)$ ale ostantí pravděpodobnosti jsou jednoduché
 - Naivní bayesovský klasifikátor vychází z předpokladu, že jednotlivé atributy jsou nezávislé při určování třídy
   - $c$ je určitá třída, jejiž pravděpodobnost chceme znát
-  - $\overline{A}$ je $d$-dimenzionální instance objektu $\overline{A} = (a_1,\ldots,a_d)$, realný objekt datasetu
-  - $\overline{X}$ je $d$-dimenzionální náhodná proměná objektu $\overline{X} = (X_1,\ldots,X_d)$, náhodný vektor
+  - $\vec{A}$ je $d$-dimenzionální instance objektu $\vec{A} = (a_1,\ldots,a_d)$, realný objekt datasetu
+  - $\vec{X}$ je $d$-dimenzionální náhodná proměná objektu $\vec{X} = (X_1,\ldots,X_d)$, náhodný vektor
   - Cílem je odhadnout pravděpodobnost $P(C = c | X_1 = a_1,\ldots,X_d = a_d) = \frac{P(X_1 = a_1,\ldots,X_d = a_d | C = c)P(C = c)}{P(X_1 = a_1,\ldots,X_d = a_d)}$
   - Čitatel je nezávislý na třídě a může být vynechán, jelikož předpokládáme nezávilost mužeme řict, že:
   - $P(X_1 = a_1,\ldots,X_d = a_d | C = c) = \prod_{j=1}^d P(X_j=a_j | C = c)$
@@ -217,26 +217,26 @@
 - Algoritmus:
   - $n$ je počet bodů v trénovací sadě $D$
   - $i$-tý bod $(X_i, y_i)$, kde $X_i$ je $d$-dimenzionální vektor a $y_i$ je třída -1 nebo 1
-    - $\overline{W}\cdot\overline{X} + b = 0$
-  - $\overline{W}=(w_1,\ldots,w_d)$ je $d$-dimenzionální vektor obsahující směr normál (přímka kolmá na daný podprostor) nadroviny
+    - $\vec{W}\cdot\vec{X} + b = 0$
+  - $\vec{W}=(w_1,\ldots,w_d)$ je $d$-dimenzionální vektor obsahující směr normál (přímka kolmá na daný podprostor) nadroviny
   - $b$ je skalár *bias*
   - 
   - Body obou tříd musí ležet na opačných stranách nadroviny
-    - $\overline{W}\cdot\overline{X_i} + b \geq 0 \quad \forall i : Y_i = +1$
-    - $\overline{W}\cdot\overline{X_i} + b \leq 0 \quad \forall i : Y_i = -1$
-    - $y_i(\overline{W}\cdot\overline{X_i}+b)\geq +1$
-    - $y_i(\overline{W}\cdot\overline{X_i}+b) - 1\geq 0$
+    - $\vec{W}\cdot\vec{X_i} + b \geq 0 \quad \forall i : Y_i = +1$
+    - $\vec{W}\cdot\vec{X_i} + b \leq 0 \quad \forall i : Y_i = -1$
+    - $y_i(\vec{W}\cdot\vec{X_i}+b)\geq +1$
+    - $y_i(\vec{W}\cdot\vec{X_i}+b) - 1\geq 0$
   - Cílem je maximalizovat vzdálenost mezi dvěma rovnoběžnými nadrovinami
-    - $\frac{2}{||\overline{W}||} = \frac{2}{\sqrt{\sum_{i=1}^d W_i^2}}$
+    - $\frac{2}{||\vec{W}||} = \frac{2}{\sqrt{\sum_{i=1}^d W_i^2}}$
   - Nebo minimalizovat:
-    - $\frac{||\overline{W}||^2}{2}$
+    - $\frac{||\vec{W}||^2}{2}$
   - Maximalizace prostoru mezi okrajovými nadprostory je řešena přes Lagrangeovy multiplikátory a po úpravách závisí pouze na skalárním součinu podpůrných vektorů obou tříd
 - Pro neseparabilní data existuje *soft margin*
   - Představena panalizace pro body porušující *margin*
-  - $\overline{W}\cdot\overline{X_i} + b \geq 0  - \xi_i \quad \forall i : Y_i = +1$
-  - $\overline{W}\cdot\overline{X_i} + b \leq 0  + \xi_i \quad \forall i : Y_i = -1$
+  - $\vec{W}\cdot\vec{X_i} + b \geq 0  - \xi_i \quad \forall i : Y_i = +1$
+  - $\vec{W}\cdot\vec{X_i} + b \leq 0  + \xi_i \quad \forall i : Y_i = -1$
   - $\forall i : \xi \geq 0$
-  - $\frac{||\overline{W}||^2}{2} + C\sum_{i=0}^n\xi_i$
+  - $\frac{||\vec{W}||^2}{2} + C\sum_{i=0}^n\xi_i$
   - Parametr $C$ kontroluje dovolenou chybu během trénovaní, větší $C$ je větší trest, takže menší chyba
 
 ### Kernelový trik
@@ -359,8 +359,53 @@
 ![ROC](../img/roc.png "ROC"){ width=60% }
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
-## 10. Regrese (lineární a nelineární regrese, regresní stromy, metody vyhodnocení kvality modelu)Typy sítí. Graf a matice sousednosti jako reprezentace sítě.
+## 10. Regrese (lineární a nelineární regrese, regresní stromy, metody vyhodnocení kvality modelu). Typy sítí. Graf a matice sousednosti jako reprezentace sítě.
+### Regrese
+- Predikce numerického atributu se nazývá modelování regrese, snaha minimalizovat kvadratickou chybu predikce
+- Lineární regrese
+  - $D$ je matice dat $n \times d$, vektorů $\vec{X}_i$, $i$ je řádek, $d$ dimenze vektoru
+  - $y_i$ hodnota predikovaného atributu
+  - Lineární regrese je modelována jako $y_i \approx \vec{W}\cdot\vec{X}_i$
+  - $\vec{W} = (w_1,\ldots,w_d)$ je vektor koeficientů, které se musí naučit během trénování, aby minimalizovali chybu:
+  - $E = \sum_{i=1}^n (\vec{W}\cdot\vec{X}_i - y_i)^2$
+  - Může se počítat s biasem $b$, který se modeluje jako přidaná dimenze, v trénovací sadě nastavena na 1
+  - Data jsou pro potřeby škálování a vah normalizovaná nebo standardizovaná
+  - Cílem je minimalizovat $O = ||D\vec{W}^T - \vec{y}||^2$
+    - Ridge regrese - minimalizuje velikost koeficientů a chaotické chování
+    - Lasso regrese - eliminuje malé váhy
+    - ElasticNet - kombinace Ridge a Lasso regrese
+- Generalizovaný lineární model - řeší problém nelinearní závislosti atributů
+  - Predikovaný atribut $y_i$  je modelován jako výsledek distribuční funkce se střední hodnoto $f(\vec{W}\cdot\vec{X}_i)$
+  - Funce $f$ je funkce střední hodnoty a její inverze se nazývá *link* funkce
+  - Volba těchto funkcí by měla maximalizovat efektivitu modelu
+  - $y_i$ je modelováno pomocí pravděpodobnosti, $\vec{W}$ je určen podle principu *maximum likehood*
+- Nelineární a polonomiální regrese
+  - Zachycuje nelineární vztahy
+  - Lineární přístup se používá na odvozené atributy, Odvození znamená aplikace nelineární funkce na všechny vstupní body
+    - Nová množina bodů může mít jiný počet dimenzí
+  - Operace nelinearní transformace $h(\cdot)$ z $d$ dimenzionálního prostoru do 1 dimenzionálního prostoru
+  - Množina $m$ nových atributů $h_1(\vec{X_i}),\ldots,h_m(\vec{X}_i)$ pro $i$-tý bod
+  - Velikost nového datasetu $D_m$ je $n\times m$
+  - Platí: $y = \sum_{i=1}^m W_i h_i(\vec{X})$
+  - Polynomiální regrese zvětšuje počet atributů $r$-krát
+    - $\vec{X} = (x_1,\ldots,x_d)\rightarrow \vec{X^h} = (x_1,x_1^2,x_1^3,\ldots,x_1^r,x_2,\ldots,x_d^r)$
+  - Dá se použít Kernelový trik, který dovoluje převést problém na skalární součiny
+- Regresní stromy - podobný princip jao Rozhodovací Klasifikační Stromy
+  - Volba atributu při rozdělení se řídí chybovou metrikou místo Gini indexu nebo entropie - numerická nátura dat
+  - Počítá se agregovaná kvadratická chyba všech potencionálních podvětví uzlu
+  - Rozdělení s minikální chybou je provedeno
+  - V listech jsou vytvořeny lineární regresní modely, nebo se použije průměrná hodnota objektů v listu
+  - Prořezávání jako u Rozhdovacích stromů
+- Hodnocení regrese ($g(\vec{X})$ je predikce)
+  - $SSE = \sum_{i=1}^n (y_i - g(\vec{X_i}))^2$
+  - Chyba odezvy kolem průměru predikovaného atributu
+    - $SST = \sum_{i=1}^n (y_i - \sum_{j=1}^n \frac{y_j}{n} )^2$
+  - $R^2$ statistika - koeficient determinace, jaký podíl variability závisle proměnné model vysvětluje
+    - $R^2 = 1 - \frac{SSE}{SST}$
+    - Hodnota mezi 0 a 1, hodnota 1 znamená dokonalou predikci hodnot závisle proměnné, hodnota 0, model nepřináší pro poznání závisle proměnné žádnou informaci, je zcela neužitečný.
+    - Vhodná pouze pro lineární modely
 
+### Typy sítí
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 11. Datové struktury pro reprezentaci různých typů sítí, výhody a nevýhody (matice sousednosti, seznamy sousedů, stromy sousedů), složitost operací, hybridní reprezentace.
