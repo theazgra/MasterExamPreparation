@@ -131,7 +131,6 @@
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
-
 ## 3. Shlukovací metody (shlukování pomocí reprezentantů, hierarchické shlukování).
 - Shlukování - Seskupování objektů, které jsou si podobné a jsou nepodobné objektům v jiných shlucích
 - Podobnost se často měrí pomocí vzdálenosti mezi objekty
@@ -155,7 +154,7 @@
  - Může konvergovat k lokálnímu minimu
  - Vhodné pro kulové shluky
 - $k$-Medians
-  - Používá Manhattenovskou vzdánelost
+  - Používá Manhattenovskou vzdálenost
   - Centroidem v každém shluku je median v každé dimenzi
 - $k$-Medoids
   - Centroidy jsou nejstřednější body ve shluky, nejedná se tedy o "umělý" bod
@@ -567,13 +566,141 @@
     - Vhodná pouze pro lineární modely
 
 ### Typy sítí
+- Síť - množina vektorů a hran
+  - Síť instancí (uzlů), které jsou propojeny vazbami, odkazy (hranami)
+  - Uzly i hrany mohou mít různé atributy (číselné, kategoriální, nebo složitější (např. časové řady))
+- Komplexní systém - sbírka integrujících prvků projevující globální dynamika, který vyplýva z činnosti, jeho části bez organizovaného centralizovaného řízení
+- Komplexní sítě - sítě, jejichž struktura je kompexní, iregulární a dynamicky se měnící v čase
+- Sociální sítě 
+  - Kolekce entit propojených odkazy, vazbami (existuje alespoň jedna vazba)
+  - V mnoha případech sítě nejsou náhodné
+  - Spojení znamenají sociální vazby
+  - Facebook, Twitter, Emailové sítě, Sítě spolupráce, Herecké sítě
+- Informační (znalostní) sítě
+  - Entity představují informace, linky mezi němi sdružují (spojují) informace
+  - Citační sítě, WWW
+- Technologické sítě
+  - Sítě vybudované pro účely distribuce určité komodity - internet, aerolinky, telefonní sít
+  - Transportní sítě: Silniční, železniční, energetické
+- Biologické sítě
+  - Interakce Protein-Protein
+  - Potravinové sítě (řetězce) - uzel je živočich, link říká, že druh se živí tímd druhem
+- Příklady sítí:
+  - Lidé kteří jsou přáteli
+  - Počítače spolu spojené do PC sítě
+  - Webové stránky a odkazy mezi němi
+- Definice:
+  - Graf je dvojice $G = (V, E)$, neprázdné množiny vrcholů $V$ a hran $E \subseteq V \times V$
+  - Orientovaný graf má orientované hrany, $(x,y)\in E$, říkáme, že hrana vychází z vrcholu $x$ do vrcholu $y$
+  - Sled - Posloupnost hran, které na sebe navazují.
+  - Tah - Sled, ve kterém se neopakuje žádná hrana.
+  - Cesta - Tah, ve kterém se naopakuje žádný vrchol.
+  - Souvislý graf - mezi každými dvěma vrcholy existuje cesta
+
+- Graf a matice sousednosti viz další kapitola
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 11. Datové struktury pro reprezentaci různých typů sítí, výhody a nevýhody (matice sousednosti, seznamy sousedů, stromy sousedů), složitost operací, hybridní reprezentace.
+- Reprezentace sítí - většinou se dají rozšířit o znalost ceny/váhy dané cesty
+- $n$ - počet vrcholů, $m$ - počet hran
+- Obrázkem, nakreslením
+- Grafovou strukturou - uzly jsou objekty obsahující množinu dalších objektů hran nebo přímo sousedů
+  - Nevýhodné pro algoritmické výpočty
+- Matice sousednosti - $A_{ij} = 1$ znamená přítomnost hrany mezi vrcholy $i$ a $j$ (popř. hranu z vrcholu $i$ do vrcholu $j$ v orientovaném grafu)
+  - V případě neorientovaného grafu je polovina matice zbytečná, plýtvání pamětí
+  - Rychlé vyhledání přítomnosti specifické hrany
+  - Pro řídké sítě plýtvání pamětí
+- Matice incidence
+  - Řádky reprezentují vrcholy a sloupce hrany
+  - Pokud vrchol náleží dané hraně je v matici na pozici 1
+  - Pro orientované grafy se dává -1 pro počáteční vrchol
+- Seznam vrcholů a jejich sousedů
+  - $v_1 \rightarrow v_2,v_4$
+  - $v_2 \rightarrow v_1$
+  - $v_4 \rightarrow v_1$
+  - Vhodný pro řídky sítě
+  - Horší vyhledání specifické hrany. Jednoduché zjíštění všech hran pro daný vrchol
+  - Reprezentován 1D poly nebo 2D polem
+  - U orientovaných grafů musíme znát pro vrchol výcházející a přicházející hrany
+  - Informace o váze cesty musí být uložena ve zvláští struktuře
+- Seznam hran
+  - $[(v_1,v_2),(v_1,v_4)]$
+- Strom sousednosti
+  - Jako seznam vrcholů (sousedů), ale každá množina sousedů vrcholů je uložena ve stromě sousedů
+- Strom sousedů - většinou implementován jako binární vyhledávací strom
+  - Operace hledání $O(\log(\frac{m}{n}))$
+  - Měl by být vyvážený
+- Hybridní reprezentace - kombinují více reprezentací sítí najednout
+  - Matice sousednosti a seznam sousedů
+  - Nenulové prvky v matici sousednosti odkazují na prvky v seznamu sousedů
+  - Vhodné jen pro mále sítě z důvodu limitace paměti
+  - Zrychlení operací v grafových algoritmech
 
+![Složitost operací na síti](../img/network_ops.png "Složitost operací na síti"){ width=60% }
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 12. Topologické vlastnosti sítí, charakteristické hodnoty a jejich distribuce (stupeň, délka cesty, průměr, shlukovací koeficient), typy centralit.
+- $A(i,j)$ je hodnota v matici sousednosti, $n$ počet vrcholů a $m$ počet hran
+- LSV = Lokální strukturální vlastnost
+- GSV = Globální strukturální vlastnost
+- Degree centralita
+  - Stupeň vrcholu - LSV. Počet hran incidentní s daným vrcholem. Možno rozšířit o vstupní a výstupní
+    - $d_i = \sum\limits_j A(i,j)$
+  - Průměrný stupeň vrcholu - GSV.
+    - $\mu_d = \frac{\sum\limits_i d_i}{n}$
+  - Sociální síť - čím větší stupeň tím např. vlivnější člověk
+  - Průměrnú stupeň pro neor. graf je $\langle d\rangle = \frac{2m}{n}$
+  - Posloupnost stupňů
+- Nejkratší cesty
+  - Délka cesty je součet délek jednotlivých hran tvořící cestu.
+  - Vzdálenost $d(u,v)$ dvou vrcholů je délka nejkratší cesty mezi vrcholy $u$ a $v$.
+  - Pokud graf neobsahuje záporně ohodnocené cesty tak platí trojúhelníková nerovnost - $d(ij) \leq d(ik) + d(kj)$
+  - Algoritmy: Dijkstrův algoritmus, Bellman-Fordův algoritmus, Floydův algoritmus
+  - Excentricita (LSV) vrcholu $v_i$ je nejdelší vzdálenost (délka nejkratší cesty) z $v_i$ do jiného vrcholu grafu $v_j$
+    - $e(v_i) = \max\{ d(v_i,v_j) \}$
+  - Průměr grafu (GSV) $G$, největší excentricita vrcholu
+    - $d(G) = \max\{ e(v_i) \}$
+  - Průměrná vzdálenost vrcholů (GSV) 
+- Důležitost/významnost vrcholu - při změně významného vrcholu dojde ke změnám u ostatních, vrcholů
+- Centralita - určuje které uzly v síti jsou nejdůležitější/nejcentrálnější - z hlediska struktury sítě
+- Centralita excentricity - iverzní hodnota excentricity
+- Mean Distance - Průměrná vzdálenost vrcholů od daného vrcholu $v_i$, $l_i = \frac{1}{n} \sum\limits_{j \in V} d_{ij}$
+  - Vrchol mající malou průměrnou vzdálenost ke všem ostatním se dříve dostane např. k informacím, je vlivnější
+- Closeness centralita - inverzvní k Mean Distance - Aby centálnější uzly měly větší hodnotu centrality (u Mean Distance je tomu naopak)
+  - Problém v nesouvislé sítí, když použijeme pouze v souvislých komponentech je hodnota centrality zkreslena velikosti této komponenty
+- Betweenness centralita - Měří jak dobře vrchol zapadne mezi ostatní vrcholy
+  - Betweenness centralita vrcholu $v_i$ je počet nejkratších cest procházející vrcholem $v_i$
+  - Pokud je $n_{uv}^i = 1$ tak nejkratší cesta mezi vrcholy $u$ a $v$ prochází vrcholem $i$ pak se BC rovná:
+  - $x_i = \sum\limits_{uv \in V \times V} n_{uv}^i$
+  - V orient. grafu můžeme vydělit 2, neboť každá hrana je započtena dvakrát
+- Většina sítí je velkých ale řídkých z hlediska hustoty
+  - Řídký graf - $n \approx km, \quad m = O(n)$
+  - Hustý graf - $m = \Theta(n^2)$
+  - Hustota $H = \frac{m}{0,5n(n-1)} \in \langle 0;1 \rangle$
+- Vlastnosti reálných sítí:
+  - Souvislost - sítě jsou zpravidla nesouvislé a v mnoha sítích existuje jedna velká komponenta (giant component) s řádově $O(n)$ vrcholy.
+  - Stupně vrcholů a jejich distribuce - rozsáhlé reálné sítě mají tu vlastnost, že mnoho uzlů má malý počet sousedů (malý stupeň), ale některé mají velmi vysoký počet sousedů (vysoký stupeň) - distribuce stupňů odpovídá tzv. mocninnému rozdělení - power-law degree distribution
+  - Vzdálenosti - průměr (diameter) - mnoho rozsáhlých reálných sítí má malý průměr - small-world phenomenon, $L \propto \log n$
+  - Existence shluků - je-li uzel $a$ spojen s uzlem $b$, a je-li zároveň uzel $b$ spojen s uzlem $c$, je pravděpodobné, že uzel c bude spojen také s uzlem $a$. 
+    - Mnoho rozsáhlých reálných sítí má vysoký clustering coefficient (shlukovací koeficient).
+- Souvislost se v sítích určuje algoritmy procházení grafu - BFS, DFS
+- Shlukovací koeficient (Tranzitivita) $C$ měří hustotu trojúhelníků (lokálních shluků) v grafu
+  - Lokální i globální nabýva hodnot od 0 do 1
+  - $C = \frac{3 \cdot \textit{počet trojúhelníků v sítí}}{\textit{počet spojených trojic}}$
+  - $C_i = \frac{3 \cdot \textit{počet párů sousedů vrcholu i kteří jsou spojeni}}{\textit{počet párů sousedů vrcholu i}}$
+- Reciprocita - v orient. grafech, výskyt orientovaných cyklů, dvojice takových hran se nazývá *co-links*
+- Distribuce stupňů
+  - Mřížka - všechny vrcholy stejného stupně
+  - teorie grafů říká, že průměrný stupeň vrcholu je $\langle d\rangle = \frac{2m}{n}$
+  - U náhodného grafue je distribuce stupňů binomická, pro velké $n$ ji aproximuje Poissonovo rozdělení
+  - V realných grafech existují centra - dlouhý konec distribuce - odrážející existenci center
+  - Mocninné rozdělení - příma v log-log měřítku
+- Podobnost vrcholů 
+  - dva vrcholy jsou strukturálně podobné jestliže sdílejí mnoho ze svých sousedů
+  - dva vrcholy jsou regulárně podobné jestliže jejich sousedé jsou si sobě podobní
+  - kosinova podobnost
+
+![distribuce stupňů u náhodného grafu](../img/random_degree_dist.png "distribuce stupňů u náhodného grafu"){ width=60% }
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
