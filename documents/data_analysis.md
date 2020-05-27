@@ -580,7 +580,7 @@
   - Entity představují informace, linky mezi němi sdružují (spojují) informace
   - Citační sítě, WWW
 - Technologické sítě
-  - Sítě vybudované pro účely distribuce určité komodity - internet, aerolinky, telefonní sít
+  - Sítě vybudované pro účely distribuce určité komodity - internet, aerolinky, telefonní síť
   - Transportní sítě: Silniční, železniční, energetické
 - Biologické sítě
   - Interakce Protein-Protein
@@ -658,9 +658,9 @@
   - Algoritmy: Dijkstrův algoritmus, Bellman-Fordův algoritmus, Floydův algoritmus
   - Excentricita (LSV) vrcholu $v_i$ je nejdelší vzdálenost (délka nejkratší cesty) z $v_i$ do jiného vrcholu grafu $v_j$
     - $e(v_i) = \max\{ d(v_i,v_j) \}$
-  - Průměr grafu (GSV) $G$, největší excentricita vrcholu
+  - Průměr $D$ grafu (GSV) $G$, největší excentricita vrcholu
     - $d(G) = \max\{ e(v_i) \}$
-  - Průměrná vzdálenost vrcholů (GSV) 
+  - Průměrná vzdálenost vrcholů $L$ - (GSV) 
 - Důležitost/významnost vrcholu - při změně významného vrcholu dojde ke změnám u ostatních, vrcholů
 - Centralita - určuje které uzly v síti jsou nejdůležitější/nejcentrálnější - z hlediska struktury sítě
 - Centralita excentricity - iverzní hodnota excentricity
@@ -680,7 +680,7 @@
 - Vlastnosti reálných sítí:
   - Souvislost - sítě jsou zpravidla nesouvislé a v mnoha sítích existuje jedna velká komponenta (giant component) s řádově $O(n)$ vrcholy.
   - Stupně vrcholů a jejich distribuce - rozsáhlé reálné sítě mají tu vlastnost, že mnoho uzlů má malý počet sousedů (malý stupeň), ale některé mají velmi vysoký počet sousedů (vysoký stupeň) - distribuce stupňů odpovídá tzv. mocninnému rozdělení - power-law degree distribution
-  - Vzdálenosti - průměr (diameter) - mnoho rozsáhlých reálných sítí má malý průměr - small-world phenomenon, $L \propto \log n$
+  - Vzdálenosti - průměr (diameter) $D$ - mnoho rozsáhlých reálných sítí má malý průměr - small-world phenomenon, $L \propto \log n$
   - Existence shluků - je-li uzel $a$ spojen s uzlem $b$, a je-li zároveň uzel $b$ spojen s uzlem $c$, je pravděpodobné, že uzel c bude spojen také s uzlem $a$. 
     - Mnoho rozsáhlých reálných sítí má vysoký clustering coefficient (shlukovací koeficient).
 - Souvislost se v sítích určuje algoritmy procházení grafu - BFS, DFS
@@ -697,31 +697,418 @@
   - Mocninné rozdělení - příma v log-log měřítku
 - Podobnost vrcholů 
   - dva vrcholy jsou strukturálně podobné jestliže sdílejí mnoho ze svých sousedů
+    - $n_{ij} = \sum\limits_k A_{ik} A_{kj}$ - počet společných sousedů
   - dva vrcholy jsou regulárně podobné jestliže jejich sousedé jsou si sobě podobní
-  - kosinova podobnost
+  - kosinova podobnost - $\sigma_{ij} = \frac{n_{ij}}{\sqrt{d_i d_j}}$
 
 ![distribuce stupňů u náhodného grafu](../img/random_degree_dist.png "distribuce stupňů u náhodného grafu"){ width=60% }
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 13. Globální vlastnosti sítí (malý svět, bezškálovost, růst a preferenční připojování). Mocninný zákon a jeho interpretace v prostředí reálných sítí.
+###  Model malého světa
+- Řídky graf s velkým shlukovacím koeficientem $C$ a malou průměrnou vzdáleností $L$
+- Srovnání s náhodnými sítěmi
+  - $C_{sw} \gg C_{rand}$
+  - $L_{sw} \approx L_{rand}$
+- $L \approx \frac{\log n}{\log \langle d \rangle}$
+- Obecně $L \approx \log n$
+- Fenomén malého světa:
+  - průměrná vzdálenost nebo průměr logaritmicky závisí na velikosti systému
+  - Závislost $L$ na $\log n$ znamená, že vzdálenosti v náhodné sítí jsou řádově menší než je velikost sítě. Proto malý svět, $L$ je úměrné $\log n$ a né přímo $n$.
+  - Experiment s dopisem - 6 stupňů odloučení - neznáte-li adresáta, předejte osobě o které si myslíte že jej zná, $L$ vyšlo 5,5
+- Topologie malého světa - malé vzdálenosti s velkým shlukovacím koeficientem - nezávisle na velikosti sítě.
+- Distribuce stupňů stále neodpovídá modelům realného světa, spíše se podová náhodným grafům
+  - Distribuce stupňů exponenciálně klesá s rostoucím $d$, proto nevznikají velká centra
 
+### Mocniné rozdělení distribuce stupňů - bezškálovost
+- Invariance - neměnost, stálost jevu nebo veličin vůči změnám
+  - Invariant - vztah nebo útvar neměnící se při určité transformaci
+- Mocninný zákon je polynomiální závislost $f(x)$ (ve které závislá proměnná $x$ obsahuje exponent $\alpha$) vyjadřující vlastnost invariance vzhledem k měřítku
+- Nejobvyklejší mocninný zákon má tvar $f(x) = bx^\alpha + o(x^\alpha)$
+  - kde $b$, $\alpha$ jsou konstanty a $o(x^\alpha)$ je vzhledem k $bx^\alpha$ asymptoticky menší funkce.
+  - Exponent $\alpha$ se nazývá měřítkový exponent
+  - U reálných bezškálových sítí je $\alpha$ v rozmezí $2\leq \alpha \leq 3$
+- V grafické podobě se znázorňuje v log-log tvaru: $\log(f(x)) = \log b + \alpha \log x$
+  - Tento zápis představuje lineární závislost, kde $\alpha$ je parametr funkce určující její sklon
+  - je vidět nezávislost tvaru na násobící konstantě argumentu $b$, tato konstanta nijak neovlivňuje parametr $\alpha$
+- Mocninné rozdělení (*power law distribution*) - $p(d) \approx d^{-\alpha}$
+  - mocninný zákon vypadá stejně, nezávislo na měřítku, ve kterém se na něj díváme
+- Je velmi šikmé (asymetrie), přímka v logaritmickém měřítku
+- Síť je často nazývána bezškálovou, pokud distribuce stupňů odpovídá mocninnému zákonu.
+- Další vlastnosti bezškálových sítí:
+  - mohou být generovány náhodnými procesy jako je preferenční připojování
+  - mají vysoce propojená centra, která drží sítě pohromadě a číní je odolnými proti chybým útokům
+  - jsou obecné, distribuce stupňů zůstává zachována i při náhodnem přepojování hran
+  - jsou univerzální, nezávisí na detailech domény
+- Rozdělení distribuce stupňů má dlouhý konec odrážející existenci center v reálných sítích
+  - Mnoho uzlů má malý stupeň
+  - Málo uzlů (center) má vysoká stupeň
+- Příklady sítí mající mocniné rozdělení distribuce stupňů:
+  - WWW
+  - Filmový herci
+  - Graf telefoních hovorů
+  - Citace článků
+
+![Mocniné rozdělení distribuce stupňů](../img/loglogscalefree.png "Mocniné rozdělení distribuce stupňů"){ width=60% }
+
+
+- preferenční připojování a růst viz Barabási-Albert model.
+- Dvě techniky, které také generují bezškálové sítě, simulují preferenční připojování
+- Link Selection Model
+  - V každém kroku je přidán jeden uzel
+  - Náhodně vybereme hranu a spojíme nový uzel s jedním uzlem hrany
+  - Lokální model, není třeba znát topologii sítě
+  - Preferenční připojování je generováno, neboť vrcholy s větším stupněm mají více hran a tedy větší šanci, že k nim bude připojen nový uzel
+- Copying Model
+  - Nový uzel se napojí na náhodný uzel $u$ s pravděpodobnosti $p$
+  - S pravděpodobnosti $1-p$ se napojí na jednoho souseda uzlu $u$ (Zkopíruje hranu uzlu $u$)
+- Evolving modely
+  - Možnost přidat vnitřní linky, mazání uzlů, stáři uzlu ovlivňující jeho vhodnot na napojení
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 14. Modely sítí a jejich vlastnosti (Erdös-Rényi, Watts-Strogatz, Barabási-Albert).
+- Náhodný graf - se skládá z $n$ uzlů a každá dvojice uzlů je spojena hranou s pravděpodobností $p$
+- Model $G(n,m)$ - $n$ uzlů je spojeno právě $m$ náhodnými hranami
+  - $\langle d \rangle = \frac{2m}{n}$
+- Model $G(n,p)$ - $n$ uzlů je spojeno hranou s pravděpodobnosti $p$
+  - Používanější, neboť v reálných sítích není počet hran pevně daný.
+- Perkolace - zkoumá, které vlastnosti grafu jsou zachovány roste-li $p$
+  - Práhová hodnota $p_c$
+  - Pro grafy $G(n,p)$ s $p < p_c$ nemají určitou vlastnost, kdežto téměř všechny grafy s $p > p_c$ mají tuto vlastnost
+
+### Model Erdös-Rényi
+- Model $G(n,p)$, s $0 \leq p \leq 1$
+- Pro každou dvojici vrcholů $i,j$ se nezávislé generuje hrana $i,j$ s pravděpodobnosti $p$
+  - Pravděpodobnost že hrana nebude spojovat vrcholy $1-p$
+  - Průměrný stupeň $\langle d \rangle = np$
+- Průměr grafu $D$ a průměrná vzdálenost $L$ jsou malé
+  - Průměrná vzdálenost je obvykle $L \approx \frac{\log n}{\log \langle d \rangle}$
+- Shlukovací koeficient $C$ je nízky
+- Distribuce stupňů podle Poissonova rozdělení
+- Průměrný počet hran: $\langle m \rangle = pn \frac{n-1}{2}$
+- $\langle d \rangle = \frac{n(n-1)p}{n} = (n-1)p$
+- Pro $p = 1$ je úplný graf, pro $p=0$ graf s $n$ komponentama
+- Vlastnosti grafu vzhledem k průměrnému stupni $\langle d \rangle$
+  - $\langle d \rangle < 1$ - malé izolované shluky, malý průměr $D$, malá $L$
+  - $\langle d \rangle = 1$ - objevuje se velká komponenta, průměr $D$ dosahuje vrcholu, $L$ je velká
+  - $\langle d \rangle > 1$ - téměř všechny vrcholy propojeny, průměr $D$ se snižuje, $L$ klesá
+- Tento model náhodného grafu nevyhovuje reálným sítím
+  - Reálné sítě mají mocninné rozdělení distribuce stupňů
+  - Reálné sítě mají vysoký shlukovací koeficient
+  - Reálné sítě mají komunitní strukturu
+
+![Binomické a Poissonovo rozdělení](../img/binom_poiss.png "Binomické a Poissonovo rozdělení"){ width=60% }
+
+### Model Watts-Strogatz
+- Algoritmus snažící se generovat model malého světa
+- Kruhová mřížka o $n$ vrcholech a $m$ hranách, kde každý vrchol sousedí s prvními $k$ sousedy a hrana je přepojena náhodně s pravděpodobnosti $p$
+  - Pravděpodobnost $p$ - pravděpodobnost přepojení hrany
+  - $p=0$ - pravidelná mřížka
+  - $p=1$ - model konverguje k náhodnému grafu, všechny hrany jsou přepojeny
+  - S roustoucím $p$:
+    - Rychle se snižuje $L$
+    - Pomalu se snižuje $C$
+  - Dokázali, že existuje interval $\langle p_1;p_2 \rangle$, který generuje sítě s malou $L$ a velkým $C$
+
+### Model Barabási-Albert
+- Model využívá preferenční připojování
+- Neustálý růst sítě - síť je dynamická a neustále se proměňuje, v každém kroku časového vývoje se k sítí přidá jeden uzel
+- Preferenční připojování nového uzlu ke starším uzlům - záleží na stupni vrcholu, nové hrany preferují zdatnější vrcholy
+  - Pravděpodobnost, že se nový vrchol připojí k vrcholu $i$ závisí proporciálně na stupni $d_i$, přes sumu všech dosud existujících stupňů vrcholů
+- Tento model generuje bezškálový graf
+- Vstupem pro algoritmus je počáteční souvislý podgraf $G_0$ s $n_0$ vrcholy a číslo $m, m < n_0$ počet hran pro každý nový vrchol
+- Algoritmus:
+  1. Vrcholy jsou postupně přidávány po jednom
+  2. Každý nový vrchol se připojí k $m$ jiným vrcholům, kde pravděpodobnost každého vrcholu je proporciální k jeho stupni
+- Po $t$ krocích máme graf s $n = n_0 + t$ a s $tm$ hranami
+- Výsledkem je model s mocniným rozdělením distribuce stupňů s $\alpha = 3$ a navíc je $\alpha$ nezávislá na jediném parametru modelu $m$
+- Růst je lineární vedoucí ke konstantnímu průměrnému stupni a k mocniné distribuci stupňů pro všechny stupně
+- Vlastnosti generovaného grafu:
+  - Graf je souvislý - každý nový vrchol se napojuje na existující vrcholy
+  - Starší vrcholy bohatnou, jejich stupeň postupně roste, mají výhodu, 
+    - tyto vrcholy mají vysokou closeness a betweenness centralitu
+  - Vzniká jádro grafu z preferovaných vrcholů
+- Model Holme-Kim je rozšířením přídavající formaci triády
+  - Po preferenčním připojení nového uzlu $u$ k uzlu $v$ s pravděpodobnosti $P_t$ přidej hranu z nového uzlu $u$ k náhodnému sousedu $w$ uzlu $v$
+  - Tvorba trojúhelníku
+  - Pokud nelze provést formace triády, všichni sousedé jsou již propojeni tak udělej další krok preferenčního připojení
 
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 15. Komunity. Globální a lokální přístupy. Modularita.
+- Sociální (biologické a další) sítě mají přirozenou komunitní strukturu
+- Cílem je zjistít, zda síť má komunitní strukturu, zjistit její velikost, počet komunit a příslušnost vrcholů do komunit
+- Komunita je skupina vrcholů, mezi kterými jsou spojení hustá, mezi jednotlivými komunitami jsou řídká spojení
+  - Skupiny vrcholů, které mají větší pravděpodobnost propojení než pravděpodobnost propojení s vrcholy mimo komunitu
+  - Jsou to lokálně husté souvislé podragfy grafu
+  - Skupiny podobných vrcholů
+- Silná komunita - Každý vrchol komunity ma více hran s členy komunity než mimo komunitu
+- Slabá komunita - Celkový vnitřní stupeň vrcholů komunity je větší jak celková vnější stupeň vrcholů komunity
+- Hustý graf $m \approx O(n^2)$, Řídký graf $m \approx O(n)$
+- Detekce komunit je složitá, lehká pouze v případech řídkých grafů
+- Pokud je velký počet hran $m \gg n$, pak jsou hrany mezi uzly příliš homogenní a blížíme se k problému klasického shlukování na základě podobnosti
+- Komunity jsou kliky a jim podobné struktury, souvislé komponenty, strukturálně mnohem složitější skupiny vrcholů
+- Metody se dělí na:
+  - Algoritmu - Spektrální metody, metody využívající kliky, Metody založené na heuristikách (modularita)
+  - Podle přístupu - shora dolů nebo zdola nahoru
+  - Podle výskytu na nepřekrývající se komunity a překrývající se komunity
+- Metody zdola nahoru
+  - Každý hrana spojuje 2 vrcholy - tvoří podgraf dyádu $K_2$ (úplný graf na 2 vrcholech)
+  - Uvažujeme jak daleko/moc můžeme tento vztah rozšiřovat, z $K_2$ na $K_3$ atd.
+  - Celou síť můžeme zkoumat vzhledem k velikosti různých klik, klikám podobných struktur, jejich překryvům apod.
+  - Snažíme se vytvočit makrostrukturu z mikrostruktur
+  - Nejprve hledáme jednotlice a následně jejich řpekryvy, pomocí kterých je spojíme
+- Metody shora dolů
+  - Snaží se v célé sítí identifikovat lokálně husté podsítě
+  - Hledá slabá místa vzhledem k soudržnosti sítě, které mohou vést k rozdělení sítě
+- Shlukování - aglomerativní přístup založen na podobnosti uzlů (kosinova podobnost)
+- $K$-komponenta - Maximální podmnožina vrcholů taková, že každý vrchol je dostupný ze zbývajících po $K$ vrcholově disjunktních cestách
+- Klika grafu je takový podgraf, který je úplným grafem
+  - Kliky se mohou překrývat
+  - Výskyt kliky v grafu reprezentuje velkou soudržnost nějaké skupiny
+  - Maximální klika je klika, která už nelze rozšířit o další sousední vrchol
+  - Největší klika - klika nějvětší možné velikosti v daném grafu
+  - Klikovost grafu je velikost největší kliky
+  - Složitost nalezení klik dané velikosti $k$ je $O(n^k k^2)$, hledání největší kliky $O(3^\frac{n}{3})$
+  - Algoritmus CPM (*Clique Percolation Method*) - Překrývající se komunity, jejichž podgrafy jsou klikami
+    - Dvě $k$-kliky jsou sousedící jestliže sdílejí $k-1$ uzlů
+    - Komunita je maximální spojení $k$-klik, které mohou být spojeny přes tyto kliky
+    - Algoritmus nejdříve odstraní všechny úplné podgrafy (kliky), které nejsou součástí větších klik, musí se tedy nalézt všechny maximální kliky
+    - Pak se vytvoří matice překryvu klik
+    - A hledají se komunity $k$-klik
+- $n$‐klika - maximální podgraf, ve kterém není největší vzdálenost mezi jakýmikoli dvěma uzly větší než $n$
+- $k$‐plex - maximální podmnožina množiny $n$ vrcholů taková, že každý její vrchol je incidentní s alespoň $n‐k$ vrcholy
+- $k$-Core
+  - maximální podmnožina vrcholů takových, že každý vrchol je incidentní s alespoň $k$ vrcholy této podmnožiny, každý vrchol má tedy stupeň alespoň $k$
+  - $k$-core se nepřekrývají
+  - Postup nalezení:
+    1. Odstraníme všechny vrcholy se stupněm menší jak $k$
+    2. Toto opakujeme dokud se v grafu vyskytují vrcholy se stupněm menší jak $k$
+    3. Nakonec máme množinu $k$-core
+- Minimální řez - hranový řez s minimálním počtem hran, jejichž odstraněním přestane být graf souvislý
+- Dělení grafu - rozdělení grafu (vrcholů) na $g$ stejně velkých skupin pomocí minimálních řezů
+  - Výsledkem jsou nepřekrývající se komunity
+  - Většinou probíha iterativně - vždy rozdělení komponenty na 2
+- Kernighan-Lin algoritmus
+  - Snaží se minimalizovat počet hran mezi komunitami a maximalizovat počet vnitřních hran v komunitách, optimaliční funkce $g$
+  - Kroky:
+    1. Vrcholy sítě rozdělíme do dvou skupin $A,B$ (komunit)
+    2. Pro každou dvojicí vrcholu $i,j : i \in A \wedge j \in B$ vypočítáme jak moc by se velikost řezu mezi skupinami změnila, jejich vyměněním
+    3. Mezi všemi dvojicemi nalezneme dvojici, která nejvíce minimalizuje velikost řezu (funkci $g$), a vrcholy této dvojice přehodíme
+    4. Kroky 2. a 3. opakujeme, s tím omezením, že každý vrchol může být prohozen pouze jednou
+  - V průběhu algoritmu si pamatujeme všechny stavy dvou skupin a nakonec vybereme ten nejlepší
+- Girvan-Newman betweenness shlukování
+  - Určíme hranici edge betweenness
+  - Spočítej edge betweenness všech hran - tj. počet nejkratších cest mezi dvojicí vrcholů procházející danou hranou
+  - Dokud je edge betweenness menší jak hranice - odstraňime hranu s největší edge betweenness a přepočti jej
+  - Postupně odstraňujeme nedůležité hrany
+  - odstranění hrany může mít dopad na betweenness jiné hrany, nutno přepočítat vše, velmi náročné
+  - Končíme při dosažení určité modularity
+- Soudržnost komunit je ovlivňována
+  - Vzájemným propojením vrcholů v komunitě
+  - Kompaktností - malá vzdálenost vrcholů v komunitě
+  - Hustota ‐ vysoký počet hran mezi vrcholy v komunitě
+    - Hustota komunity $\rho_{int}(C) = \frac{m_C}{n_C(n_C-1)/2}$
+  - Oddělení (separace) od ostatních komunit, málo hran mezi komunitami
+- Louveinova metoda $O(n\log n)$
+  - Hledá komunity pomocí optimalizace modularity. 
+  - Na začátku je každý uzel komunitou
+  - Každá iterace se skládá ze dvou fází. 
+    1. Lokální fáze - lokálními změnami komunit se optimalizuje modularita.
+       1. Zkus každý uzel komunity vložit do sousední komunity
+       2. Proveď přesunutí maximalizující modularitu
+       3. Opakuj dokud se zlepšuje lokální modularita
+    2. Nalezené komunity jsou sloučeny za účelem vybudování nové sítě komunit
+  - Iterace probíhají dokud se zlepšuje modularita
+- Lokální metody hledájí komunit
+  - Začnou hledáním z náhodného vrcholu nebo množiny vrcholů, a pak postupně přidávají sousední vrcholy jeden po druhém na základě optimalizace měřené metriky
+  - Pojmy:
+    - Komunita $D$ (discovered)
+    - Jádro komunity $C$ (core) - vrcholy, jejichž sousedé jsou jen z $D$,
+    - Plášť $S$ (shell) – vrcholy sousedící s vrcholy z $D$, ale nepatřící do $D$
+    - Hranice $B$ (boundary) - vrcholy mají alespoň jeden sousední vrchol patřící do $S$
+  - Hranice $B$ je ostrá, pokud má méně spojení mezi uzly z hranice $B$ a neznámou částí grafu, než je počet spojení uzlů z hranice $B$ s uzly z komunity $D$.
+    - $R = \frac{B_{\textit{inedge}}}{B_{\textit{outedge}}+B_{\textit{inedge}}} \in (0;1)$
+    - B_{\textit{inedge}} - počet hran spojujících vrcholy z $B$ a $D$
+    - B_{\textit{outedge}} - počet hran spojujících vrcholy z $B$ a $S$
+  - Zaine algoritmus:
+    1. Algoritmus začíná od 1 vrcholu, na začátku hranice $B$ a komunita $D$ obsahuje tento vrchol a plášť $S$ obsahuje jeho sousedy
+    2. Spočte se ostrost $R$ vrcholů v plášti $S$
+    3. Vrchol s největší hodnotou ostrosti $R$ přidá ke komunitě a přepočtou se množiny $D,B,S$
+    4. Kroky 2. a 3. se opakují dokud roste $R$
 
+### Modularita
+- Metody detekce komunit jí využívají jako objektivní funkci pro vyhodnocení kvality detekce komunit
+- Numerické vyjádření síly komunit
+- Modularita $Q = \textit{počet hran spojující vrcholy komunity} - \textit{počet hran, které by spojovaly vrcholy náhodně bez ohledu na přislušnost do komunity}$
+  - náhodně - v náhodném grafu se stejným počtem uzlů a se stejnou distribucí stupňů
+- Čím vyšší je modularita - tím lepší je komunitní struktura
+- Pokud jsou všechny vrcholy v jedné komunitě, pak $Q = 0$
+- Obvykle nepočítáme počet hran ale jejich část, tedy
+  - $Q = \frac{1}{2m}\sum\limits_{ij} ( A_{ij} - \frac{k_i k_j}{2m} ) \delta(C_i,C_j)$
+- Je závislá na vleikosti grafu a proto se nehodí ke srovnávání klavity mezi grafy různých velikostí
+- Nevýhody:
+  - v některých případech má tendenci rozdělit velké komunity na menší komunity
+  - v jiných případech má tendenci tvořit velké komunity sloučením komunit, které jsou menší než určité prahová hodnota
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 16. Jiné (pokročilé) modely sítí - multilayer sítě, modely orientované na komunitní strukturu, temporální sítě.
 
+### Vícevrstvé sítě
+- Sociální síť reprezentována jako množina vrstev, kde množina vrcholů v různých vrstvách odkazuje na aktéry, kteří mohou být propojeni v rámci vrstvy nebo mezi němi
+- Vícevrstvá sít - je definována jako čtveřice $(A,\mathcal{L},V,E)$, kde $A$ je množina aktérů, $\mathcal{L}$ je množina množina vrstev, $(V,E)$ je graf
+  - $A \subseteq V \times \mathcal{L}$
+  - Aktér - entita, která může mít vztah s ostatními aktéry. Může být ve více vrstvách, reprezentována vrcholy
+  - Vrstva - Stejné aktér mlže být ve více vrstvách. Kde vrstva reprezentuje typ aktéra nebo typ vztahu mezi aktéry
+  - Vrchol - specifický aktér ve specifické vrstvě
+  - Hrana - vztah mezi vrcholy (aktéry ve vrstvě)
+- Multiplexové sítě - Množina aktérů je spojována různými typy hran
+  - Každý typ hrany má svou matici sousednosti
+- Multimodové sítě - Více druhů aktéru ve stejné sítí (2 aktéří = bipartitní sít), hrany spojují aktéry různých typů
+- Heterogenní informační sítě - Sít s různými typy vrcholů a různými typy hran.
+  - Používají se k formulaci vzorů, např. co kdo děla
+- Temporální sítě v různých časových bodech mohou být uvažovány za různé vrstvy dané sítě
+- Degree Centralita aktéra $a$ na vrstvách $L \subseteq \mathcal{L}$ - počet aktéru se kterými je aktér spojen v rámcí vrstev
+  - $\textit{degree}(a,L) = |\{ \{(a,l),(a',l')\} \in E | l,l' \in L \}|$
+- Sousedé aktéra $a \in A$ na vrstvách $L \subseteq \mathcal{L}$ - $\textit{neighbors}(a,L) = \{ a' \in A | \{(a,l),(a',l')\} \in E | l,l' \in L \}$
+- Neighborhood centralita - $\textit{neighborhood}(a,L) = |\textit{neighbors}(a,L)|$
+- Redundance spojení - $\textit{connective redundancy}(a,L) = 1 - \frac{\textit{neighborhood}(a,L)}{\textit{degree}(a,L)}$
+- Exkluzivní sousedství - $\textit{xneighborhood}(a,L) = |\textit{neighbors}(a,L) \setminus \textit{neighbors}(a,\mathcal{L}\setminus L)|$
+- Rozšíření Degree Centrality založené na náhodné procházce
+  - Occupation centralita - Pravděpodobnost že náhodný chodec dojde na vrchol patřící aktérovi
+- Metriky založené na vzdálenosti - berou v potaz hrany mezi vrstvami
+  - Může existovat několik vzdálenosti, podle různých úseků v různých vrstvách
+  - Existuje relace "Kratší než" - cesta A je kratší než cesta B, jestliže je ve všech vrstách část cesty maximálně dlouhá jako část cesty B a navíc existuje vrstva, ve které je část cesty A kratší jak část cesty B
+  - Délka cesty mezi vrstvami $\mathcal{L} = \{l_1,l_2,\ldots,l_m\}$ je matice $L$ kde $L_{ij}$ je počet hran mezi vrcholem ve vrstvě $l_i$ do vrcholu ve vrstvě $l_j$
+  - Hrany mohou být ohodnoceny
+  - Random Walk Closeness aktéra $a$ - Inverzní hodnota k průměrnému počtu kroků náhodného chodce z jakéhokoliv jiného aktéra do prvního vrcholu aktéra $a$
+  - Random Walk Betweenness aktéra $a$ - Počet náhodných procházek mezi dvěma aktéry, které procházejí přes jakýkoliv vrchol aktéra $a$. Průměr přes všechny možné startovací vrstvy
+- Relevance $a \in A$ na vrstvách $L \subseteq \mathcal{L}$ je $\textit{relevance}(a,L) = \frac{\textit{neighborhood}(a,L)}{\textit{neighborhood}(a,\mathcal{L})}$
+  - Existuje i exkluzivní relevance, kde čitatel je *xneighborhood*
+- Převod na jednovrstvou síť
+  - Flatting, Zploštění - Pokud máme množinu stejných aktéru ve více vrstvách
+    - Základní zploštění (flattening) - výsledkem je jedna vrstva, kde je vrchol pro každého aktéra a aktéři jsou spojeni hranou, jestliže byly v nějaké vrstvě spojeni hranou
+    - Vážená zploštění - Podobně jako základní projekce, ale hrany jsou váženy podle výskytu hran mezi aktéry ve více vrstvách. Hrany v různých vrstvách nebo mezi vrstvami mohou mít různé váhy
+  - Projekce - když máme více drůhů uzlů, projekce na jediný druh
+    - Máme-li druhy A a B, odstranímy vrcholy druhu B, místo nich spojíme A vrcholy hranou tam, kde byla hrana mezi B vrcholy
+  - Mezivrstvové hrany
+- Komunity se většinou hledají po zploštění
+  - Vícevrstvá klika na vrstvách $L \subseteq \mathcal{L}$ - je množina plně propojených aktérů (každý s každým) v rámci vrstev $L$
+
+### Modely orientované na komunitní strukturu
+- Model Holme-Kim 
+  - Rozšíření modelu Barabási-Albert pro generování komunitních struktur
+  - přidává krok formace triády
+  - Po preferenčním připojování nového uzlu $u$ k uzlu $v$ se navíc přidá další hrana
+    - Tato hrana je s pravděpodobnosti $P_t$ napojena na náhodného souseda uzlu $v$
+    - S pravděpodobnosti $1 - P_t$ nebo pokud už jsou všichni sousedi napojeni, se provede napojení podle preferenčního připojování
+- Model Bianconi
+  - Vstupem je malá souvisl síť s $n_0$ uzly a $m_0 \geq m$ hranami
+  - V každém časovém kroku $t$ se přidá nový uzel s $m \geq 2$ hranami
+  - Pravděpodobnost napojení nového uzlu na uzel $i$ je závislá na pořadí vkládání uzlů
+  - První hrana nového uzlu je napojena na náhodný uzel $i_1$ s pravděpodobnosti $\Pi(i_1) = \frac{1}{n_0 + t}$
+  - Druhá hrana nového uzlu je napojena na náhodný uzel $i_2$ s pravděpodobnosti $1-p$ a s pravděpodobnosti $p$ je napojena na náhodného souseda uzlu $i_1$
+  - Další možné hrany jsou napojonány podle druhého pravidla
+
+### Temporální sítě
+- Základními elementy temporálních sítí jsou události (events, nebo kontakty, contacts event. links)
+- Představují interakci mezi dvojicí uzlů v určitých časech, zpravidla reprezentováno jako trojice $(i,j,t)$
+  - mezi uzly $i,j$ nastala v čase $t$ událost
+- Čas může být i intervalem, tedy hrany jsou aktivní jen v tomto intervalu. Aktivita hrany je podmíněna aktiviou inidentních vrcholů.
+- Temporální síť je soubor událostí, které propojují uzly v určitých časech
+- Reprezentace pomocí sekvence kontaktů, intervalový graf
+- Příklady: Komunikace mezi osobami, Distribuované výpočty, Ekonomické sítě, Síť mozku
+- Dá se s nimi pracovat jako se statickou sítí - vybereme si úsek, který chceme zkoumat
+- Vícevrstvé sítě - Čas je rozdělen na po sobě jdoucí intervaly a vrstvy vícevrstvé sítě pak odpovídají sítím pro každý interval
+- Zdroje časové informace
+  - Časové razítka vzniku vrcholů a hran
+  - Doba trvání vrcholu nebo hran
+  - Frekvence - frekvence výskytu hran a vrcholů, lze analyzovat když máme časová razítka
+  - Rozpis času - události jsou aktivní v určitém čase
+- Během času nastávají různé změny:
+  - Topologické změny - vznik a zánik hran při setkání dvou lidí
+  - Změny řízeny procesy - byla poslána SMS zpráva
+- Sítě měnící se v čase se hodí na popis systému, kde se šíří určitá informace/nákaza
+- Strukturální vlastnosti:
+  - Stupeň vrcholu je spíše počet hran aktivních v daném časovém okně
+  - Tranzitivita zde nemusí platit, protože tranzitivní hrana nemusí být aktivní
+  - Nejkratší cesty a vzdánelosti se mění v čase
+  - Cesty jsou obvykle definovány jako sekvence událostí (kontaktů) spojujících množiny vrcholů s neklesajícím časem - Time‐respecting paths (dále jen TR)
+  - Oblast vlivu vrcholu $i$ - množina vrcholů dosažitelných z vrcholu i po TR cestách
+  - Reachability ratio je průměrný počet vrcholů, které je součástí oblastí vlivů všech vrcholů v síti
+  - Source set of i ‐ množina vrcholů, ze kterých lze dosáhnout vrchol $i$ po TR cestác
+  - Trvání (Duration) – délka TR cesty mezi $i$ a $j$ měřená časem
+  - Latence (Latence) ‐ nejkratší TR cesta s počátkem $\lambda_{it}(j)$ se $t$ měřená nejkratším časem za který lze z vrcholu $i$ dosáhnout vrchol $j$
+  - Vzdálenost (Distance) nejkratší TR cesta mezi $i$ a $j$ měřená počtem hran
+  - Souvislost lze zobecnit pro temporální sítě s ohledem na TR cesty
+  - Closeness a Betweenness centralita se taky počítá pomocí TR cest.
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 17. Odolnost sítí, šíření jevů v sítích.
+- *Network resillience* - porozumění šíření poruch atd.
+- Cheme zjístit jak rychle se jev šíří sítí a jak je síť odolná vůči selhání nebo útoku (šíření nemocí populací, útok viru na PC síť)
+- Struktura sítí hraje zásadní roli ve schopnosti systému přežít náhodná selhání nebo záměrné útoky
+- Teorie Perkolace zkoumá kolik uzlů musíme odstranit, abychom rozbili (poškodili) síť na několik izolovaných celků
+- Perkolace v náhodném grafu $G(n,p)$
+  - Odstranění je opačný proces budování, v určitém bodě klesne $\langle d \rangle$ pod 1 a graf se stane nesouvislým
+- Simulace selhání - odstraňování hran/vrcholů s pravděpodobností $1-p$, odpovídá náhodným poruchám spojení
+- Simulace cíleného útoku - Snažíme se odstranit hrany/vrcholy, které způsobí největší škody
+  - Odstranění hran/vrcholů, které s největší pravděpodobností způsobí rozpad
+  - Odstranění hran s velkou betweenness centralitou
+  - Odstranění vrcholů s největší degree centralitou
+- $f$ je část vrcholů, které jsou odstraněny, otázka zní jaké je $f$?
+  - S roustoucím $f$ se postupně oddělují vrcholy od největší komponenty, až se graf rozpadne na malé komponenty
+  - V náhodnem grafu $G(n,p)$ vede odstranění náhodných vrcholů k rychlejšímu rozpadu než při odstraňování hran
+  - U bezškálových sítích musí být $f$ velmi velké skoro 1, aby došlo k rozpadu velké komponenty
+    - Mnohem více vrcholů s malým stupněm než center, málá pravděpodobnost odstranění centra
+  - Útol v bezškálových sítích může být velmi učinný již při odstranění několika málo center
+- V reálných sítích je selhání kaskádové, selhání uzlu může způsobit selhání sousedních uzlů
 
+### Modelování epidemií
+- Třídy populace (uzlů)
+  - $S(t)$ - vrcholy, které ještě nebyly v čase $t$ nakaženy
+  - $I(t)$ - vrcholy, které jsou nakaženy v čase $t$ a mohou šířit nákazu
+  - $R(t)$ - vrcholy, které jsou v čase $t$ již uzdravené, tedy nemohou dále šířit nákazu nebo se znovu nakazit
+- Všechny simulace počítají s uzavřenou populací velikosti $N$, sítí
+- Parametry:
+  - $s_i(t)$ - Pravděpodobnost, že vrchol $i$ je v čase $t$ zrovna nenakažen
+  - $x_i(t)$ - Pravděpodobnost, že vrchol $i$ je v čase $t$ nakažen
+  - $r_i(t)$ - Pravděpodobnost, že vrchol $i$ je v čase $t$ uzdraven
+  - $\beta$ - míra infekce, pravděpodobnost být nakažen v čase $\delta t$
+  - $\gamma$ - míta uzdravení, pravděpodobnost uzdravit se v jednotce času $\delta t$
+- SI model
+  - $S \rightarrow I$
+  - $x_i(t) + s_i(t) = 1$
+  - parametr $\beta$
+  - Simulace:
+    1. Každý vrchol je v každém časovém kroku buď ve stavu $S$ nebo $I$
+    2. Na začátku je $c$ vrcholů ve stavu $I$
+    3. V každém kroku mají všechny $I$ vrcholy pravděpodobnost $\beta$, že nakazí své sousedy
+- SIS model
+  - $S \rightarrow I \rightarrow S$
+  - $x_i(t) + s_i(t) = 1$
+  - perametry $\beta$ + $\gamma$
+  - $\frac{\beta}{\gamma} < R_0$ - infekce časem vymře
+  - $\frac{\beta}{\gamma} > R_0$ - infekce přejde v pandemii
+  - $R_0$ je práhová hodnota epidemi, $R_0 = \frac{1}{\lambda_1}$
+  - Simulace:
+    1. Každý vrchol je v každém časovém kroku buď ve stavu $S$ nebo $I$
+    2. Na začátku je $c$ vrcholů ve stavu $I$
+    3. Každý vrchol zůstává infokován $\tau_\gamma$ časových kroků, podle míry uzdravení
+    4. V každém kroku mají všechny $I$ vrcholy pravděpodobnost $\beta$, že nakazí své sousedy
+    5. Po $\tau_\gamma$ krocích se vrchol částečně uzdravuje $I \rightarrow S$
+- SIR model
+  - $S \rightarrow I \rightarrow R$
+  - $s_i(t) + x_i(t) + r_i(t) = 1$
+  - perametry $\beta$ + $\gamma$
+  - Simulace:
+    1. Každý vrchol je v každém časovém kroku buď ve stavu $S$, $I$ nebo $R$
+    2. Na začátku je $c$ vrcholů ve stavu $I$
+    3. Každý vrchol zůstává infokován $\tau_\gamma = \frac{1}{\gamma}$ časových kroků, podle míry uzdravení
+    4. V každém kroku mají všechny $I$ vrcholy pravděpodobnost $\beta$, že nakazí své sousedy
+    5. Po $\tau_\gamma$ krocích se vrchol úplně uzdravuje $I \rightarrow R$
+    6. $R$ vrcholy se již neúčastní šíření infekec
 
 <!-- ----------------------------------------------------------------------------------------------------------------- -->
 ## 18. Algoritmy pro pattern matching (Vyhledávání jednoho vzorku, více vzorků; Vyhledávání regulárních výrazů; Přibližné vyhledávání).
