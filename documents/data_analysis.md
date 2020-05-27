@@ -1426,6 +1426,9 @@ Web lze chápat jako speciální případ DIS s neznámým počtem dokumentů. P
     - Vektorové operace nad vektorovými registry, instrukční sady SSE, SSE2, AVX, AVX-512
   - Superskalární architektura
   - *out-of-order* vykonávání - vykonávání více nezávislých instrukcí najednou
+
+\newpage
+
 - MISD - každý výpočetní jednotka operuje nad stejnými daty ale s jinými instrukcemi
   - vzácná, né moc používaná architektura
   - jeden proud dat je posílán do více výpočetních jednotek
